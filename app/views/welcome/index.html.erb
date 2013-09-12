@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->  </html>
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to The Economic Times</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <%= csrf_meta_tags %>
+  <%= javascript_include_tag 'application' %>
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link href="/assets/css/theme_venera.css" media="all" rel="stylesheet" type="text/css"/>
+  <link href="http://fonts.googleapis.com/css?family=Abel:400|Oswald:300,400,700" media="all" rel="stylesheet" type="text/css"/>
+  <meta content="authenticity_token" name="csrf-param"/>
+  <meta content="itlmC+fCL/hVYfNHIdCSxa8twGVC/QSVM5tfOV/RXqY=" name="csrf-token"/>
+  <link rel="stylesheet" type="text/css" href="/assets/css/magic.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/style2.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/common.css"/>
+  <script type="text/javascript" src="/assets/js/modernizr.custom.79639.js"></script>
+</head>
+
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
+    today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
+    experience this site.</p>
+<![endif]-->
+
+<header id='header'>
+  <div class='navbar navbar-fixed-top'>
+    <div class='navbar-inner'>
+      <div class='container'>
+        <a class='btn btn-navbar' data-target='.nav-collapse' data-toggle='collapse'>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+        </a>
+        <a href="/theme_venera/index" class="brand">Win With ET</a>
+
+        <div class='nav-collapse subnav-collapse pull-right collapse' id='top-navigation'>
+
+          <div class='top-account-control visible-desktop'>
+            <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account" %>
+            <a href="#" class="top-sign-in">Welcome <%#= current_user.name.split(" ")[0] %></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</header>
+
+
+<section class='section-wrapper'>
+<div class='container'>
+
+<!-- Row Start -->
+
+<div class='row'>
+
+  <div class="span9">
+
+    <ul class="ch-grid">
+      <li>
+        <div class="ch-item ch-img-1" id="box1">
+          <a href="#">
+            <div class="ch-info">
+              <h3>Win With ET</h3>
+
+              <p> Read The Economic Times to win daily. Learn more about the quiz, how to participate and win some
+                exciting prizes</p>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li>
+        <div class="ch-item ch-img-2" id="box2">
+          <a href="#">
+            <div class="ch-info">
+              <h3>Archives</h3>
+
+              <p> Missed a question? Want to quiz yourself again? Check out our archives for all previous questions the
+                related articles to find the answers.</p>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li>
+        <div class="ch-item ch-img-3" id="box3" data-toggle="modal" data-target="#prize_box">
+          <a href="#">
+            <div class="ch-info">
+              <h3>Prizes</h3>
+
+              <p>Play the Win With ET quiz and win exciting merchandise every day and week. Maximise your points to win
+                an iPad. Prizes worth Rs. 2.5 Lakh up for the grabs</p>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li>
+
+        <div class="ch-item ch-img-4" id="box4" data-toggle="modal" data-target="#profile_box">
+          <a href="#">
+            <div class="ch-info">
+              <h3>Profile</h3>
+              <p>View, edit or link your profile with your facebook account. Don't forget linking your account gives you
+                a bonus in the quiz campaign.</p>
+            </div>
+          </a>
+        </div>
+
+
+      </li>
+    </ul>
+
+
+  </div>
+
+  <% if !user_signed_in? %>
+      <div class="span3">
+        <div class="white-card">
+            <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+              <div class="row-fluid">
+                <div class="span12"><%= f.label :username %>
+                  <%= f.text_field :username, :autofocus => true %></div>
+              </div>
+              <div class="row-fluid">
+                <div class="span12"><%= f.label :password %>
+                  <%= f.password_field :password %></div>
+              </div>
+              <div class="row-fluid">
+                <div class="span12 pull-right">
+                    <%# if devise_mapping.rememberable? -%>
+                    <%# end -%>
+                  <a>Forgot Password?</a>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="span4">
+                  <%= f.submit "Sign in",:class => "btn btn-info" %>
+                </div>
+                <div class="span4">
+                  <a href="#" class="btn btn-info" onclick="view_register();">Register</a>
+                </div>
+                <% end %>
+              </div>
+              <div class="row-fluid">
+                <div class="span2">
+                  <h4>OR</h4>
+                </div>
+                <div class="span10">
+                  <a href="/users/auth/facebook"><img src="/assets/fblogin.png" style="width: 200px;"/></a>
+                </div>
+              </div>
+
+        </div>
+      </div>
+  <% else %>
+      <div class='span3'>
+        <div class="accordion" id="accordion2">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                <strong><span>Your Score</span><span class="pull-right"><%= @points %> Points</span></strong>
+              </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <div class="blog-categories widget-tp">
+                  <ul>
+                    <li>
+                      <a href="#">Your Current Rank is:<span class='pull-right'><%= @rank %></span></a>
+                    </li>
+                    <li>
+                      <a href="#">Your Correct Answer Rate is:<span class='pull-right'><%= @answer_correct_rate %>%</span>
+
+                        <div class="progress progress-striped active">
+                          <div class="bar bar-success" style="width: 80%;"></div>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                <strong>Recent Activity</strong>
+              </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <div class="blog-categories widget-tp">
+                  <ul>
+                    <%= @recent_activity=@recent_activity[0..2] rescue [] %>
+                    <% @recent_activity[0..2].each do |re_ac| %>
+                        <li>
+                          <a href="#">
+                          <%= re_ac %></a>
+                        </li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>
+
+<!-- Row End -->
+
+<!-- Row Start -->
+
+<div class='row'>
+
+  <div class='span8'>
+
+    <h3 class='section-header'>
+      <span class=""><img src="/assets/img/trophy.png" style="width:8%;"/></span>
+      Meet The Winners
+      <div class="pull-right">
+        <% if user_signed_in? %>
+        <button class="btn btn-info" id="leaderbutton" onclick='window.location="/leaderboards"'>View The Leader Board
+        </button>
+       <% end %>
+      </div>
+    </h3>
+
+
+    <div class='testimonials'>
+
+      <div class='testimonials-users row hidden-phone'>
+
+        <div class='span1'>
+          <a class='testimonials-user-w active' data-toggle='testimonial' href='#testimonial1' id='head1'>
+            <span class='testimonials-user'><img alt="Avatar-1" src="/assets/img/avatar-1.png"/></span>
+          </a>
+        </div>
+
+        <div class='span1'>
+          <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial2' id='head2'>
+            <span class='testimonials-user'><img alt="Avatar-2" src="/assets/img/avatar-2.png"/></span>
+          </a>
+        </div>
+
+        <div class='span1'>
+          <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial3' id='head3'>
+            <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>
+          </a>
+        </div>
+      </div>
+
+      <div class='testimonials-speeches'>
+
+        <div class='testimonials-speech active' id='testimonial1'>
+          <p>
+            Darth Vader has significant experience in the financial services industry. His many years of experience
+            coupled with newspaper information from The Economic Times has ensured that remains in the top 20 in the
+            campaign. Vader has an extremely aggressive strategy of using bonus options on all questions that are
+            related to finance.
+          </p>
+        </div>
+
+        <div class='testimonials-speech' id='testimonial2'>
+          <p>
+            Luke Skywalker, a marketing executive has been in the top 10 quizzers since the begining of the campaign.
+            His strategy is unique that he rarely uses any bonus options; he has a very high correct answer rate. Luke
+            is extremely passive in his quizzing style but has a very sharp memory that makes him a daunting rival in
+            the campaign.
+          </p>
+        </div>
+
+        <% if user_signed_in? %>
+        <div class='testimonials-speech' id='testimonial3'>
+          <p>
+            Check out your rank on our leaderboard and the scores of the top players. Work out a strategy to maximize
+            your score to win the weekly and Grand Prizes
+          </p>
+        </div>
+        <% else %>
+        <div class='testimonials-speech' id='testimonial3'>
+          <p>
+            Log in to know your rank and to check out the scores of the top players.
+          </p>
+        </div>
+       <% end %>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class='span2' data-toggle="modal" data-target="#refer_box">
+    <div class='white-card'>
+      <div class='img-w hover-fader'>
+        <a href="/assets/img/refer.png" ><img alt="Photo-card-1" src="/assets/img/refer.png"/>
+                        <span class='hover-fade'>
+                        </span>
+        </a>
+      </div>
+      <h5>
+        <span class=""><img src="/assets/img/refericon.png" style="width:15%;"/></span>
+        &nbsp;Refer a friend
+      </h5>
+      <p>You've earned 75 points referring your friends.</p>
+    </div>
+  </div>
+
+  <div class='span2' data-toggle="modal" data-target="#rule_box">
+    <div class='white-card'>
+      <div class='img-w hover-fader'>
+        <a href="/assets/img/cogs.jpg"><img alt="Photo-card-1" src="/assets/img/cogs.jpg"/>
+                        <span class='hover-fade'>
+                        </span>
+        </a>
+      </div>
+      <h5>
+        <span class=""><img src="/assets/img/ruleicon.png" style="width:15%;"/></span>
+        &nbsp;The Rules
+      </h5>
+      <p>Learn the rules and get ahead.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Row End -->
+
+</div>
+</section>
+
+<footer>
+  <div class="deep-footer">
+    <div class="container">
+      <div class="row">
+        <div class="span6">
+          <div class="copyright">Copyright © 2013 The Economic Times</div>
+        </div>
+
+        <div class="span6">
+          <ul class="footer-links">
+
+            <a href=""><img src="/assets/img/facebook.png" style="width:8%;"></a>
+
+            <a href=""><img src="/assets/img/twitter.png" style="width:8%;"></a>
+
+            <a href=""><img src="/assets/img/linkedin.png" style="width:8%;"></a>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<% if user_signed_in? %>
+    <div id="refer_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>Reference</h3>
+      </div>
+      <div class="modal-body">
+        <h2>Enter the email address of your friend</h2>
+
+        <div class="row-fluid">
+          <div class="span3"></div>
+          <div class="span9">
+            <input type="text" name="ref_email" id="referance_friend">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
+        <a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>
+      </div>
+    </div>
+
+<% else %>
+    <div id="refer_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>Please Login to refer a friend</h3>
+      </div>
+      <div class="modal-body">
+
+
+
+      </div>
+
+    </div>
+
+<% end %>
+
+
+<div id="rule_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>Rules</h3>
+  </div>
+  <div class="modal-body">
+    <h2>The rules of the game are quite simple. The game begins everytime you pick up your copy of The Economic Times.</h2>
+
+    <div class="row-fluid">
+      <div class="span3"></div>
+      <div class="span9">
+        <!--<input type="text" name="ref_email" id="referance_friend">-->
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
+    <!--<a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>-->
+  </div>
+</div>
+
+
+<div id="prize_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>Prize</h3>
+  </div>
+  <div class="modal-body">
+    <h2>You can win exciting prizes!!!!! You can win exciting prizes!!!!! You can win exciting prizes!!!!!</h2>
+
+    <div class="row-fluid">
+      <div class="span3"></div>
+      <div class="span9">
+        <!--<input type="text" name="ref_email" id="referance_friend">-->
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
+    <!--<a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>-->
+  </div>
+</div>
+
+
+
+
+
+
+<% if user_signed_in? %>
+
+    <script type="text/javascript">
+        $('#box4').click(function () {
+            $(this).addClass('magictime holeOut');
+            setTimeout(function () {
+                window.location = "/profile";
+            }, 500);
+        });
+
+    </script>
+
+<% else %>
+
+    <div id="profile_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>Profile</h3>
+      </div>
+      <div class="modal-body">
+        <h2>Please Login to view your profile</h2>
+
+        <div class="row-fluid">
+          <div class="span3"></div>
+          <div class="span9">
+            <!--<input type="text" name="ref_email" id="referance_friend">-->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
+        <!--<a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>-->
+      </div>
+    </div>
+<% end %>
+
+
+
+<script src="/assets/js/theme_venera.js" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $("#head1").addClass('magictime tinRightIn')
+        });
+        $(function () {
+            $("#head2").addClass('magictime tinRightIn')
+        });
+        $(function () {
+            $("#head3").addClass('magictime tinRightIn')
+        });
+
+//        $('#box3').click(function () {
+//            $(this).addClass('magictime holeOut');
+//        });
+
+
+
+        $('#box1').click(function () {
+            $(this).addClass('magictime holeOut');
+            setTimeout(function () {
+                window.location = "/quiz";
+            }, 500);
+        });
+        $('#box2').click(function () {
+            $(this).addClass('magictime holeOut');
+            setTimeout(function () {
+                window.location = "/archives";
+            }, 500);
+        });
+
+        $("#submit_email").click(function () {
+            var email = $("#referance_friend").val();
+            var data = {email: []}
+            data["email"].push(email);
+            $.ajax({
+                url: "<%= ref_mail_path %>",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    alert(data)
+                }
+            });
+
+        });
+
+
+    });
+
+    function view_register(){
+        $('#register').modal('show')
+    }
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+<!--<div id="register" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+  <!--<h2>Sign in</h2>-->
+
+  <!--<%#= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>-->
+  <!--<%#= form_for(resource, :as => resource_name, :url => my_new_user_path) do |f| %>-->
+
+      <!--<div class="modal-body">-->
+        <!--<div class="row-fluid">-->
+          <!--<div class="span9">-->
+
+
+
+            <!--<p>-->
+            <!--<label>Name</label>-->
+            <!--<%#= text_field_tag :name %>-->
+            <!--</p>-->
+
+            <!--<p>-->
+              <!--<label>Email</label>-->
+              <!--<%#= f.email_field :email %>-->
+            <!--</p>-->
+
+            <!--<p>-->
+              <!--<label>Name</label>-->
+              <!--<%#= text_field_tag :name %>-->
+            <!--</p>-->
+
+            <!--<p>-->
+              <!--<label>Age</label>-->
+              <!--<%#= text_field_tag :age %>-->
+            <!--</p>-->
+
+            <!--<p>-->
+              <!--<label>Work Experience</label>-->
+              <!--<%#= text_field_tag :workx %>-->
+            <!--</p>-->
+
+            <!--<p>-->
+              <!--<label>Location (City,State)</label>-->
+              <!--<%#= text_field_tag :location %>-->
+            <!--</p>-->
+
+            <!--<p>-->
+              <!--<label>Industry</label>-->
+              <!--<%#= text_field_tag :industry %>-->
+            <!--</p>-->
+
+            <!--<p>-->
+              <!--<label>Mobile Number</label>-->
+              <!--<%#= f.text_field :username %>-->
+            <!--</p>-->
+
+            <!--<p>-->
+              <!--<label>Password</label>-->
+              <!--<%#= f.password_field :password %>-->
+            <!--</p>-->
+
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div><%#= f.submit "Sign up" %></div>-->
+  <!--<%# end %>-->
+
+  <!--<%#= render "devise/shared/links" %>-->
+<!--</div>-->

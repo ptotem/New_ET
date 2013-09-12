@@ -1,0 +1,33 @@
+<style type="text/css">
+    #tag_cloud {
+        width: 400px;
+        line-height: 1.6em;
+
+    .s {
+        font-size: 0.8em;
+    }
+
+    .m {
+        font-size: 1.2em;
+    }
+
+    .l {
+        font-size: 1.8em;
+    }
+
+  }
+</style>
+
+<div id="tag_cloud">
+  <% tag_cloud Question.tag_counts, %w[s m l] do |tag, css_class| %>
+      <%= link_to tag.name, tag_path(tag.name), class: css_class %>
+  <% end %>
+</div>
+
+<% @articles.each do |article|%>
+   Name: <%= article.name %>
+   Tags: <%= raw article.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %>
+   <br>
+<%end%>
+
+

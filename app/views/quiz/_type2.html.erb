@@ -1,0 +1,37 @@
+<div class="white-card">
+  <h4><%= @question.name %></h4>
+
+  <div class="blog-categories widget-tp">
+    <ul>
+      <li>
+        <div class="answeroptions"><span class="badge badge-warning" data-toggle="modal" href="#check_bonus">A</span>
+          <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[0].name %></h4>
+
+        <!--<input class="pull-right" type="radio" name="answering" value="<%#= @option[0].id %>">-->
+        </div>
+      </li>
+      <li>
+        <div class="answeroptions"><span class="badge badge-success" data-toggle="modal" href="#check_bonus">B</span>
+          <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[1].name %></h4>
+
+          <!--<input class="pull-right" type="radio" name="answering" value="<%#= @option[1].id %>">-->
+        </div>
+      </li>
+      <li>
+        <div class="answeroptions"><span class="badge badge-important" data-toggle="modal" href="#check_bonus">C</span>
+          <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[2].name %></h4>
+          <!--<input class="pull-right" type="radio" name="answering" value="<%#= @option[2].id %>">-->
+        </div>
+      </li>
+      <li>
+        <div class="answeroptions"><span class="badge badge-info" data-toggle="modal" href="#check_bonus">D</span>
+          <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[3].name %></h4>
+          <!--<input class="pull-right" type="radio" name="answering" value="<%#= @option[3].id %>">-->
+        </div>
+      </li>
+    </ul>
+  </div>
+  <button class="btn btn-warning btn-large">View Question Stats</button>
+  <!--<button class="btn btn-success btn-large pull-right" id="submit_button" data-toggle="modal">Submit</button>-->
+  <!--<a role="button" class="btn btn-success btn-large pull-right" href="#check_bonus" data-toggle="modal" id="submit_button">Submit</a>-->
+</div>

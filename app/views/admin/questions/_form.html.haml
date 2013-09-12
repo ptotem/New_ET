@@ -1,0 +1,22 @@
+-#= javascript_include_tag 'underscore-min'
+-#= semantic_form_for [:admin, @question] do |f|
+-#  = f.inputs do
+-#    = f.input :name
+-#    = f.input :is_mcq
+-#
+-#    .js-dependent-fields{data: {'checkbox-id'=> 'admin_question_is_mcq', 'checkbox-value'=> 'true'}}
+-#      = f.input :answer
+-#
+-#    .js-dependent-fields{data: {'checkbox-id'=> 'admin_question_is_mcq', 'checkbox-value'=> 'false'}}
+-#      = f.inputs :options
+-#        = f.has_many :options do |question|
+-#          question.input :name
+-#          question.input :is_correct
+-#
+-#  =# f.actions :submit
+-#
+-#:javascript
+-#  $(function(){
+-#    alert('ok');
+-#    DependentFields.bind();
+-#  })

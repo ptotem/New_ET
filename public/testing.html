@@ -1,0 +1,65 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To Do List</title>
+    <style type="text/css" media="screen">
+        html, body {
+            background-color: #4B7399;
+            font-family: Verdana, Helvetica, Arial;
+            font-size: 14px;
+        }
+        a { color: #0000FF; }
+
+        #container {
+            width: 75%;
+            margin: 0 auto;
+            background-color: #FFF;
+            padding: 20px 40px;
+            border: solid 1px black;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function() {
+
+
+
+
+
+            $('#ss').click(function(e) {
+//                $.ajaxSetup({
+//                    headers: {
+//                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+//                    }
+//                });
+                $.ajax({
+                    type: "POST",
+                    //beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                    url: "http://kyet.ptotem.com/api/response?auth=5226a0cc9ee6987df1000010&uname=9821125678&message='hello et'&request_id=789",
+                    async:false,
+                    data:{},
+                    dataType: 'jsonp',
+                    contentType: "application/json",
+                    success: function (msg) {
+                        alert(msg["response"]);
+                    }
+                });
+            });
+
+        });
+    </script>
+<body>
+<div id="container">
+    <h1>To-Do List</h1>
+    <form id="new_task">
+        <input type="text" name="task[name]" id="task_name">
+
+    </form>
+    <input id="ss" type="submit" value="Add">
+    <ul id="tasks"></ul>
+</div>
+</body>
+</html>
