@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  #before_filter :set_var,:only =>[:index]
+  before_filter :set_var,:only =>[:index]
 
   #private
   def set_var
@@ -25,25 +25,26 @@ class WelcomeController < ApplicationController
     end
     @rank= @score.sort().reverse.index(@points)+1 rescue ''
     @recent_activity=Array.new
-    #unless Version.all.count>0
+    unless !user_signed_in?
     Version.find_all_by_whodunnit(current_user.id).each do |ver|
       case ver.item_type
-        when "User"
-          @recent_activity<<"User updated his profile"
-        when "Response"
-          case ver.event
-            when "create"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
-            when "update"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
-          end
+      when "User"
+        @recent_activity<<"User updated his profile"
+      when "Response"
+        case ver.event
+        when "create"
+          @response=Response.find(ver.item_id)
+          @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
+        when "update"
+          @response=Response.find(ver.item_id)
+          @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
+        end
       end
     end
-    #end
+    end
     @recent_activity=@recent_activity.reverse!
   end
+  
   def index
     render :layout => false
   end

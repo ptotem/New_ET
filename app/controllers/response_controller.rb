@@ -58,16 +58,20 @@ class ResponseController < ApplicationController
   end
 
   def load_question
-    @question = Question.where('insertion_date BETWEEN ? AND ?', Date.strptime(params[:question][0], "%Y-%m-%d").beginning_of_day, Date.strptime(params[:question][0], "%Y-%m-%d").end_of_day).first
-    #@question=Question.find_all_by_insertion_date(Date.strptime(params[:question][0],"%Y-%m-%d")).first
-    if @question.nil?
-      render :text => "Not Found"
-      return
+    if Date.strptime(params[:question][0],"%Y-%m-%d")!=Date.today
+      @question = Question.where('insertion_date BETWEEN ? AND ?', Date.strptime(params[:question][0], "%Y-%m-%d").beginning_of_day, Date.strptime(params[:question][0], "%Y-%m-%d").end_of_day).first
+      #@question=Question.find_all_by_insertion_date(Date.strptime(params[:question][0],"%Y-%m-%d")).first
+      if @question.nil?
+        render :text => "Not Found"
+        return
+      else
+        @option = Option.find_all_by_question_id(@question.id)
+        @correct=Option.find_by_question_id_and_is_correct(@question.id, true).id
+        render :text => "#{@question.name}|#{@option[0].id};#{@option[0].name}|#{@option[1].id};#{@option[1].name}|#{@option[2].id};#{@option[2].name}|#{@option[3].id};#{@option[3].name}|#{@correct}|#{@question.id}|#{@question.view_article}"
+      end
     else
-      @option = Option.find_all_by_question_id(@question.id)
-      @correct=Option.find_by_question_id_and_is_correct(@question.id, true).id
-      render :text => "#{@question.name}|#{@option[0].id};#{@option[0].name}|#{@option[1].id};#{@option[1].name}|#{@option[2].id};#{@option[2].name}|#{@option[3].id};#{@option[3].name}|#{@correct}|#{@question.id}|#{@question.view_article}"
-    end
+      render :text=>"Not Found"  
+    end  
   end
 
   def add_bonus_tt
@@ -95,7 +99,7 @@ class ResponseController < ApplicationController
     end
   end
 
-  #require 'gruff'
+  require 'gruff'
 
   #require File.dirname(__FILE__) + "/gruff_test_case"
   def view_question_stat
@@ -423,13 +427,13 @@ class ResponseController < ApplicationController
       @qestion_date=@question.insertion_date
       @question_name=@question.name
       @answer=Option.find_by_question_id_and_is_correct(@question.id, true).name
-      unless !response.nil?
+      #unless !response.nil?
         if response.points>0
           @correct=true
         else
           @correct=false
         end
-      end
+      #end
       @promotion=true
       if response.promotion
         @promotion_attempted=true

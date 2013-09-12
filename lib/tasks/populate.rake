@@ -4,14 +4,15 @@ namespace :db do
 
   task :populate => :environment do
     require 'ffaker'
-    User.create!(:email => "admin@ptotem.com",:password => "password",password_confirmation:"password",role:'Superadmin',age:22,name:"Sunny Singh",location:"Mumbai, Maharahstra",industry:"IT")
+    User.create!(:email => "admin@ptotem.com",:password => "password",password_confirmation:"password",role:'Superadmin',age:22,name:"Sunny Singh",location:"Mumbai, Maharahstra",industry:"IT",username:"9029770085")
     quiz = Quiz.create!(name: "Know your ET", is_survey: false, plus: 10, minus: 0)
     50.times do
       User.create(email: random_unique_email ,password:"password",password_confirmation:"password",role:'Player',
                         age:Random.new.rand(15..60),workx:Random.new.rand(1..40),
                         name:Faker::Name.name,
                         location:["Mumbai, Maharashtra","Ahmedabad, Gujrat","Hyderabad, AP","Chennai, Tamilnadu","Chandigadh, Punjab"].sample,
-                        industry:["IT","Banking","Finance","HR","Public","Cinema","Economy"].sample
+                        industry:["IT","Banking","Finance","HR","Public","Cinema","Economy"].sample,
+                        username:Random.new.rand(1000000000..9999999999).to_s
                         )
     end
 

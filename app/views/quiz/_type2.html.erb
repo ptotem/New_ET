@@ -1,37 +1,50 @@
 <div class="white-card">
-  <h4><%= @question.name %></h4>
+  <div class="row-fluid">
+    <div class="span8">
+      <h4><%= @question.name %></h4>
 
-  <div class="blog-categories widget-tp">
-    <ul>
-      <li>
-        <div class="answeroptions"><span class="badge badge-warning" data-toggle="modal" href="#check_bonus">A</span>
-          <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[0].name %></h4>
+      <div class="blog-categories widget-tp">
+        <ul>
+          <li>
+            <div class="answeroptions"><span class="badge badge-warning">A</span>
+              <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[0].name %></h4>
+            </div>
+          </li>
+          <li>
+            <div class="answeroptions"><span class="badge badge-success">B</span>
+              <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[1].name %></h4>
+            </div>
+          </li>
+          <li>
+            <div class="answeroptions"><span class="badge badge-important">C</span>
+              <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[2].name %></h4>
+            </div>
+          </li>
+          <li>
+            <div class="answeroptions"><span class="badge badge-info">D</span>
+              <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[3].name %></h4>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="form-side-info">
+        <div class="row-fluid">
+          <h4>Bonus</h4>
+        </div>
 
-        <!--<input class="pull-right" type="radio" name="answering" value="<%#= @option[0].id %>">-->
+        <div class="row-fluid">
+          <div class="span3"><img src="assets/img/hh.png"></div>
+          <div class="span9">Send in your answers before 11am and get a 2x bonus</div>
         </div>
-      </li>
-      <li>
-        <div class="answeroptions"><span class="badge badge-success" data-toggle="modal" href="#check_bonus">B</span>
-          <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[1].name %></h4>
+        <br>
 
-          <!--<input class="pull-right" type="radio" name="answering" value="<%#= @option[1].id %>">-->
+        <div class="row-fluid">
+          <div class="span3"><img src="assets/img/dt.png"></div>
+          <div class="span9">You can use the double trouble bonus option for this question</div>
         </div>
-      </li>
-      <li>
-        <div class="answeroptions"><span class="badge badge-important" data-toggle="modal" href="#check_bonus">C</span>
-          <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[2].name %></h4>
-          <!--<input class="pull-right" type="radio" name="answering" value="<%#= @option[2].id %>">-->
-        </div>
-      </li>
-      <li>
-        <div class="answeroptions"><span class="badge badge-info" data-toggle="modal" href="#check_bonus">D</span>
-          <h4 style="display:inline;">&nbsp;&nbsp;<%= @option[3].name %></h4>
-          <!--<input class="pull-right" type="radio" name="answering" value="<%#= @option[3].id %>">-->
-        </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
-  <button class="btn btn-warning btn-large">View Question Stats</button>
-  <!--<button class="btn btn-success btn-large pull-right" id="submit_button" data-toggle="modal">Submit</button>-->
-  <!--<a role="button" class="btn btn-success btn-large pull-right" href="#check_bonus" data-toggle="modal" id="submit_button">Submit</a>-->
 </div>

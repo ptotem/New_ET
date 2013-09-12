@@ -4,9 +4,10 @@ class ApplicationController < ActionController::Base
   #before_filter :set_var
 #  include ActionController::MimeResponds
 #  include ActionController::ImplicitRender
-  def after_sign_in_path_for(resource)
-    "/"
-  end
+  
+  #def after_sign_in_path_for(resource)
+   # "/"
+  #end
 
   def week_score(user_id)
     @current_user=User.find(user_id)

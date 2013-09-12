@@ -1,7 +1,7 @@
 class QuizController < ApplicationController
   #before_filter :authenticate_user!, :only => [:profile]
   #before_filter :set_var
-  before_filter :set_var,:only =>[:profile,:leaderboard]
+  before_filter :set_var,:only =>[:profile,:leaderboard,:index]
 
   #private
   def set_var
@@ -32,7 +32,7 @@ class QuizController < ApplicationController
     end
     @rank= @score.sort().reverse.index(@points)+1 rescue ''
     @recent_activity=Array.new
-    #unless Version.all.count>0
+    unless !user_signed_in?
     Version.find_all_by_whodunnit(current_user.id).each do |ver|
       case ver.item_type
         when "User"
@@ -48,7 +48,7 @@ class QuizController < ApplicationController
           end
       end
     end
-    #end
+    end
     @recent_activity=@recent_activity.reverse!
   end
 

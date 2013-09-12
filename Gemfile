@@ -21,8 +21,8 @@ gem 'therubyracer'
 gem 'actionmailer'
 gem 'acts-as-taggable-on'
 
-#gem 'rmagick'
-#gem 'gruff'
+gem 'rmagick'
+gem 'gruff'
 gem 'paper_trail'
 gem 'spreadsheet'
 gem "paperclip", "~> 3.0"
