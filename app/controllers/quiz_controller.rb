@@ -54,13 +54,15 @@ class QuizController < ApplicationController
 
   def index
     @current_date = DateTime.now.to_date.strftime('%d %B %Y')
-    @question = Question.where('insertion_date BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).first
+    #@question = Question.where('insertion_date BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).first
+@question = Question.find_by_insertion_date(Date.today)    
+	#@question=Question.find_by_insertion_date(Date.today)
     @question_name = @question.name
     @question_id = @question.id
     @user_id = current_user
 
     @option = Option.find_all_by_question_id(@question.id)
-    render :layout => false
+    #render :layout => false
   end
 
   def archives_index
@@ -75,7 +77,7 @@ class QuizController < ApplicationController
     @month_list.each_with_index do |i, index|
       @questions<<Question.show_sales_for_current_month(i[0].to_i, i[1])
     end
-    render :layout => false
+    #render :layout => false
   end
 
 
@@ -93,12 +95,12 @@ class QuizController < ApplicationController
     month_score(current_user.id)
     #render :text=>@month_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4]
     #return
-    render :layout => false
+    #render :layout => false
   end
 
   def profile
     @user=User.find(current_user.id)
-    render :layout => false
+    #render :layout => false
   end
 
   def change_profile

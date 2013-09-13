@@ -99,7 +99,7 @@ class ResponseController < ApplicationController
     end
   end
 
-  require 'gruff'
+  #require 'gruff'
 
   #require File.dirname(__FILE__) + "/gruff_test_case"
   def view_question_stat
@@ -165,6 +165,8 @@ class ResponseController < ApplicationController
   end
 
   def res
+    render :text=>params
+    return
     if params[:auth]=="5226a0cc9ee6987df1000010"
       #render :text=>"Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com . Play daily to win exciting daily and weekly prizes and one month-end Grand Prize."
       #return

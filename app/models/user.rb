@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :responses, :dependent => :destroy
   has_many :referrals, :dependent => :destroy
   has_one :profile, :dependent => :destroy
+  has_many :feedbacks
   has_paper_trail
   #after_create :create_profile
 

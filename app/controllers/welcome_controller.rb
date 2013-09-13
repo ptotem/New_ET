@@ -46,7 +46,7 @@ class WelcomeController < ApplicationController
   end
   
   def index
-    render :layout => false
+    #render :layout => false
   end
 
   def create_guest_user

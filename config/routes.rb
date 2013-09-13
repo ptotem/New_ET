@@ -1,4 +1,8 @@
 ETNew::Application.routes.draw do
+  match 'feedbacks' => 'feedbacks#create', :as => :feedback
+
+  match 'feedbacks/new' => 'feedbacks#new', :as => :new_feedback
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   #devise_for :users
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
