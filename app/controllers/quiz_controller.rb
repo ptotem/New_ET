@@ -1,7 +1,7 @@
 class QuizController < ApplicationController
   #before_filter :authenticate_user!, :only => [:profile]
   #before_filter :set_var
-  before_filter :set_var,:only =>[:profile,:leaderboard,:index]
+  #before_filter :set_var,:only =>[:profile]
 
   #private
   def set_var
@@ -93,9 +93,6 @@ class QuizController < ApplicationController
   def leaderboard
     week_score(current_user.id)
     month_score(current_user.id)
-    #render :text=>@month_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4]
-    #return
-    #render :layout => false
   end
 
   def profile
@@ -131,8 +128,38 @@ class QuizController < ApplicationController
           end
       end
     end
-    render :text => @recent_activity.reverse!
+    render :text => @recent_activity.reverse![0..2]
   end
+
+  def get_score
+    @score=Array.new
+    @leaderboard=Array.new
+    User.all.each do |u|
+      @questions=Array.new
+      Question.all.each do |q|
+        @questions<<(Response.find_all_by_question_id(q.id) & Response.find_all_by_user_id(u.id))
+      end
+      @questions=@questions.uniq.flatten!
+      @score<<@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
+      @leaderboard<<{:user_id=>u.id,:score=>@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum}
+
+      if (u==current_user)
+        @points=@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
+        @user_score=@questions.map { |i| (i.points) }.delete_if { |x| x == nil }
+        @answer_rate=0
+        @user_score.each do |s|
+          if s>0
+            @answer_rate=@answer_rate+1
+          end
+        end
+      unless @user_score.count==0
+          @answer_correct_rate=(@answer_rate*100/@user_score.count)
+       end
+      end
+    end
+    @rank= @score.sort().reverse.index(@points)+1 rescue ''
+    render :text=>"#{@points}|#{@rank}|#{@answer_correct_rate}"   
+  end  
 
   def current_status
     render :text => "#{@user_score.count}|#{@answer_rate*100/@user_score.count}"

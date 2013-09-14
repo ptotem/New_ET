@@ -103,13 +103,13 @@
                     <div class="blog-categories widget-tp">
                       <ul>
                         <li>
-                          <a href="#">Your Current Rank is:<span class='pull-right'><%= @rank %></span></a>
+                          <a href="#">Your Current Rank is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
                         </li>
                         <li>
-                          <a href="#">Your Correct Answer Rate is:<span class='pull-right'><%= @answer_correct_rate %>%</span>
+                          <a href="#">Your Correct Answer Rate is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
 
                             <div class="progress progress-striped active">
-                            <div class="bar bar-success" style="width:<%= @answer_correct_rate %>%;"></div>
+                              <div class="bar bar-success"></div>
                             </div>
                           </a>
                         </li>
@@ -127,12 +127,7 @@
                 <div id="collapseTwo" class="accordion-body collapse">
                   <div class="accordion-inner">
                     <div class="blog-categories widget-tp">
-                      <ul>
-                        <% @recent_activity.each do |re_ac| %>
-                        <li>
-                          <a href="#"><%= re_ac %></a>
-                        </li>
-                        <% end %>
+                      <ul id="recent_activity">
                       </ul>
                     </div>
                   </div>
@@ -264,6 +259,36 @@
         var question_id;
         var user_id;
         var response;
+        <%if user_signed_in?%>
+        $.ajax({
+          url:"/recent_activity",
+          type:"get",
+          success:function (returning_data) {
+            if(returning_data!=''){
+              returning_data=returning_data.split(",");
+              $('#recent_activity').html();
+              $.each(returning_data,function(){
+                recent=this.replace("[","").replace("]","").replace('"','');
+                $("#recent_activity").append('<li><a href="#">'+recent+'</a></li>');
+              });
+            }
+          }
+        });
+
+        $.ajax({
+          url:"/get_score",
+          type:"get",
+          success:function (returning_data) {
+            if(returning_data!=''){
+              returning_data=returning_data.split("|");
+              $("#points").html(returning_data[0]+"Points");
+              $("#rank").html(returning_data[1]);
+              $("#percentage").html(returning_data[2]+"%");
+              $(".bar").width(parseInt(returning_data[2])+"%");
+            }
+          }
+        });
+        <%end%>
         <% if @question.close_time<Time.now and @question.question_type=="type1"%>
         
         $(".answeroptions").on("click",function () {

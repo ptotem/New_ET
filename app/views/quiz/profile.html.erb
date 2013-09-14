@@ -68,15 +68,16 @@
                 <div class="blog-categories widget-tp">
                   <ul>
                     <li>
-                      <a href="#">Your Current Rank is:<span class='pull-right'><%= @rank %></span></a>
-                    </li>
-                    <li>
-                      <a href="#">Your Correct Answer Rate is:<span class='pull-right'><%= @answer_correct_rate %>%</span>
-                        <div class="progress progress-striped active">
-                          <div class="bar bar-success" style="width: <%= @answer_correct_rate %>%;"></div>
-                        </div>
-                      </a>
-                    </li>
+                        <a href="#">Your Current Rank is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
+                      </li>
+                      <li>
+                        <a href="#">Your Correct Answer Rate is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
+
+                          <div class="progress progress-striped active">
+                            <div class="bar bar-success"></div>
+                          </div>
+                        </a>
+                      </li>
                   </ul>
                 </div>
               </div>
@@ -96,19 +97,7 @@
             <div id="collapseTwo" class="accordion-body collapse in">
               <div class="accordion-inner">
                 <div class="blog-categories widget-tp">
-                  <ul>
-                    <!--<li>-->
-                      <!--<a href="#">You answered a question for 10 points</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                      <!--<a href="#">You won a bonus of 100 points in a double trouble gamble</a>-->
-                    <!--</li>-->
-                    <% @recent_activity=@recent_activity[0..2] rescue [] %>
-                    <% @recent_activity[0..2].each do |re_ac| %>
-                        <li>
-                        <a href="#"><%= re_ac %></a>
-                        </li>
-                    <% end %>
+                  <ul id="recent_activity">
                   </ul>
                   <br>
                 </div>
@@ -257,6 +246,38 @@
   <% end %>
 </div>
 <script>
+  $(function(){
+    <%if user_signed_in?%>
+        $.ajax({
+          url:"/recent_activity",
+          type:"get",
+          success:function (returning_data) {
+            if(returning_data!=''){
+              returning_data=returning_data.split(",");
+              $('#recent_activity').html();
+              $.each(returning_data,function(){
+                recent=this.replace("[","").replace("]","").replace('"','');
+                $("#recent_activity").append('<li><a href="#">'+recent+'</a></li>');
+              });
+            }
+          }
+        });
+
+        $.ajax({
+          url:"/get_score",
+          type:"get",
+          success:function (returning_data) {
+            if(returning_data!=''){
+              returning_data=returning_data.split("|");
+              $("#points").html(returning_data[0]+"Points");
+              $("#rank").html(returning_data[1]);
+              $("#percentage").html(returning_data[2]+"%");
+              $(".bar").width(parseInt(returning_data[2])+"%");
+            }
+          }
+        });
+        <%end%>
+  });
     var _gaq=[['_setAccount','UA-34697555-1'],['_trackPageview']];
     (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';

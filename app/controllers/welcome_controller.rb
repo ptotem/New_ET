@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  before_filter :set_var,:only =>[:index]
+  #before_filter :set_var,:only =>[:i]
 
   #private
   def set_var
