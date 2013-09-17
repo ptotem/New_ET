@@ -1,2 +1,6 @@
 <h1>Hi </h1>
-<h2>You have been referred to the Curious ET Quiz by..........<%#= current_user.email %></h2>
+<h2>You have been referred to the Win with ET Quiz by..........
+  <%# @ref=Referral.find_by_referred_mail(@user).user_id %>
+  <%#= User.find(@ref).name %>
+  <a href="http://localhost:3000/users/sign_up">Click Here</a>
+</h2>

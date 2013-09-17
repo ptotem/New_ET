@@ -1,18 +1,164 @@
 
+<!DOCTYPE html>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->  </html>
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to The Economic Times</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <%= csrf_meta_tags %>
+  <%= javascript_include_tag 'application' %>
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link href="/assets/css/theme_venera.css" media="all" rel="stylesheet" type="text/css"/>
+  <link href="http://fonts.googleapis.com/css?family=Abel:400|Oswald:300,400,700" media="all" rel="stylesheet" type="text/css"/>
+  <meta content="authenticity_token" name="csrf-param"/>
+  <meta content="itlmC+fCL/hVYfNHIdCSxa8twGVC/QSVM5tfOV/RXqY=" name="csrf-token"/>
+  <link rel="stylesheet" type="text/css" href="/assets/css/magic.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/style2.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/common.css"/>
+  <script type="text/javascript" src="/assets/js/modernizr.custom.79639.js"></script>
+</head>
+
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
+    today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
+    experience this site.</p>
+<![endif]-->
+
+<header id='header'>
+</header>
 
 
+<section class='section-wrapper'>
+  <div class='container'>
+    <div id="phone_no_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>Phone No</h3>
+      </div>
+      <div class="modal-body">
+        <h2>Please Enter your phone number</h2>
 
-<div id="not_found_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-      ×
-    </button>
-    <h3>Question</h3>
+        <div class="row-fluid">
+          <div class="span3"></div>
+          <div class="span9">
+
+                <div class="modal-body">
+                  <div class="row-fluid">
+                    <div class="span9">
+                      <%= form_for(resource, :as => resource_name, :url => my_new_user_path) do |f| %>
+                      <p>
+                        <label>Email</label>
+                        <%= f.email_field :email %>
+                      </p>
+
+                      <p>
+                        <label>Name</label>
+                        <%= text_field_tag :name %>
+                      </p>
+
+                      <p>
+                        <label>Age</label>
+                        <%= text_field_tag :age %>
+                      </p>
+
+                      <p>
+                        <label>Work Experience</label>
+                        <%= text_field_tag :workx %>
+                      </p>
+
+                      <p>
+                        <label>Location (City,State)</label>
+                        <%= text_field_tag :location %>
+                      </p>
+
+                      <p>
+                        <label>Industry</label>
+                        <%= text_field_tag :industry %>
+                      </p>
+
+                      <p>
+                        <label>Mobile Number</label>
+                        <%= f.text_field :username %>
+                      </p>
+
+                      <p>
+                        <label>Password</label>
+                        <%= f.password_field :password %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_phone">Submit</a>
+                <!--<div><%#= f.submit "Sign up" %></div>-->
+               <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <div class="modal-body">
-    <h2>Not Found</h2>
-  </div>
-</div>
+</section>
+<script src="/assets/js/theme_venera.js" type="text/javascript"></script>
+
+<script>
+    $(function(){
+        $('#phone_no_modal').modal('show');
+        $('#user_username').keyup(function () {
+            this.value = this.value.replace(/[^0-9\.]/g,'');
+        });
+    });
+
+    $('#submit_phone').click(function(){
+        var email = $('#user_email').val();
+        var name = $('#name').val();
+        var age = $('#age').val();
+        var workx = $('#workx').val();
+        var industry = $('#industry').val();
+        var location = $('#location').val();
+        var username = $('#user_username').val();
+        var password = $('#user_password').val();
+        var data = {email: [],name:[],age:[],workx:[],location:[],industry:[],username:[],password:[]}
+        data["email"].push(email);
+        data["name"].push(name);
+        data["age"].push(age);
+        data["workx"].push(workx);
+        data["location"].push(location);
+        data["industry"].push(industry);
+        data["username"].push(username);
+        data["password"].push(password);
+        $.ajax({
+            url: "<%= my_new_user_path %>",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data) {
+                $('input').val("");
+            }
+        });
+    });
+
+
+
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
 
 
 

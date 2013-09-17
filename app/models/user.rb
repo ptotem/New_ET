@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username
+  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points
   # attr_accessible :title, :body
 
   has_many :authentications, :dependent => :destroy
@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_one :profile, :dependent => :destroy
   has_many :feedbacks
   has_paper_trail
-  #after_create :create_profile
+  after_create :refer_email
 
   def superadmin?
     role=="Superadmin"
@@ -35,4 +35,14 @@ class User < ActiveRecord::Base
   #  Profile.create!(:user_id=>self.id,:location=>nil,:industry=>nil,:age=>nil,:workx=>nil)
   #end
 
+  def refer_email
+    @user=User.find_by_email(self.email)
+    if !Referral.find_by_referred_mail(@user.email).nil?
+      @refer=Referral.find_by_referred_mail(@user.email).user_id
+      @user_id=User.find(@refer)
+      @refer_points=@user_id.refer_points
+      @user_id.update_attributes(:refer_points=>@refer_points+20)
+      @user_id.save
+   end
+  end
 end

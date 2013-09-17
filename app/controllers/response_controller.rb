@@ -96,7 +96,10 @@ class ResponseController < ApplicationController
     @eaddresses=@emails.split(',')
     @eaddresses.each do |eaddr|
       NotificationMailer.welcome_email(eaddr).deliver
+      @referral=Referral.create(:user_id => current_user.id,:referred_mail => eaddr)
     end
+    render :text => "OK"
+    return
   end
 
   #require 'gruff'
@@ -165,8 +168,8 @@ class ResponseController < ApplicationController
   end
 
   def res
-    render :text=>params
-    return
+    #render :text=>params
+    #return
     if params[:auth]=="5226a0cc9ee6987df1000010"
       #render :text=>"Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com . Play daily to win exciting daily and weekly prizes and one month-end Grand Prize."
       #return
@@ -184,36 +187,13 @@ class ResponseController < ApplicationController
         # render :text=>"late response"
         #return
       #else
-      if params[:request_id] == "WINET"
 
 
-        case params[:message]
-          when "A" #compare to 1
-            @option=@question.options[0]
-          when "B" #compare to 2
-            @option=@question.options[1]
-          when "C"
-            @option=@question.options[2]
-          when "D"
-            @option=@question.options[3]
 
-        end
-        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
-        if @response.created_at<@option.question.happy_hr and @option.is_correct
-          @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
-        elsif @option.is_correct
-          @response.points=@option.question.quiz.plus
-        elsif @response.created_at<@option.question.happy_hr
-          @response.points=0
-        else
-          @response.points= -(@option.question.quiz.minus)
-        end
-        @response.save
-        render :text=>@a+"Thank You for playing Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
-        return
-      elsif params[:request_id] == "WINETD"
+      if params[:message].include?("WINETD")
         @question = Question.find_by_insertion_date(Date.today)
-        case params[:message]
+        @selected_option=params[:message].split(' ')[1]
+        case @selected_option
           when "A" #compare to 1
             @option=@question.options[0]
           when "B" #compare to 2
@@ -222,7 +202,11 @@ class ResponseController < ApplicationController
             @option=@question.options[2]
           when "D"
             @option=@question.options[3]
+          else
+            render :text =>"Wrong Option Selected"
+            return
         end
+
         @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
         if @response.created_at<@option.question.happy_hr and @option.is_correct
           @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
@@ -247,9 +231,11 @@ class ResponseController < ApplicationController
         @response.save
         render :text=>@a+"Thank you for playing Double Trouble on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
         return
-      elsif params[:request_id] == "WINETT"
+      elsif params[:message].include?("WINETT")
         @question = Question.find_by_insertion_date(Date.today)
-        case params[:message]
+
+        @selected_option=params[:message].split(' ')[1]
+        case @selected_option
           when "A" #compare to 1
             @option=@question.options[0]
           when "B" #compare to 2
@@ -258,6 +244,9 @@ class ResponseController < ApplicationController
             @option=@question.options[2]
           when "D"
             @option=@question.options[3]
+          else
+            render :text =>"Wrong Option Selected"
+            return
         end
         @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
         if @response.created_at<@option.question.happy_hr and @option.is_correct
@@ -283,11 +272,41 @@ class ResponseController < ApplicationController
         @response.save
         render :text=>@a+"Thank you for playing Triple Threat on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
         return
-      elsif params[:request_id]=="PWD"
+      elsif params[:message].include?("PWD")
         @user.password = "password"
         @user.password_confirmation="password"
         @user.save
         render :text=>"Thank your for playing Win with ET. As requested, the following is your password to login on kyet.ptotem.com:"+@user.password
+        return
+      elsif params[:message].include?("WINET")
+
+        @selected_option=params[:message].split(' ')[1]
+        case @selected_option
+          when "A" #compare to 1
+            @option=@question.options[0]
+          when "B" #compare to 2
+            @option=@question.options[1]
+          when "C"
+            @option=@question.options[2]
+          when "D"
+            @option=@question.options[3]
+          else
+            render :text =>"Wrong Option Selected"
+            return
+        end
+
+        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
+        if @response.created_at<@option.question.happy_hr and @option.is_correct
+          @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
+        elsif @option.is_correct
+          @response.points=@option.question.quiz.plus
+        elsif @response.created_at<@option.question.happy_hr
+          @response.points=0
+        else
+          @response.points= -(@option.question.quiz.minus)
+        end
+        @response.save
+        render :text=>@a+"Thank You for playing Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
         return
       else
         render :text=>"Thank your for playing Win with ET. We were unable to process your previous SMS. Please check and resend with the correct keyword. Check our column for options."

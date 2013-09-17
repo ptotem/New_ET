@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130913194856) do
+ActiveRecord::Schema.define(:version => 20130916103655) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(:version => 20130913194856) do
     t.string   "referred_mail"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.integer  "score"
   end
 
   create_table "responses", :force => true do |t|
@@ -183,6 +184,8 @@ ActiveRecord::Schema.define(:version => 20130913194856) do
     t.string   "industry"
     t.date     "dob"
     t.string   "username"
+    t.integer  "score"
+    t.integer  "refer_points",           :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
