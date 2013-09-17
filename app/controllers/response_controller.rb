@@ -176,11 +176,11 @@ class ResponseController < ApplicationController
 
       @a=""
 
-      if User.find_by_username(params[:phoneno]).nil?
-        @user=User.create(:email => 'abc1@gmail.com', :username => params[:phoneno], :password => "password", :password_confirmation => "password");
+      if User.find_by_username(params[:uname]).nil?
+        @user=User.create(:email => 'abc1@gmail.com', :username => params[:uname], :password => "password", :password_confirmation => "password");
         @a="Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com using the following password to login:'password'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize."
       else
-        @user=User.find_by_username(params[:phoneno])
+        @user=User.find_by_username(params[:uname])
       end
       @question = Question.find_by_insertion_date(Date.today)
       #if Time.now> @question.closing_time
