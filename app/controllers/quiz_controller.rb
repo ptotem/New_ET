@@ -68,7 +68,9 @@ class QuizController < ApplicationController
   def archives_index
     @date = DateTime.now.to_date-1
     @previous_date = @date.strftime('%d %B %Y')
-    @yesterday_question =Question.find_all_by_insertion_date(Date.yesterday).first
+    #@yesterday_question =Question.find_all_by_insertion_date(Date.yesterday).first
+    @yesterday_question=Question.all.sort_by(&:insertion_date)
+    @yesterday_question=@yesterday_question[@yesterday_question.count-2]
     @question = @yesterday_question.name
     @option = Option.find_all_by_question_id(@yesterday_question.id)
     @correct=Option.find_by_question_id_and_is_correct(@yesterday_question.id, true).id
