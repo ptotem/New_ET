@@ -10,7 +10,11 @@
 
         <div class="white-card">
           <h4><% Date.today.strftime("%d %b %y") %></h4>
-          <h6><%= raw @yesterday_question.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %>
+          <h6>
+            <span id="tag_list">
+                <%#= raw (@yesterday_question.tag_list.map { |t| link_to t, tag_path(t) }.join(', ')) %>
+            </span>
+
             <span class="pull-right">
                 <button class="btn btn-success" onclick="view_score()">View Answer</button>
                 <button class="btn btn-warning" onclick="view_stat()">View Statistics</button>
@@ -69,6 +73,7 @@
             <div class="controls" id="profs">
               <div class="input-append">
                 <input autocomplete="off" id="field1" name="prof1" type="text" placeholder="Search For Specific Questions" data-provide="typeahead" data-items="8" data-source='["Economic Times","Sensex","GDP","RBI","Finance"]'/>
+                <button class="btn btn-success" id="tag_search">Submit</button>
               </div>
             </div>
           </div>
@@ -131,35 +136,35 @@
           </li>
 
           <% if user_signed_in? %>
-          <li onclick='window.location="/leaderboards";'>
-            <div class="ch-item ch-img-4">
-              <div class="ch-info-wrap">
-                <a href="#" style="text-decoration:none;">
-                  <div class="ch-info">
-                    <div class="ch-info-front ch-img-1"></div>
-                    <div class="ch-info-back">
-                      <h3>Leader Board</h3>
-                    </div>
+              <li onclick='window.location="/leaderboards";'>
+                <div class="ch-item ch-img-4">
+                  <div class="ch-info-wrap">
+                    <a href="#" style="text-decoration:none;">
+                      <div class="ch-info">
+                        <div class="ch-info-front ch-img-1"></div>
+                        <div class="ch-info-back">
+                          <h3>Leader Board</h3>
+                        </div>
+                      </div>
+                    </a>
                   </div>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li onclick='window.location="/profile";'>
-            <div class="ch-item ch-img-5">
-              <div class="ch-info-wrap">
-                <a href="#" style="text-decoration:none;">
-                  <div class="ch-info">
-                    <div class="ch-info-front ch-img-1"></div>
-                    <div class="ch-info-back">
-                      <h3>Profile</h3>
-                    </div>
+                </div>
+              </li>
+              <li onclick='window.location="/profile";'>
+                <div class="ch-item ch-img-5">
+                  <div class="ch-info-wrap">
+                    <a href="#" style="text-decoration:none;">
+                      <div class="ch-info">
+                        <div class="ch-info-front ch-img-1"></div>
+                        <div class="ch-info-back">
+                          <h3>Profile</h3>
+                        </div>
+                      </div>
+                    </a>
                   </div>
-                </a>
-              </div>
-            </div>
-          </li>
-         <% end %>
+                </div>
+              </li>
+          <% end %>
 
         </ul>
       </div>
@@ -193,6 +198,19 @@
   </div>
   <div class="modal-body">
     <h2 id="article"></h2>
+  </div>
+</div>
+
+
+<div id="nothing_tag" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>Tags</h3>
+  </div>
+  <div class="modal-body">
+    <h2>Not Found</h2>
   </div>
 </div>
 
@@ -242,7 +260,8 @@
                 if (data == "Not Found") {
                     $('#not_found_modal').modal('show');
                 } else {
-                    $('#article').html("")
+                    $('#article').html("");
+                    $('#tag_list').html("");
                     var question = data.toString().split('|')[0];
                     var a1 = data.toString().split('|')[1];
                     var a2 = data.toString().split('|')[2];
@@ -251,6 +270,7 @@
                     correct = data.toString().split('|')[5];
                     quest = data.toString().split('|')[6];
                     var image = data.toString().split('|')[7];
+                    var tags = data.toString().split('|')[8];
                     $('.question').html(question);
 
 
@@ -267,9 +287,38 @@
                     $('.option4').html(a4.toString().split(';')[1]);
 
                     $('#article').append('<img  src=' + image + '>');
+
+                    $('#tag_list').append(tags);
                 }
             }
         });
     }
-</script>
 
+
+       $('#tag_search').click(function(){
+           var tag=($('#field1').val());
+           var data = {tag: []}
+           data["tag"].push(tag);
+           $.ajax({
+               url: "<%= tag_list_path %>",
+               type: "POST",
+               contentType: "application/json",
+               data: JSON.stringify(data),
+               success: function (data) {
+                    if (data=="Nothing"){
+                        $('#nothing_tag').modal('show');
+                    }
+                    else
+                    {
+                        setTimeout(function(){
+                            window.location="/tags/"+data
+                        },1000);
+                    }
+
+
+               }
+           });
+
+       });
+
+</script>

@@ -27,6 +27,7 @@ ETNew::Application.routes.draw do
   match "/cs", :to=>"quiz#current_status"
   match '/create_guest_user' => "welcome#create_guest_user", :as => :create_guest_user
   match '/my_new_user' => "welcome#my_new_user", :as => "my_new_user"
+  match '/tag_list' => "response#tag_list", :as => "tag_list"
 
 
   #match '/users/auth/facebook' => 'welcome#facebook'

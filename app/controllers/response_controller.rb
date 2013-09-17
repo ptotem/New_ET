@@ -67,7 +67,7 @@ class ResponseController < ApplicationController
       else
         @option = Option.find_all_by_question_id(@question.id)
         @correct=Option.find_by_question_id_and_is_correct(@question.id, true).id
-        render :text => "#{@question.name}|#{@option[0].id};#{@option[0].name}|#{@option[1].id};#{@option[1].name}|#{@option[2].id};#{@option[2].name}|#{@option[3].id};#{@option[3].name}|#{@correct}|#{@question.id}|#{@question.view_article}"
+        render :text => "#{@question.name}|#{@option[0].id};#{@option[0].name}|#{@option[1].id};#{@option[1].name}|#{@option[2].id};#{@option[2].name}|#{@option[3].id};#{@option[3].name}|#{@correct}|#{@question.id}|#{@question.view_article}|#{@question.tag_list}"
       end
     else
       render :text=>"Not Found"  
@@ -548,6 +548,20 @@ class ResponseController < ApplicationController
 
     book.write 'out12.xls'
     send_file 'out12.xls'
+  end
+
+
+  def tag_list
+    @tag=Tag.find_by_name(params[:tag][0])
+      if !@tag.nil?
+        if @tag.name==(params[:tag][0])
+          render :text => @tag.name
+          return
+        end
+      else
+        render :text => "Nothing"
+        return
+   end
   end
 
 end

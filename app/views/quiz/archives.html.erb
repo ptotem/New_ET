@@ -1,33 +1,54 @@
-<style type="text/css">
-    #tag_cloud {
-        width: 400px;
-        line-height: 1.6em;
+<section class='section-wrapper'>
+  <div class='container'>
+    <div class="row-fluid" style="padding: 25px;">
+        <% tag_cloud Question.tag_counts, %w[s m l] do |tag, css_class| %>
+            <%= link_to tag.name, tag_path(tag.name), :class => css_class %>
+        <% end %>
+    </div>
 
-    .s {
-        font-size: 0.8em;
-    }
+    <div class="row-fluid">
+      <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs"  style="max-height: 300px;;overflow-y: scroll;overflow-x: hidden;">
+          <% @articles.each_with_index do |article,index|%>
+            <li><a href="#tab<%= index %>" data-toggle="tab"><%= article.name %></a></li>
+          <% end %>
+        </ul>
+        <div class="tab-content">
+          <% @articles.each_with_index do |article,index|%>
+          <div class="tab-pane" id="tab<%= index %>">
+            <p>
+               <ul>
+                 <% Option.find_all_by_question_id(article.id).each_with_index do|e,index| %>
+                     <div class="answeroptions shadow">
+                       <span class="badge badge-warning">
+                       <% if index==0 %>
+                            A
+                       <% elsif index==1 %>
+                            B
+                       <% elsif index==2 %>
+                            C
+                       <% elsif index==3 %>
+                            D
+                       <% end %>
+                       </span>
 
-    .m {
-        font-size: 1.2em;
-    }
-
-    .l {
-        font-size: 1.8em;
-    }
-
-  }
-</style>
-
-<div id="tag_cloud">
-  <% tag_cloud Question.tag_counts, %w[s m l] do |tag, css_class| %>
-      <%= link_to tag.name, tag_path(tag.name), class: css_class %>
-  <% end %>
-</div>
-
-<% @articles.each do |article|%>
-   Name: <%= article.name %>
-   Tags: <%= raw article.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %>
-   <br>
-<%end%>
-
-
+                         <% if e.is_correct==true %>
+                           <h4 style="display:inline;background: #adff2f;">&nbsp;&nbsp;
+                             <%= e.name %>
+                           </h4>
+                         <% else %>
+                           <h4 class="option1" style="display:inline;">&nbsp;&nbsp;
+                            <%= e.name %>
+                           </h4>
+                         <% end %>
+                     </div>
+                 <% end %>
+               </ul>
+            </p>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
