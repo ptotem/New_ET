@@ -16,6 +16,8 @@ gem 'cancan'
 gem 'thin'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'xmpp4r_facebook'
+gem "koala"
 gem 'execjs'
 gem 'therubyracer'
 gem 'actionmailer'
@@ -26,6 +28,8 @@ gem 'gruff'
 gem 'paper_trail'
 gem 'spreadsheet'
 gem "paperclip", "~> 3.0"
+#gem "koala", "~> 1.7.0rc1"
+#gem "koala", "~> 1.2.1"
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -1,5 +1,6 @@
 class WelcomeController < ApplicationController
   #before_filter :set_var,:only =>[:i]
+  #before_filter :parse_facebook_cookies
 
   #private
   def set_var
@@ -58,37 +59,72 @@ class WelcomeController < ApplicationController
 
 
   def facebook
-    auth=request.env["omniauth.auth"]
-    if auth.provider=='facebook' # Checking if request comes from facebook or twitter
-      if User.find_by_uid(auth['uid']).nil?
-        users_email = auth.extra.raw_info.email
-        if users_email.nil?
-          @user = User.create(:provider => auth["provider"], :uid => auth["uid"], :name => auth["info"]["name"])
+    if user_signed_in?
+      #render :text => request.env["omniauth.auth"].extra.raw_info
+      #return
+      @user = current_user
+      @user_first_name=request.env["omniauth.auth"].extra.raw_info.first_name
+      @user_last_name=request.env["omniauth.auth"].extra.raw_info.last_name
+      @user.name = @user_first_name + @user_last_name
+      @user.location = request.env["omniauth.auth"]["extra"]["raw_info"]["location"]["name"]
+      @user.save!
+      redirect_to "/profile" and return
+    else
+      auth=request.env["omniauth.auth"]
+      if auth.provider=='facebook' # Checking if request comes from facebook or twitter
+        if User.find_by_uid(auth['uid']).nil?
+          users_email = auth.extra.raw_info.email
+          if users_email.nil?
+            @user = User.create(:provider => auth["provider"], :uid => auth["uid"], :name => auth["info"]["name"])
+          else
+            @user = User.create(:provider => auth["provider"], :email => users_email, :password => Devise.friendly_token[0, 20], :uid => auth["uid"], :name => auth["info"]["name"])
+          end
         else
-          @user = User.create(:provider => auth["provider"], :email => users_email, :password => Devise.friendly_token[0, 20], :uid => auth["uid"], :name => auth["info"]["name"])
+          @user=User.find_by_email(auth.info.email)
+          @user=User.find_by_uid(auth['uid'])
         end
       else
-        @user=User.find_by_email(auth.info.email)
-        @user=User.find_by_uid(auth['uid'])
+        if User.find_by_uid(auth['uid']).nil?
+          @user=User.create!(:provider => auth['provider'], :uid => auth['uid'], :name => auth['info']['name'])
+        else
+          @user=User.find_by_uid(auth['uid'])
+        end
       end
-    else
-      if User.find_by_uid(auth['uid']).nil?
-        @user=User.create!(:provider => auth['provider'], :uid => auth['uid'], :name => auth['info']['name'])
-      else
-        @user=User.find_by_uid(auth['uid'])
-      end
+      sign_in(:user, @user)
+      @user.save
+      redirect_to "/profile" and return
     end
-
-
-    sign_in(:user, @user)
-    @user.save
-    redirect_to "/"
   end
+
 
   def my_new_user
     #@user=User.create!(:email => params[:user][:email],:name => params[:name],:age => params[:age],:workx => params[:workx],:location => params[:location],:industry => params[:industry],:username => params[:user][:username],:password => params[:user][:password])
     #@user.save
     #redirect_to "/"
+  end
+
+  #def parse_facebook_cookies
+  #  @facebook_cookies ||= Koala::Facebook::OAuth.new('648492791862773', 'a9efe5c308bc11d1058432d9b7313d91').get_user_info_from_cookie(cookies)
+    #render :text => @facebook_cookies
+    #return
+  #end
+
+  def get_connections
+    #render :text => params[:access_token]
+    #return
+    @graph = Koala::Facebook::GraphAPI.new
+    #@graph = Koala::Facebook::API.new('CAACEdEose0cBAORk6j7bjHUlcByPuZAwlkp2J9dlbWTF5JZCYnfZBNCd2aGNn5AstLEURWdDk8ovycjKws7G8I3ds4ruU4icG9N3jDF3lNA5ASfdZBblUSQNxFmfLHy6dTtg6Iz1xsZCY39a5kX1Lxu3KlYIpAuBevhHicERyoekaM2a4rKQ7nQdzt6O8lQMZD')
+
+    @access_token = facebook_cookies['access_token']
+    @graph = Koala::Facebook::GraphAPI.new(@access_token)
+
+    #@graph = Koala::Facebook::API.new(params[:access_token])
+
+    profile = @graph.get_object("me")
+    friends = @graph.get_connections("me", "friends")
+    render :text => @access_token
+    return
+
   end
 
 end

@@ -52,7 +52,9 @@ class ApplicationController < ActionController::Base
     @month_rank= @month_score.sort().reverse.index(@month_points)+1 rescue ''
   end
 
-
+  def facebook_cookies
+    @facebook_cookies ||= Koala::Facebook::OAuth.new('648492791862773', 'a9efe5c308bc11d1058432d9b7313d91').get_user_info_from_cookie(cookies)
+  end
 
 
 end

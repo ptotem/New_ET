@@ -66,38 +66,43 @@
               <div class="span3">
                 <div class="white-card">
                   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-                  <div class="row-fluid">
-                    <div class="span12"><%= f.label :username %>
-                      <%= f.text_field :username, :autofocus => true %></div>
-                    </div>
-                    <div class="row-fluid">
-                      <div class="span12"><%= f.label :password %>
-                        <%= f.password_field :password %></div>
-                      </div>
+
+                     <div class="row-fluid" style="padding-top: 10px;">
+                       <div class="span12">
+                         <%= f.text_field :username, :autofocus => true,:placeholder => "Mobile Number",:style => "width:95%;" %>
+                       </div>
+                     </div>
+
                       <div class="row-fluid">
-                        <div class="span12 pull-right">
-                          <%# if devise_mapping.rememberable? -%>
-                          <%# end -%>
-                          <a>Forgot Password?</a>
+                        <div class="span12">
+                          <%= f.password_field :password,:placeholder => "Password",:style => "width:95%;" %>
                         </div>
                       </div>
+
                       <div class="row-fluid">
-                        <div class="span4">
-                          <%= f.submit "Sign in",:class => "btn btn-info" %>
-                        </div>
-                        <div class="span4">
-                          <a href="#" class="btn btn-info" onclick="view_register();">Register</a>
-                        </div>
-                        <% end %>
-                      </div>
-                      <div class="row-fluid">
-                        <div class="span2">
-                          <h4>OR</h4>
-                        </div>
-                        <div class="span10">
-                          <a href="/users/auth/facebook"><img src="/assets/fblogin.png" style="width: 200px;"/></a>
+                        <div class="span12">
+                          <%= f.submit "Sign in",:class => "btn btn-info",:style => "width:100%;" %>
                         </div>
                       </div>
+
+                      <div class="row-fluid" style="padding-top:5px;">
+                        <div class="span12" style="text-align: center;">
+                          <a href="#" onclick="view_register();">Need an account Register here</a>
+                        </div>
+                      </div>
+
+                      <div class="row-fluid" style="text-align: center;">
+                        <div class="span12">
+                          <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
+                              <%= link_to "Forgot your password?", new_password_path(resource_name) %><br />
+                          <% end -%>
+                        </div>
+                      </div>
+
+                      <% end %>
+
+
+                   </div>
 
                     </div>
                   </div>
@@ -460,60 +465,42 @@ function view_register(){
 <div id="register" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <h2>Sign in</h2>
 
-  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%#= form_for(resource, :as => resource_name, :url => my_new_user_path) do |f| %>
 
   <div class="modal-body">
     <div class="row-fluid">
-      <div class="span9"> 
+      <div class="span9">
+
+        <div><%= f.label :email %><br />
+          <%= f.email_field :email, :autofocus => true %></div>
+
+        <div><%= f.label :name %><br />
+          <%= f.text_field :name %></div>
 
 
+        <div><%= f.label :age %><br />
+          <%= f.text_field :age %></div>
 
-       <p> 
-         <label>Name</label> 
-         <%#= text_field_tag :name %> 
-       </p> 
 
-       <p> 
-         <label>Email</label> 
-         <%= f.email_field :email %> 
-       </p> 
+        <div><%= f.label :workx %><br />
+          <%= f.text_field :workx %></div>
 
-       <p> 
-         <label>Name</label> 
-         <%= text_field_tag :name %> 
-       </p> 
 
-       <p> 
-         <label>Age</label> 
-         <%= text_field_tag :age %> 
-       </p> 
+        <div><%= f.label :location %><br />
+          <%= f.text_field :location %></div>
 
-       <p> 
-         <label>Work Experience</label> 
-         <%= text_field_tag :workx %> 
-       </p> 
+        <div><%= f.label :industry %><br />
+          <%= f.text_field :industry %></div>
 
-       <p> 
-         <label>Location (City,State)</label> 
-         <%= text_field_tag :location %> 
-       </p> 
+        <div><%= f.label :username %><br />
+          <%= f.text_field :username, :autofocus => true %></div>
 
-       <p> 
-         <label>Industry</label> 
-         <%= text_field_tag :industry %> 
-       </p> 
+        <div><%= f.label :password %><br />
+          <%= f.password_field :password %></div>
 
-       <p> 
-         <label>Mobile Number</label> 
-         <%= f.text_field :username %> 
-       </p> 
-
-       <p> 
-         <label>Password</label> 
-         <%= f.password_field :password %> 
-       </p> 
-
+        <div><%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation %></div>
      </div> 
    </div> 
  </div> 
@@ -521,5 +508,5 @@ function view_register(){
  <div><%= f.submit "Sign up" %></div>
  <% end %>
 
- <%#= render "devise/shared/links" %>
+
 </div>
