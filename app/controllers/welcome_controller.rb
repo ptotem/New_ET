@@ -13,6 +13,7 @@ class WelcomeController < ApplicationController
       @score<<@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
       if (u==current_user)
         @points=@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
+
         @user_score=@questions.map { |i| (i.points) }.delete_if { |x| x == nil }
         @answer_rate=0
         @user_score.each do |s|
@@ -20,7 +21,9 @@ class WelcomeController < ApplicationController
             @answer_rate=@answer_rate+1
           end
         end
-        @answer_correct_rate=(@answer_rate*100/@user_score.count)
+        if @user_score.count > 0
+          @answer_correct_rate=(@answer_rate*100/@user_score.count)
+       end
       end
     end
     @rank= @score.sort().reverse.index(@points)+1 rescue ''
@@ -43,6 +46,7 @@ class WelcomeController < ApplicationController
     end
     end
     @recent_activity=@recent_activity.reverse!
+
   end
   
   def index
@@ -86,9 +90,11 @@ class WelcomeController < ApplicationController
   end
 
   def my_new_user
-    #@user=User.create!(:email => params[:user][:email],:name => params[:name],:age => params[:age],:workx => params[:workx],:location => params[:location],:industry => params[:industry],:username => params[:user][:username],:password => params[:user][:password])
-    #@user.save
-    #redirect_to "/"
+    @user=User.create!(:email => params[:user][:email],:name => params[:name],:age => params[:age],:workx => params[:workx],:location => params[:location],:industry => params[:industry],:username => params[:user][:username],:password => params[:user][:password])
+    @user.save
+    redirect_to "/"
   end
+
+
 
 end

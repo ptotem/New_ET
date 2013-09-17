@@ -25,8 +25,10 @@ ETNew::Application.routes.draw do
   match "/recent_activity", :to=>"quiz#recent_activity"
   match "/cs", :to=>"quiz#current_status"
   match '/create_guest_user' => "welcome#create_guest_user", :as => :create_guest_user
-  match '/my_new_user' => "welcome#my_new_user", :as => "my_new_user"
+  match '/phone_no' => "welcome#phone_no", :as => "phone_no"
 
+
+  match '/my_new_user' => "welcome#my_new_user", :as => "my_new_user"
 
   #match '/users/auth/facebook' => 'welcome#facebook'
   get '/users/auth/:provider/callback' => 'welcome#facebook'

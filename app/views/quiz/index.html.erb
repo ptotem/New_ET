@@ -52,41 +52,49 @@
       <div class="span3">
         <!-- new widget -->
         <div class="white-card">
-          <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
           <div class="row-fluid">
-            <div class="span12"><%= f.label :username %>
-              <%= f.email_field :username, :autofocus => true %></div>
+            <div class="span12">
+              <h3>Login</h3>
             </div>
-            <div class="row-fluid">
-              <div class="span12"><%= f.label :password %>
-                <%= f.password_field :password %></div>
+          </div>
+          <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+              <div class="row-fluid" style="padding-top: 18px;">
+                <div class="span12">
+                  <%= f.text_field :username, :autofocus => true,:placeholder => "Mobile Number",:style => "width:95%;" %></div>
               </div>
               <div class="row-fluid">
-                <div class="span12 pull-right">
-                  <%# if devise_mapping.rememberable? -%>
-                  <%# end -%>
-                  <a>Forgot Password?</a>
-                </div>
+                <div class="span12">
+                  <%= f.password_field :password,:placeholder => "Password",:style => "width:95%;" %></div>
               </div>
               <div class="row-fluid">
-                <div class="span4">
-                  <%= f.submit "Sign in" %>
-                </div>
-                <div class="span4">
-                  <%= f.submit "Register" %>
-                </div>
-                <% end %>
-              </div>
-              <div class="row-fluid">
-                <div class="span2">
-                  <h4>OR</h4>
-                </div>
-                <div class="span10">
-                  <img src="/assets/fblogin.png">
+                <div class="span12">
+                  <%= f.submit "Sign in",:class => "btn btn-transparent",:style => "width:100%;" %>
                 </div>
               </div>
 
-            </div>
+              <div class="row-fluid" style="padding-top: 10px;">
+                <div class="span12" style="text-align: center;">
+                  <a href="#"  onclick="view_register();">Not playing yet? Register
+                  </a>
+                  <i class="icon-arrow-right"></i>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="span12" style="text-align: center;">
+                  <a>Forgot Password?</a>
+                </div>
+              </div>
+              <!--<div class="row-fluid">-->
+              <!--<div class="span2">-->
+              <!--<h4>OR</h4>-->
+              <!--</div>-->
+              <!--<div class="span10">-->
+              <!--<a href="/users/auth/facebook"><img src="/assets/fblogin.png" style="width: 200px;"/></a>-->
+              <!--</div>-->
+              <!--</div>-->
+
+              </div>
+          <% end %>
             <!-- end widget -->
           </div>
           <% else %>
@@ -95,7 +103,7 @@
               <div class="accordion-group">
                 <div class="accordion-heading">
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                    <strong><span>Your Score</span><span class="pull-right"><%= @points %> Points</span></strong>
+                    <strong><span>Your Score</span><span class="pull-right"><%= @points+current_user.refer_points %> Points</span></strong>
                   </a>
                 </div>
                 <div id="collapseOne" class="accordion-body collapse in">

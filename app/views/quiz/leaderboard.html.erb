@@ -129,7 +129,7 @@
       <div class="accordion-group">
         <div class="accordion-heading">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-            <strong><span>Your Score</span><span class="pull-right"><%= @points %> Points</span></strong>
+            <strong><span>Your Score</span><span class="pull-right"><%= @points+current_user.refer_points %> Points</span></strong>
           </a>
         </div>
         <div id="collapseTwo" class="accordion-body collapse in">
@@ -301,6 +301,7 @@
   </div>
 </div>
 
+</div>
 </section>
 
 <script>
@@ -319,4 +320,21 @@
   function refer_friend(){
       $('#refer_box').modal('show')
   }
+
+    $("#submit_email").click(function () {
+        var email = $("#referance_friend").val();
+        var data = {email: []}
+        data["email"].push(email);
+        $.ajax({
+            url: "<%= ref_mail_path %>",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data) {
+                $("#referance_friend").val("");
+            }
+        });
+
+    });
+
 </script>

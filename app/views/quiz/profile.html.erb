@@ -60,7 +60,7 @@
           <div class="accordion-group">
             <div class="accordion-heading">
               <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                <strong><span>Your Score</span><span class="pull-right"><%= @points %> Points</span></strong>
+                <strong><span>Your Score</span><span class="pull-right"><%= @points+current_user.refer_points %> Points</span></strong>
               </a>
             </div>
             <div id="collapseOne" class="accordion-body collapse in">
