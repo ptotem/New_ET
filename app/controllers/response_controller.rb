@@ -183,10 +183,17 @@ class ResponseController < ApplicationController
         @user=User.find_by_username(params[:uname])
       end
       @question = Question.find_by_insertion_date(Date.today)
-      #if Time.now> @question.closing_time
-        # render :text=>"late response"
-        #return
-      #else
+	
+      if @question.nil?
+	render :text=>"Welcome to Win with ET, There is no quiz today, please see the newspaper to get updated"
+	return
+      end
+
+      if Time.now> @question.closing_time
+        render :text=>"Thank your for playing Win with ET. We are unable to accept any answers after 6PM each day. Please play again tomorrow. Visit kyet.ptotem.com to look up our archives."
+        return
+      end
+      
 
 
 
