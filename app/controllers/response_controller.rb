@@ -115,11 +115,11 @@ class ResponseController < ApplicationController
     @age5=(@responses.map { |i| i.user.id } & User.all(:conditions => ["age > ?", 45]).map { |i| i.id }).count
 
     @datasets=[
-        [:lt18, @age1],
-        [:lt25, @age2],
-        [:lt35, @age3],
-        [:lt45, @age4],
-        [:gt45, @age5],
+      [:lt18, @age1],
+      [:lt25, @age2],
+      [:lt35, @age3],
+      [:lt45, @age4],
+      [:gt45, @age5],
     ]
 
     g = Gruff::Pie.new
@@ -184,26 +184,26 @@ class ResponseController < ApplicationController
         @user=User.find_by_username(params[:uname])
       end
       @question = Question.find_by_insertion_date(Date.today)
-	
-     
- if @question.nil?
-	render :text=>"Welcome to Win with ET, There is no quiz today, please see the newspaper to get updated"
-	return
-end
-
-      if Time.zone.now> @question.close_time
-        render :text=>"Thank your for playing Win with ET. We are unable to accept any answers after 6PM each day. Please play again tomorrow. Visit kyet.ptotem.com to look up our archives."
-        return
-      end
-
       
+      
+      if @question.nil?
+       render :text=>"Welcome to Win with ET, There is no quiz today, please see the newspaper to get updated"
+       return
+     end
+
+     if Time.zone.now> @question.close_time
+      render :text=>"Thank your for playing Win with ET. We are unable to accept any answers after 6PM each day. Please play again tomorrow. Visit kyet.ptotem.com to look up our archives."
+      return
+    end
+
+    
 
 
 
-      if params[:message].include?("WINETD")
-        @question = Question.find_by_insertion_date(Date.today)
-        @selected_option=params[:message].split(' ')[1]
-        case @selected_option
+    if params[:message].include?("WINETD")
+      @question = Question.find_by_insertion_date(Date.today)
+      @selected_option=params[:message].split(' ')[1]
+      case @selected_option
           when "A" #compare to 1
             @option=@question.options[0]
           when "B" #compare to 2
@@ -215,37 +215,37 @@ end
           else
             render :text =>"Wrong Option Selected"
             return
-        end
+          end
 
-        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
-        if @response.created_at<@option.question.happy_hr and @option.is_correct
-          @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
-        elsif @option.is_correct
-          @response.points=@option.question.quiz.plus
-        elsif @response.created_at<@option.question.happy_hr
-          @response.points=0
-        else
-          @response.points= -(@option.question.quiz.minus)
-        end
-        @response.save
-        @response.promotion=true
-        if @response.option.is_correct
-          @response.points=@response.points+@response.option.question.quiz.plus*2
-        else
-          @response.points=@response.points-@response.option.question.quiz.plus*2
-        end
+          @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
+          if @response.created_at<@option.question.happy_hr and @option.is_correct
+            @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
+          elsif @option.is_correct
+            @response.points=@option.question.quiz.plus
+          elsif @response.created_at<@option.question.happy_hr
+            @response.points=0
+          else
+            @response.points= -(@option.question.quiz.minus)
+          end
+          @response.save
+          @response.promotion=true
+          if @response.option.is_correct
+            @response.points=@response.points+@response.option.question.quiz.plus*2
+          else
+            @response.points=@response.points-@response.option.question.quiz.plus*2
+          end
 
-        if @response.created_at<@response.option.question.happy_hr and !@response.option.is_correct
-          @response.points=0
-        end
-        @response.save
-        render :text=>@a+"Thank you for playing Double Trouble on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
-        return
-      elsif params[:message].include?("WINETT")
-        @question = Question.find_by_insertion_date(Date.today)
+          if @response.created_at<@response.option.question.happy_hr and !@response.option.is_correct
+            @response.points=0
+          end
+          @response.save
+          render :text=>@a+"Thank you for playing Double Trouble on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
+          return
+        elsif params[:message].include?("WINETT")
+          @question = Question.find_by_insertion_date(Date.today)
 
-        @selected_option=params[:message].split(' ')[1]
-        case @selected_option
+          @selected_option=params[:message].split(' ')[1]
+          case @selected_option
           when "A" #compare to 1
             @option=@question.options[0]
           when "B" #compare to 2
@@ -257,42 +257,42 @@ end
           else
             render :text =>"Wrong Option Selected"
             return
-        end
-        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
-        if @response.created_at<@option.question.happy_hr and @option.is_correct
-          @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
-        elsif @option.is_correct
-          @response.points=@option.question.quiz.plus
-        elsif @response.created_at<@option.question.happy_hr
-          @response.points=0
-        else
-          @response.points= -(@option.question.quiz.minus)
-        end
-        @response.save
-        @response.promotion=true
-        if @response.option.is_correct
-          @response.points=@response.points+@response.option.question.quiz.plus*3
-        else
-          @response.points=@response.points-@response.option.question.quiz.plus*3
-        end
+          end
+          @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
+          if @response.created_at<@option.question.happy_hr and @option.is_correct
+            @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
+          elsif @option.is_correct
+            @response.points=@option.question.quiz.plus
+          elsif @response.created_at<@option.question.happy_hr
+            @response.points=0
+          else
+            @response.points= -(@option.question.quiz.minus)
+          end
+          @response.save
+          @response.promotion=true
+          if @response.option.is_correct
+            @response.points=@response.points+@response.option.question.quiz.plus*3
+          else
+            @response.points=@response.points-@response.option.question.quiz.plus*3
+          end
 
-        if @response.created_at<@response.option.question.happy_hr and !@response.option.is_correct
-          @response.points=0
-        end
-        @response.save
-        render :text=>@a+"Thank you for playing Triple Threat on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
-        return
-      elsif params[:message].include?("PWD")
-        passwd=("Winet")+(Time.now.to_i).to_s
-        @user.password = passwd
-        @user.password_confirmation=passwd
-        @user.save
-        render :text=>"Thank your for playing Win with ET. As requested, the following is your password to login on kyet.ptotem.com:"+@user.password
-        return
-      elsif params[:message].include?("WINET")
+          if @response.created_at<@response.option.question.happy_hr and !@response.option.is_correct
+            @response.points=0
+          end
+          @response.save
+          render :text=>@a+"Thank you for playing Triple Threat on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
+          return
+        elsif params[:message].include?("PWD")
+          passwd=("Winet")+(Time.now.to_i).to_s
+          @user.password = passwd
+          @user.password_confirmation=passwd
+          @user.save
+          render :text=>"Thank your for playing Win with ET. As requested, the following is your password to login on kyet.ptotem.com:"+@user.password
+          return
+        elsif params[:message].include?("WINET")
 
-        @selected_option=params[:message].split(' ')[1]
-        case @selected_option
+          @selected_option=params[:message].split(' ')[1]
+          case @selected_option
           when "A" #compare to 1
             @option=@question.options[0]
           when "B" #compare to 2
@@ -304,25 +304,25 @@ end
           else
             render :text =>"Wrong Option Selected"
             return
-        end
+          end
 
-        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
-        if @response.created_at<@option.question.happy_hr and @option.is_correct
-          @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
-        elsif @option.is_correct
-          @response.points=@option.question.quiz.plus
-        elsif @response.created_at<@option.question.happy_hr
-          @response.points=0
+          @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
+          if @response.created_at<@option.question.happy_hr and @option.is_correct
+            @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
+          elsif @option.is_correct
+            @response.points=@option.question.quiz.plus
+          elsif @response.created_at<@option.question.happy_hr
+            @response.points=0
+          else
+            @response.points= -(@option.question.quiz.minus)
+          end
+          @response.save
+          render :text=>@a+"Thank You for playing Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
+          return
         else
-          @response.points= -(@option.question.quiz.minus)
+          render :text=>"Thank your for playing Win with ET. We were unable to process your previous SMS. Please check and resend with the correct keyword. Check our column for options."
+          return
         end
-        @response.save
-        render :text=>@a+"Thank You for playing Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
-        return
-      else
-        render :text=>"Thank your for playing Win with ET. We were unable to process your previous SMS. Please check and resend with the correct keyword. Check our column for options."
-        return
-      end
       #end
     else
       render :text=>"Un authorized auth key"
@@ -460,11 +460,11 @@ end
       @question_name=@question.name
       @answer=Option.find_by_question_id_and_is_correct(@question.id, true).name
       #unless !response.nil?
-        if response.points>0
-          @correct=true
-        else
-          @correct=false
-        end
+      if response.points>0
+        @correct=true
+      else
+        @correct=false
+      end
       #end
       @promotion=true
       if response.promotion
@@ -564,15 +564,15 @@ end
 
   def tag_list
     @tag=Tag.find_by_name(params[:tag][0])
-      if !@tag.nil?
-        if @tag.name==(params[:tag][0])
-          render :text => @tag.name
-          return
-        end
-      else
-        render :text => "Nothing"
+    if !@tag.nil?
+      if @tag.name==(params[:tag][0])
+        render :text => @tag.name
         return
-   end
+      end
+    else
+      render :text => "Nothing"
+      return
+    end
   end
 
   require 'open-uri'
@@ -593,9 +593,10 @@ end
         @user=User.find(u)
         @user.refer_points=@user.refer_points+@valid_responses.points
         @user.save 
+        @r<<@user.refer_points
       end 
     end
-    render :json=>@r
+    render :text=>@r
     return  
   end
 

@@ -54,15 +54,13 @@ class QuizController < ApplicationController
 
   def index
     @current_date = DateTime.now.to_date.strftime('%d %B %Y')
-    #@question = Question.where('insertion_date BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).first
-@question = Question.find_by_insertion_date(Date.today)    
-	#@question=Question.find_by_insertion_date(Date.today)
-    @question_name = @question.name
-    @question_id = @question.id
-    @user_id = current_user
-
-    @option = Option.find_all_by_question_id(@question.id)
-    #render :layout => false
+    @question = Question.find_by_insertion_date(Date.today)  
+    if !@question.nil?  
+      @question_name = @question.name
+      @question_id = @question.id
+      @user_id = current_user
+      @option = Option.find_all_by_question_id(@question.id)
+    end
   end
 
   def archives_index
@@ -93,8 +91,37 @@ class QuizController < ApplicationController
 
 
   def leaderboard
-    week_score(current_user.id)
-    month_score(current_user.id)
+    @users=Array.new
+    @week_leaderboard=Array.new
+    @week_questions=Question.show_for_current_week
+    @week_questions.all.each do |q|
+      @users<<Response.find_all_by_question_id(q.id).map{|i| i.user_id}
+    end
+    @users=@users.flatten.uniq
+    @users.each do |u|
+      @user_res=Array.new
+       @week_questions.all.each do |q|
+        @user_res<<Response.find_all_by_question_id_and_user_id(q.id,u).last
+      end
+      @user_res=@user_res.delete_if{|x| x==nil}
+      @week_leaderboard<<{:user_id=>u,:score=>@user_res.map{|i| i.points}.sum}
+    end  
+
+    @month_users=Array.new
+    @month_leaderboard=Array.new
+    @month_questions=Question.show_sales_for_current_month(Date.today.year, Date.today.month)
+    @month_questions.all.each do |q|
+      @month_users<<Response.find_all_by_question_id(q.id).map{|i| i.user_id}
+    end
+    @month_users=@month_users.flatten.uniq
+    @month_users.each do |u|
+      @user_res=Array.new
+       @month_questions.all.each do |q|
+        @user_res<<Response.find_all_by_question_id_and_user_id(q.id,u).last
+      end
+      @user_res=@user_res.delete_if{|x| x==nil}
+      @month_leaderboard<<{:user_id=>u,:score=>@user_res.map{|i| i.points}.sum}
+    end
   end
 
   def profile

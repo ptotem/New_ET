@@ -10,39 +10,40 @@
       <div class='span9'>
 
         <h4 class="section-header">Today's Quiz<span class="pull-right"><%= Date.today.strftime("%d-%b-%y") %></span></h4>
+        <%if !@question.nil?%>
         <% if @question.question_type=="type1" %>
-        <% if user_signed_in? %>
-        <%= render :partial => "type1" %>
-        <% else %>
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-            ×
-          </button>
-          <h3></h3>
-        </div>
-        <div class="modal-body">
-          <h2>Please Login to answer the quiz</h2>
-
-          <div class="row-fluid">
-            <div class="span3"></div>
-            <div class="span9">
-              <!--<input type="text" name="ref_email" id="referance_friend">-->
+          <% if user_signed_in? %>
+            <%= render :partial => "type1" %>
+          <% else %>
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×
+              </button>
+              <h3></h3>
             </div>
-          </div>
-        </div>
+            <div class="modal-body">
+              <h2>Please Login to answer the quiz</h2>
 
-
-        <% end %>
+              <div class="row-fluid">
+                <div class="span3"></div>
+                <div class="span9">
+                  <!--<input type="text" name="ref_email" id="referance_friend">-->
+                </div>
+              </div>
+            </div>
+          <% end %>
         <% elsif @question.question_type=="type2" %>
-        <%= render :partial => "type2" %>
+          <%= render :partial => "type2" %>
         <% elsif @question.question_type=="type3" %>
-        <%= render :partial => "type3" %>
+          <%= render :partial => "type3" %>
         <% elsif @question.question_type=="type4" %>
-        <%= render :partial => "type4" %>
+          <%= render :partial => "type4" %>
         <% else %>
-        <%= render :partial => "type1" %>
+          <%= render :partial => "type1" %>
         <% end %>
-
+        <%else%>
+          <p>Welcome to Winet, There is no question today, please see the newspaper to get updated.</p>
+        <%end%>
 
 
 
@@ -95,7 +96,7 @@
               <div class="accordion-group">
                 <div class="accordion-heading">
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                    <strong><span>Your Score</span><span class="pull-right"><%= @points %> Points</span></strong>
+                    <strong><span>Your Score</span><span id="points" class="pull-right"><%= @points %> Points</span></strong>
                   </a>
                 </div>
                 <div id="collapseOne" class="accordion-body collapse in">
@@ -281,14 +282,15 @@
           success:function (returning_data) {
             if(returning_data!=''){
               returning_data=returning_data.split("|");
-              $("#points").html(returning_data[0]+"Points");
-              $("#rank").html(returning_data[1]);
+              $("#points").html(<%=current_user.refer_points%>+"Points");
+              $("#rank").html(<%=User.order(:refer_points).map{|i| i.refer_points}.reverse.index(current_user.refer_points)+1%>);
               $("#percentage").html(returning_data[2]+"%");
               $(".bar").width(parseInt(returning_data[2])+"%");
             }
           }
         });
         <%end%>
+        <% if !@question.nil?%>
         <% if @question.close_time<Time.now and @question.question_type=="type1"%>
         
         $(".answeroptions").on("click",function () {
@@ -378,7 +380,7 @@
           alert("Either closing time is finished or Question type");
         });
         <% end %>
-
+        <%end%>
       });
 
 var _gaq=[['_setAccount','UA-34697555-1'],['_trackPageview']];

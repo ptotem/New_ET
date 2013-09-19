@@ -129,7 +129,7 @@
               <div class="accordion-group">
                 <div class="accordion-heading">
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                    <strong><span>Your Score</span><span class="pull-right"><%= @points %> Points</span></strong>
+                    <strong><span>Your Score</span><span id="points" class="pull-right"><%= @points %> Points</span></strong>
                   </a>
                 </div>
                 <div id="collapseTwo" class="accordion-body collapse in">
@@ -321,8 +321,8 @@
           success:function (returning_data) {
             if(returning_data!=''){
               returning_data=returning_data.split("|");
-              $("#points").html(returning_data[0]+"Points");
-              $("#rank").html(returning_data[1]);
+              $("#points").html(<%=current_user.refer_points%>+"Points");
+              $("#rank").html(<%=User.order(:refer_points).map{|i| i.refer_points}.reverse.index(current_user.refer_points)+1%>);
               $("#percentage").html(returning_data[2]+"%");
               $(".bar").width(parseInt(returning_data[2])+"%");
             }
