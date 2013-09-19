@@ -137,7 +137,12 @@ class QuizController < ApplicationController
     @profile.location=params[:location]
     @profile.industry=params[:industry]
     @profile.save
-    redirect_to "/profile"
+    if params[:from_page]=="index"
+      redirect_to "/"
+      #@profile.display_modal=true
+    else
+      redirect_to "/profile"
+    end
   end
 
   def recent_activity

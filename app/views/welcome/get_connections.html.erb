@@ -1,0 +1,32 @@
+<html>
+    <body>
+        <ul id="friend_list" style="margin-top: 15px;">
+          <% @friends.each do |a| %>
+              <li id="frnd_<%= a["id"] %>">
+                <%= hidden_field_tag 'frnd_id', a["id"] %>
+                <%= a["name"] %>
+                <a href="#" class="btn btn-primary" type="button" onclick="send_message($(this).parent().attr('id'))">Send Message</a>
+              </li>
+              <hr>
+          <% end %>
+        </ul>
+    </body>
+</html>
+
+<script type="text/javascript">
+  function send_message(frnd_id){
+      var frnd_id = frnd_id.split("_")[1];
+//      alert(frnd_id);
+
+//      var data = {frnd_id: []};
+//      data["frnd_id"].push(frnd_id);
+      $.ajax({
+          url: "/send_message_to_frnd/"+frnd_id,
+          type: "POST",
+          success: function (data) {
+//            alert(data);
+          }
+      });
+
+  }
+</script>

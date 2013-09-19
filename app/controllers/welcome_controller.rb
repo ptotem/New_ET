@@ -48,6 +48,19 @@ class WelcomeController < ApplicationController
   
   def index
     #render :layout => false
+    if user_signed_in?
+      @usr = User.find(current_user.id)
+      @dm = @usr.display_modal
+      @usr_at = @usr.user_fb_access_token
+    end
+  end
+
+  def control_edit_profile_modal
+    @usr = User.find(current_user.id)
+    @usr.display_modal = true
+    @usr.save
+    render :text => "display_modal set to false"
+    return
   end
 
   def create_guest_user
@@ -60,17 +73,20 @@ class WelcomeController < ApplicationController
 
   def facebook
     if user_signed_in?
-      #render :text => request.env["omniauth.auth"].extra.raw_info
+      #render :text => request.env["omniauth.auth"].credentials.token
       #return
       @user = current_user
       @user_first_name=request.env["omniauth.auth"].extra.raw_info.first_name
       @user_last_name=request.env["omniauth.auth"].extra.raw_info.last_name
       @user.name = @user_first_name + @user_last_name
       @user.location = request.env["omniauth.auth"]["extra"]["raw_info"]["location"]["name"]
+      @user.uid = request.env["omniauth.auth"]["uid"]
+      @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
       @user.save!
       redirect_to "/profile" and return
     else
       auth=request.env["omniauth.auth"]
+
       if auth.provider=='facebook' # Checking if request comes from facebook or twitter
         if User.find_by_uid(auth['uid']).nil?
           users_email = auth.extra.raw_info.email
@@ -91,6 +107,8 @@ class WelcomeController < ApplicationController
         end
       end
       sign_in(:user, @user)
+      @user.uid = request.env["omniauth.auth"]["uid"]
+      @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
       @user.save
       redirect_to "/profile" and return
     end
@@ -113,17 +131,44 @@ class WelcomeController < ApplicationController
     #render :text => params[:access_token]
     #return
     @graph = Koala::Facebook::GraphAPI.new
-    #@graph = Koala::Facebook::API.new('CAACEdEose0cBAORk6j7bjHUlcByPuZAwlkp2J9dlbWTF5JZCYnfZBNCd2aGNn5AstLEURWdDk8ovycjKws7G8I3ds4ruU4icG9N3jDF3lNA5ASfdZBblUSQNxFmfLHy6dTtg6Iz1xsZCY39a5kX1Lxu3KlYIpAuBevhHicERyoekaM2a4rKQ7nQdzt6O8lQMZD')
+    #@graph = Koala::Facebook::API.new('CAACEdEose0cBACCmCBvyj23A3fTMcyaz5XZAYP1ZBDzZAez3MyPfvMicalGapwZAae5JwyostSKkafZBmZBa296s1LdZBKVvgbzMayzxTZAlvpUaJF5aeg38DnvwjZC8xQtSBeGEiQDkz52aiFzrTQ715chDnV25lVrJNh7IlrGq7HSNAZAbXKyFFMXh8mUu40lNoZD')
+    @graph = Koala::Facebook::API.new(params[:access_token])
 
-    @access_token = facebook_cookies['access_token']
-    @graph = Koala::Facebook::GraphAPI.new(@access_token)
+    #@access_token = facebook_cookies['access_token']
+    #@graph = Koala::Facebook::GraphAPI.new(@access_token)
 
     #@graph = Koala::Facebook::API.new(params[:access_token])
 
     profile = @graph.get_object("me")
-    friends = @graph.get_connections("me", "friends")
-    render :text => @access_token
-    return
+    @friends = @graph.get_connections("me", "friends")
+    #render :json => @friends
+    #return
+  end
+
+  def send_message_to_frnd
+    #render :text => current_user.user_fb_access_token
+    #return
+
+    require 'xmpp4r'
+    require 'xmpp4r_facebook'
+
+    #sender_chat_id = "-100001404670711@chat.facebook.com"
+    sender_chat_id = "-#{current_user.uid}@chat.facebook.com"
+    receiver_chat_id = "-#{params[:frnd_id]}@chat.facebook.com"
+    message_body = "Hi, this message is from et app"
+    message_subject = "et messgae"
+
+    jabber_message = Jabber::Message.new(receiver_chat_id, message_body)
+    jabber_message.subject = message_subject
+
+    client = Jabber::Client.new(Jabber::JID.new(sender_chat_id))
+    client.connect
+    client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(client,
+                                                         '648492791862773',"#{current_user.user_fb_access_token}",
+                                                         'a9efe5c308bc11d1058432d9b7313d91'), nil)
+    client.send(jabber_message)
+    client.close
+
 
   end
 

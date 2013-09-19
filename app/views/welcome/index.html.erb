@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/assets/css/style2.css">
 <link rel="stylesheet" type="text/css" href="/assets/css/common.css"/>
+<script src="assets/jquery.dependent-selects.js"></script>
 <section class='section-wrapper'>
   <div class='container'>
     <div class='row'>
@@ -307,7 +308,160 @@
                   </div>
                 </div>
               </section>
+<% if user_signed_in? %>
+<div id="edit_profile" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= form_tag :update_profile do |f| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>New Profile</h3>
+      </div>
+      <div class="modal-body">
+        <div class="row-fluid">
+          <div class="span9">
+            <p>
+              <label>Name</label>
+              <%#= current_user.name %>
+              <%#= text_field_tag :name, @user.name %>
+              <%= text_field_tag :name, current_user.name %>
+            </p>
 
+            <p>
+              <label>Age</label>
+              <%#= text_field_tag :age, @user.age %>
+              <%#= text_field_tag :age, current_user.age %>
+              <% age_array = (1..100).to_a.collect{|p| ["#{p}", p]} %>
+              <%= select_tag(:age, options_for_select(age_array, :selected => current_user.age), :prompt => "Select age") %>
+            </p>
+
+            <p>
+              <label>Work Experience</label>
+              <%#= text_field_tag :workx, @user.workx %>
+              <%#= text_field_tag :workx, current_user.workx %>
+              <% workx_array = (1..100).to_a.collect{|p| ["#{p}", p]} %>
+              <%= select_tag(:workx, options_for_select(workx_array, :selected => current_user.workx), :prompt => "Select work experience") %>
+            </p>
+
+            <p>
+              <label>Location (City,State)</label>
+              <%#= text_field_tag :location, @user.workx %>
+              <%#= text_field_tag :location, current_user.workx %>
+              <select name="location" class="dependent">
+                <option></option>
+                <option value="Andhra Pradesh, Hyderabad">Andhra Pradesh > Hyderabad</option>
+                <option value="Andhra Pradesh, Visakhapatnam">Andhra Pradesh > Visakhapatnam</option>
+                <option value="Assam, Guwahati">Assam > Guwahati</option>
+                <option value="Bihar, Patna">Bihar > Patna</option>
+                <option value="Chandigarh, Chandigarh">Chandigarh > Chandigarh</option>
+                <option value="Chhattisgarh, Raipur">Chhattisgarh > Raipur</option>
+                <option value="Delhi, Delhi">Delhi > Delhi</option>
+                <option value="Gujarat, Ahmedabad">Gujarat > Ahmedabad</option>
+                <option value="Gujarat, Surat">Gujarat > Surat</option>
+                <option value="Gujarat, Vadodara">Gujarat > Vadodara</option>
+                <option value="Haryana, Gurgaon">Haryana > Gurgaon</option>
+                <option value="Jammu and Kashmir, Jammu">Jammu and Kashmir > Jammu</option>
+                <option value="Jammu and Kashmir, Srinagar">Jammu and Kashmir > Srinagar</option>
+                <option value="Jharkhand, Ranchi">Jharkhand > Ranchi</option>
+                <option value="Karnataka, Bangalore">Karnataka > Bangalore</option>
+                <option value="Karnataka, Mysore">Karnataka > Mysore</option>
+                <option value="Kerala, Kochi (Cochin)">Kerala > Kochi (Cochin)</option>
+                <option value="Kerala, Thrissur">Kerala > Thrissur</option>
+                <option value="Kerala, Trivandrum (Thiruvananthapuram)">Kerala > Trivandrum (Thiruvananthapuram)</option>
+                <option value="Madhya Pradesh, Bhopal">Madhya Pradesh > Bhopal</option>
+                <option value="Madhya Pradesh, Indore">Madhya Pradesh > Indore</option>
+                <option value="Maharashtra, Aurangabad">Maharashtra > Aurangabad</option>
+                <option value="Maharashtra, Mumbai">Maharashtra > Mumbai</option>
+                <option value="Maharashtra, Nagpur">Maharashtra > Nagpur</option>
+                <option value="Maharashtra, Pune">Maharashtra > Pune</option>
+                <option value="Orissa, Bhubaneswar">Orissa > Bhubaneswar</option>
+                <option value="Orissa, Cuttack">Orissa > Cuttack</option>
+                <option value="Orissa, Rourkela">Orissa > Rourkela</option>
+                <option value="Puducherry, Puducherry">Puducherry > Puducherry</option>
+                <option value="Punjab, Amritsar">Punjab > Amritsar</option>
+                <option value="Punjab, Jalandhar">Punjab > Jalandhar</option>
+                <option value="Punjab, Ludhiana">Punjab > Ludhiana</option>
+                <option value="Punjab, Patiala">Punjab > Patiala</option>
+                <option value="Rajasthan, Ajmer">Rajasthan > Ajmer</option>
+                <option value="Rajasthan, Jaipur">Rajasthan > Jaipur</option>
+                <option value="Rajasthan, Jodhpur">Rajasthan > Jodhpur</option>
+                <option value="Rajasthan, Udaipur">Rajasthan > Udaipur</option>
+                <option value="Tamil Nadu, Chennai">Tamil Nadu > Chennai</option>
+                <option value="Tamil Nadu, Coimbatore">Tamil Nadu > Coimbatore</option>
+                <option value="Tamil Nadu, Madurai">Tamil Nadu > Madurai</option>
+                <option value="Tamil Nadu, Salem">Tamil Nadu > Salem</option>
+                <option value="Tamil Nadu, Tiruchirappalli">Tamil Nadu > Tiruchirappalli</option>
+                <option value="Tripura, Agartala">Tripura > Agartala</option>
+                <option value="Uttar Pradesh, Agra">Uttar Pradesh > Agra</option>
+                <option value="Uttar Pradesh, Allahabad">Uttar Pradesh > Allahabad</option>
+                <option value="Uttar Pradesh, Bulandshahr">Uttar Pradesh > Bulandshahr</option>
+                <option value="Uttar Pradesh, Ghaziabad">Uttar Pradesh > Ghaziabad</option>
+                <option value="Uttar Pradesh, Kanpur">Uttar Pradesh > Kanpur</option>
+                <option value="Uttar Pradesh, Lucknow">Uttar Pradesh > Lucknow</option>
+                <option value="Uttar Pradesh, Noida">Uttar Pradesh > Noida</option>
+                <option value="Uttar Pradesh, Varanasi">Uttar Pradesh > Varanasi</option>
+                <option value="Uttarakhand, Dehradun">Uttarakhand > Dehradun</option>
+                <option value="West Bengal, Asansol">West Bengal > Asansol</option>
+                <option value="West Bengal, Howrah">West Bengal > Howrah</option>
+                <option value="West Bengal, Kolkata">West Bengal > Kolkata</option>
+                <option value="West Bengal, Siliguri">West Bengal > Siliguri</option>
+              </select>
+            </p>
+
+            <p>
+              <label>Industry</label>
+              <%#= text_field_tag :industry, @user.industry %>
+              <%#= text_field_tag :industry, current_user.industry %>
+              <%= select_tag "industry", options_for_select(["Graphic Design","Architecture & Planning", "Engineering",
+                                                             "Cosmetics", "Apparel & Fashion",
+                                                             "Consumer Electronics",
+                                                             "Furniture",
+                                                             "Retail",
+                                                             "Import and Export",
+                                                             "Luxury Goods & Jewelry",
+                                                             "Marketing and Advertising",
+                                                             "Market Research",
+                                                             "Public Relations and Communications",
+                                                             "Human Resources",
+                                                             "Banking",
+                                                             "Insurance",
+                                                             "Financial Services",
+                                                             "Accounting",
+                                                             "Computer Hardware",
+                                                             "Computer Networking",
+                                                             "Telecommunications",
+                                                             "Information Technology and Services",
+                                                             "Chemicals",
+                                                             "Mining & Metals",
+                                                             "Oil & Energy",
+                                                             "Textiles",
+                                                             "Electrical/Electronic Manufacturing",
+                                                             "Plastics",
+                                                             "Packaging and Containers",
+                                                             "Media",
+                                                             "Animation",
+                                                             "Biotechnology",
+                                                             "Medical Practice",
+                                                             "Hospital & Health Care",
+                                                             "Pharmaceuticals",
+                                                             "Veterinary",
+                                                             "Consumer Services",
+                                                             "Entertainment",
+                                                             "Leisure, Travel & Tourism",
+                                                             "Hospitality",
+                                                             "Airlines/Aviation",
+                                                            ], :selected => current_user.industry), :prompt => "Select industry" %>
+            </p>
+            <%= hidden_field_tag 'from_page', 'index' %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= submit_tag "Register", :class => "btn btn-medium btn-primary" %>
+      </div>
+  <% end %>
+</div>
+<% end %>
               <% if user_signed_in? %>
               <div id="refer_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header">
@@ -325,6 +479,11 @@
                       <input type="text" name="ref_email" id="referance_friend">
                     </div>
                   </div>
+
+                  <hr>
+                  <h5>OR</h5>
+
+                  <a href="/get_connections/<%= @usr_at %>">Get Connections</a>
                 </div>
                 <div class="modal-footer">
                   <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
@@ -428,6 +587,24 @@
               <% end %>
               <script>
                 $(document).ready(function () {
+                    <% if user_signed_in? %>
+                    $('.dependent').dependentSelects();
+                    var curr_usr_sign_in_count = "<%= current_user.sign_in_count %>";
+                    var display_modal = <%= current_user.display_modal %>;
+                    //alert(display_modal);
+                    if ((curr_usr_sign_in_count <= 1) && (display_modal==false)) {
+                        $('#edit_profile').modal('show');
+
+                        $.ajax({
+                            url:"/control_edit_profile_modal",
+                            type:"post",
+                            success: function (data) {
+
+                            }
+                        });
+                    }
+                    <% end %>
+
                   $(function () {
                     $("#head1").addClass('magictime tinRightIn')
                   });

@@ -18,6 +18,7 @@ ETNew::Application.routes.draw do
   match "/view_question_stat/:id", :to=> "response#view_question_stat"
   match "/load_question", :to=> "response#load_question", :as=> "load_question"
   match "/update_profile", :to=> "quiz#change_profile", :as=> "update_profile"
+  match "/control_edit_profile_modal", :to=> "welcome#control_edit_profile_modal", :as=> "control_edit_profile_modal"
   match "/each_question_data/:id",:to=>"response#each_question_data",:as=>"each_question_data"
   match "/each_participant_data/:id",:to=>"response#each_participant_data",:as=>"each_question_data"
   match "/all_question_data",:to=>"response#all_question_data",:as=>"each_question_data"
@@ -34,6 +35,7 @@ ETNew::Application.routes.draw do
   match '/get_connections/(:access_token)' => "welcome#get_connections", :as => "get_connections"
   match '/parse_facebook_cookies' => "welcome#parse_facebook_cookies"
   match '/send_response'=>"response#send_response", :as=>"send_response"
+  match '/send_message_to_frnd/:frnd_id' => "welcome#send_message_to_frnd", :as => "send_message_to_frnd"
 
 
   #match '/users/auth/facebook' => 'welcome#facebook'
