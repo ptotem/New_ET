@@ -168,31 +168,34 @@ class ResponseController < ApplicationController
   end
 
   def res
+    require 'open-uri'
     #render :text=>params
     #return
     if params[:auth]=="5226a0cc9ee6987df1000010"
-      #render :text=>"Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com . Play daily to win exciting daily and weekly prizes and one month-end Grand Prize."
-      #return
-
       @a=""
 
       if User.find_by_username(params[:uname]).nil?
-        @user=User.create(:email => 'abc1@gmail.com', :username => params[:uname], :password => "password", :password_confirmation => "password");
-        @a="Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com using the following password to login:'password'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize."
+        passwd=("Winet")+(Time.now.to_i).to_s
+        @user=User.create(:email => "abc#{Time.now.to_i}@gmail.com", :username => params[:uname], :password => passwd, :password_confirmation => passwd);
+        str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com using the following password to login: '+passwd+'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+params[:uname])
+        @r =open(str)
+        sleep(2)
       else
         @user=User.find_by_username(params[:uname])
       end
       @question = Question.find_by_insertion_date(Date.today)
 	
-      if @question.nil?
+     
+ if @question.nil?
 	render :text=>"Welcome to Win with ET, There is no quiz today, please see the newspaper to get updated"
 	return
-      end
+end
 
-      if Time.now> @question.closing_time
+      if Time.zone.now> @question.close_time
         render :text=>"Thank your for playing Win with ET. We are unable to accept any answers after 6PM each day. Please play again tomorrow. Visit kyet.ptotem.com to look up our archives."
         return
       end
+
       
 
 
@@ -280,8 +283,9 @@ class ResponseController < ApplicationController
         render :text=>@a+"Thank you for playing Triple Threat on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
         return
       elsif params[:message].include?("PWD")
-        @user.password = "password"
-        @user.password_confirmation="password"
+        passwd=("Winet")+(Time.now.to_i).to_s
+        @user.password = passwd
+        @user.password_confirmation=passwd
         @user.save
         render :text=>"Thank your for playing Win with ET. As requested, the following is your password to login on kyet.ptotem.com:"+@user.password
         return
@@ -569,6 +573,30 @@ class ResponseController < ApplicationController
         render :text => "Nothing"
         return
    end
+  end
+
+  require 'open-uri'
+  def send_response
+    @responses=Response.find_all_by_question_id(Question.find_by_insertion_date(Date.today)).map{|i| i.user_id}.uniq
+    @r=Array.new
+    @responses.each_with_index do |u|
+      @valid_responses=Response.find_all_by_question_id_and_user_id(Question.find_by_insertion_date(Date.today),u).last
+      if @valid_responses.points>0
+        #str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Congratulations, your answer today was correct. Check your score and rank on kyet.ptotem.com. Come back tomorrow to win daily and weekly prizes.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
+        #@r << open(str)
+      else  
+        #str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Sorry, your answer today was incorrect. Play again tomorrow to win daily and weekly prizes. Refer a friend to maximise your scores for the grand prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
+        #@r << open(str)  
+      end
+      
+      if !User.find(u).nil?
+        @user=User.find(u)
+        @user.refer_points=@user.refer_points+@valid_responses.points
+        @user.save 
+      end 
+    end
+    render :json=>@r
+    return  
   end
 
 end

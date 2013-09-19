@@ -30,7 +30,7 @@ ETNew::Application.routes.draw do
   match '/tag_list' => "response#tag_list", :as => "tag_list"
   match '/get_connections/(:access_token)' => "welcome#get_connections", :as => "get_connections"
   match '/parse_facebook_cookies' => "welcome#parse_facebook_cookies"
-
+  match '/send_response'=>"response#send_response", :as=>"send_response"
 
 
   #match '/users/auth/facebook' => 'welcome#facebook'
