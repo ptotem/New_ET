@@ -11,10 +11,10 @@
             <div class="ch-item ch-img-1" id="box1">
               <a href="#">
                 <div class="ch-info">
-                  <h3>Win With ET</h3>
+                  <h3>Win With ET- The Quiz</h3>
 
-                  <p> Read The Economic Times to win daily. Learn more about the quiz, how to participate and win some
-                    exciting prizes</p>
+                  <p> Read The Economic Times to play this exciting quiz and win daily. Learn more about the quiz, how to participate</p>
+
                   </div>
                 </a>
               </div>
@@ -25,8 +25,9 @@
                   <div class="ch-info">
                     <h3>Archives</h3>
 
-                    <p> Missed a question? Want to quiz yourself again? Check out our archives for all previous questions the
+                      <p> Missed a question? Want to quiz yourself again? Check out our archives for all previous questions the
                       related articles to find the answers.</p>
+
                     </div>
                   </a>
                 </div>
@@ -37,8 +38,8 @@
                     <div class="ch-info">
                       <h3>Prizes</h3>
 
-                      <p>Play the Win With ET quiz and win exciting merchandise every day and week. Maximise your points to win
-                        an iPad. Prizes worth Rs. 2.5 Lakh up for the grabs</p>
+                      <p>Play the Win with ET quiz and win exciting prizes every day, week and a GRAND PRIZE</p>
+
                       </div>
                     </a>
                   </div>
@@ -49,8 +50,8 @@
                     <a href="#">
                       <div class="ch-info">
                         <h3>Profile</h3>
-                        <p>View, edit or link your profile with your facebook account. Don't forget linking your account gives you
-                          a bonus in the quiz campaign.</p>
+                        <p>View, edit or link your profile with your facebook account</p>
+
                         </div>
                       </a>
                     </div>
@@ -98,7 +99,6 @@
                           <% end -%>
                         </div>
                       </div>
-
                       <% end %>
 
                    </div>
@@ -159,7 +159,7 @@
 
                       <h3 class='section-header'>
                         <span class=""><img src="/assets/img/trophy.png" style="width:8%;"/></span>
-                        Meet The Winners
+                        The Daily Winners
                         <div class="pull-right">
                           <% if user_signed_in? %>
                           <button class="btn btn-info" id="leaderbutton" onclick='window.location="/leaderboards"'>View The Leader Board
@@ -190,6 +190,25 @@
                               <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>
                             </a>
                           </div>
+
+                          <div class='span1'>
+                            <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial4' id='head4'>
+                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>
+                            </a>
+                          </div>
+
+                          <div class='span1'>
+                            <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial5' id='head5'>
+                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>
+                            </a>
+                          </div>
+
+                          <div class='span1'>
+                            <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial6' id='head6'>
+                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>
+                            </a>
+                          </div>
+
                         </div>
 
                         <div class='testimonials-speeches'>
@@ -212,20 +231,42 @@
                             </p>
                           </div>
 
+                          <div class='testimonials-speech' id='testimonial3'>
+                            <p>
+                              Dummy Text 1
+                            </p>
+                          </div>
+
+                          <div class='testimonials-speech' id='testimonial4'>
+                            <p>
+                              Luke Skywalker, a marketing executive has been in the top 10 quizzers since the begining of the campaign.
+                              His strategy is unique that he rarely uses any bonus options; he has a very high correct answer rate. Luke
+                              is extremely passive in his quizzing style but has a very sharp memory that makes him a daunting rival in
+                              the campaign.
+                            </p>
+                          </div>
+
+                          <div class='testimonials-speech' id='testimonial5'>
+                            <p>
+                              Dummy Text 2
+                            </p>
+                          </div>
+
                           <% if user_signed_in? %>
-                          <div class='testimonials-speech' id='testimonial3'>
-                            <p>
-                              Check out your rank on our leaderboard and the scores of the top players. Work out a strategy to maximize
-                              your score to win the weekly and Grand Prizes
-                            </p>
-                          </div>
+                              <div class='testimonials-speech' id='testimonial6'>
+                                <p>
+                                  Check out your rank on our leaderboard and the scores of the top players. Work out a strategy to maximize
+                                  your score to win the weekly and Grand Prizes
+                                </p>
+                              </div>
                           <% else %>
-                          <div class='testimonials-speech' id='testimonial3'>
-                            <p>
-                              Log in to know your rank and to check out the scores of the top players.
-                            </p>
-                          </div>
+                              <div class='testimonials-speech' id='testimonial6'>
+                                <p>
+                                  Log in to know your rank and to check out the scores of the top players.
+                                </p>
+                              </div>
                           <% end %>
+
 
                         </div>
                       </div>
@@ -244,7 +285,7 @@
                           <span class=""><img src="/assets/img/refericon.png" style="width:15%;"/></span>
                           &nbsp;Refer a friend
                         </h5>
-                        <p>You've earned 75 points referring your friends.</p>
+                        <p>You can now utilize your network of friends to win additional points by simply referring them to play the quiz.  Converted referrals will give you bonus points. So go ahead!  Refer more and more friends and increase your chances of winning!</p>
                       </div>
                     </div>
 
@@ -290,6 +331,7 @@
                   <a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>
                 </div>
               </div>
+
               <% else %>
               <div id="refer_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header">
@@ -311,7 +353,14 @@
                   <h3>Rules</h3>
                 </div>
                 <div class="modal-body">
-                  <h2>The rules of the game are quite simple. The game begins everytime you pick up your copy of The Economic Times.</h2>
+                  <h4>Here are some rules that you have to keep in mind while playing the quiz.</h4><br>
+                    <h5>1. The answer (correct option) has to be sent via SMS before 6 pm every day. Any SMS received after 6 pm will not be considered valid.<br><br>
+                      2. For your scores to get accumulated, a player has to send SMSs every day from the same mobile number. Your mobile number will be your unique identity.<br><br>
+                      3. One player can send any number of SMSs on a particular day from the same mobile number. The answer mentioned in the last SMS will be considered for evaluation.<br><br>
+                      4. To win prizes, register yourselves on the website http://kyet.ptotem.com/. You can continue playing without registering, but you will not be eligible to win prizes.<br><br>
+                      5. Ensure that you use the correct keyword when you send the SMS.<br><br>
+                      6. You get referral points only when your friends register with the link that they have received.<br><br></h5>
+
 
                   <div class="row-fluid">
                     <div class="span3"></div>
@@ -348,10 +397,7 @@
 
               <script type="text/javascript">
                 $('#box4').click(function () {
-                  $(this).addClass('magictime holeOut');
-                  setTimeout(function () {
                     window.location = "/profile";
-                  }, 500);
                 });
 
               </script>
@@ -391,6 +437,17 @@
                   $(function () {
                     $("#head3").addClass('magictime tinRightIn')
                   });
+                  $(function () {
+                    $("#head4").addClass('magictime tinRightIn')
+                  });
+                  $(function () {
+                    $("#head5").addClass('magictime tinRightIn')
+                  });
+                  $(function () {
+                    $("#head6").addClass('magictime tinRightIn')
+                  });
+
+
 
                   <%if user_signed_in?%>
                     $.ajax({
@@ -423,16 +480,10 @@
                     });
                   <%end%>
                   $('#box1').click(function () {
-                    $(this).addClass('magictime holeOut');
-                    setTimeout(function () {
                       window.location = "/quiz";
-                    }, 500);
                   });
                   $('#box2').click(function () {
-                    $(this).addClass('magictime holeOut');
-                    setTimeout(function () {
                       window.location = "/archives";
-                    }, 500);
                   });
 
                   $("#submit_email").click(function () {

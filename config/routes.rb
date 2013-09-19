@@ -28,6 +28,9 @@ ETNew::Application.routes.draw do
   match '/create_guest_user' => "welcome#create_guest_user", :as => :create_guest_user
   match '/my_new_user' => "welcome#my_new_user", :as => "my_new_user"
   match '/tag_list' => "response#tag_list", :as => "tag_list"
+  match '/question_details/:date_id' => "response#question_details", :as => "question_details"
+
+
   match '/get_connections/(:access_token)' => "welcome#get_connections", :as => "get_connections"
   match '/parse_facebook_cookies' => "welcome#parse_facebook_cookies"
   match '/send_response'=>"response#send_response", :as=>"send_response"

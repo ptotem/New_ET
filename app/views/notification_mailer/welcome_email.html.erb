@@ -1,6 +1,21 @@
-<h1>Hi </h1>
-<h2>You have been referred to the Win with ET Quiz by..........
-  <%# @ref=Referral.find_by_referred_mail(@user).user_id %>
-  <%#= User.find(@ref).name %>
-  <a href="http://localhost:3000/users/sign_up">Click Here</a>
-</h2>
+<p>
+  Hi,</br>
+  Greetings from The Economic Times and welcome to Win With ET.
+  Your friend
+  <b>
+  <% @refer_id=Referral.find_by_referred_mail(@user).user_id %>
+  <%= User.find(@refer_id).name %>
+  </b>
+  has started playing the game and has the chance to win exciting daily, weekly and a monthly Grand Prize. You have been recommended by your friend to play the game and earn a shot at winning. Click on the link below to go to the website and register. By clicking the link, you also earn X points for your friend and will help him get closer to maximizing his points to win.
+  <br><br>
+
+  <a href="http://localhost:3000/users/sign_up">Check out the quiz through this link.</a>
+
+  Win With ET is a quiz hosted in The Economic Times newspaper. Look out for the column in the newspaper every weekday to see what today’s question is. The answer to the question can be found in the same edition. All you need to do is find the correct answer after reading the right article and send us a simple SMS.
+  With every correct answer, you increase your chances of winning exciting cash vouchers to redeem on any product of your choice on Indiatimes.com
+  Visit now to start playing.<br>
+  Wishing you all the best.
+  <br><br>
+  <h4>Regards,<br>The Economic Times</h4>
+
+</p>
