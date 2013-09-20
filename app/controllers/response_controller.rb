@@ -175,7 +175,7 @@ class ResponseController < ApplicationController
       @a=""
 
       if User.find_by_username(params[:uname]).nil?
-        passwd=("Winet")+(Time.now.to_i).to_s
+        passwd=Random.new.rand(10000000..99999999).to_s
         @user=User.create(:email => "abc#{Time.now.to_i}@gmail.com", :username => params[:uname], :password => passwd, :password_confirmation => passwd);
         str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com using the following password to login: '+passwd+'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+params[:uname])
         @r =open(str)
@@ -184,7 +184,6 @@ class ResponseController < ApplicationController
         @user=User.find_by_username(params[:uname])
       end
       @question = Question.find_by_insertion_date(Date.today)
-
       
       
       if @question.nil?
@@ -197,13 +196,14 @@ class ResponseController < ApplicationController
       return
     end
 
+    
 
 
-      if params[:message].include?("WINETD")
-        @question = Question.find_by_insertion_date(Date.today)
-        @selected_option=params[:message].split(' ')[1]
-        case @selected_option
 
+    if params[:message].include?("WINETD")
+      @question = Question.find_by_insertion_date(Date.today)
+      @selected_option=params[:message].split(' ')[1]
+      case @selected_option
           when "A" #compare to 1
             @option=@question.options[0]
           when "B" #compare to 2
@@ -213,9 +213,8 @@ class ResponseController < ApplicationController
           when "D"
             @option=@question.options[3]
           else
-            render :text => "Wrong Option Selected"
+            render :text =>"Wrong Option Selected"
             return
-
           end
 
           @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
@@ -245,34 +244,6 @@ class ResponseController < ApplicationController
         elsif params[:message].include?("WINETT")
           @question = Question.find_by_insertion_date(Date.today)
 
-        end
-
-        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
-        if @response.created_at<@option.question.happy_hr and @option.is_correct
-          @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
-        elsif @option.is_correct
-          @response.points=@option.question.quiz.plus
-        elsif @response.created_at<@option.question.happy_hr
-          @response.points=0
-        else
-          @response.points= -(@option.question.quiz.minus)
-        end
-        @response.save
-        @response.promotion=true
-        if @response.option.is_correct
-          @response.points=@response.points+@response.option.question.quiz.plus*2
-        else
-          @response.points=@response.points-@response.option.question.quiz.plus*2
-        end
-
-        if @response.created_at<@response.option.question.happy_hr and !@response.option.is_correct
-          @response.points=0
-        end
-        @response.save
-        render :text => @a+"Thank you for playing Double Trouble on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
-        return
-      elsif params[:message].include?("WINETT")
-        @question = Question.find_by_insertion_date(Date.today)
           @selected_option=params[:message].split(' ')[1]
           case @selected_option
           when "A" #compare to 1
@@ -284,7 +255,7 @@ class ResponseController < ApplicationController
           when "D"
             @option=@question.options[3]
           else
-            render :text => "Wrong Option Selected"
+            render :text =>"Wrong Option Selected"
             return
           end
           @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
@@ -312,14 +283,13 @@ class ResponseController < ApplicationController
           render :text=>@a+"Thank you for playing Triple Threat on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
           return
         elsif params[:message].include?("PWD")
-          passwd=("Winet")+(Time.now.to_i).to_s
+          passwd=Random.new.rand(10000000..99999999).to_s
           @user.password = passwd
           @user.password_confirmation=passwd
           @user.save
           render :text=>"Thank your for playing Win with ET. As requested, the following is your password to login on kyet.ptotem.com:"+@user.password
           return
         elsif params[:message].include?("WINET")
-
 
           @selected_option=params[:message].split(' ')[1]
           case @selected_option
@@ -332,7 +302,7 @@ class ResponseController < ApplicationController
           when "D"
             @option=@question.options[3]
           else
-            render :text => "Wrong Option Selected"
+            render :text =>"Wrong Option Selected"
             return
           end
 
@@ -353,11 +323,9 @@ class ResponseController < ApplicationController
           render :text=>"Thank your for playing Win with ET. We were unable to process your previous SMS. Please check and resend with the correct keyword. Check our column for options."
           return
         end
-
-
       #end
     else
-      render :text => "Un authorized auth key"
+      render :text=>"Un authorized auth key"
     end
   end
 
@@ -639,7 +607,7 @@ class ResponseController < ApplicationController
     end
     render :text=>@r
     return  
-
+  end  
 
   def question_details
     @quest_name=Question.find(params[:date_id])
