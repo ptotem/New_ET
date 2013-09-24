@@ -176,39 +176,39 @@
 
                           <div class='span1'>
                             <a class='testimonials-user-w active' data-toggle='testimonial' href='#testimonial1' id='head1'>
-                              <span class='testimonials-user'><img alt="Avatar-1" src="/assets/img/avatar-1.png"/></span>
+                              <span class='testimonials-user'><img alt="Avatar-1" src="/assets/img/landing/ai1.jpg"/></span>
                             </a>
                           </div>
 
                           <div class='span1'>
                             <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial2' id='head2'>
-                              <span class='testimonials-user'><img alt="Avatar-2" src="/assets/img/avatar-2.png"/></span>
+                              <span class='testimonials-user'><img alt="Avatar-2" src="/assets/img/landing/ai2.jpg"/></span>
                             </a>
                           </div>
 
                           <div class='span1'>
                             <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial3' id='head3'>
-                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>
+                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/landing/ai3.jpg"/></span>
                             </a>
                           </div>
 
                           <div class='span1'>
                             <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial4' id='head4'>
-                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>
+                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/landing/ai4.jpg"/></span>
                             </a>
                           </div>
 
                           <div class='span1'>
                             <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial5' id='head5'>
-                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>
+                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/landing/ai5.jpg"/></span>
                             </a>
                           </div>
 
-                          <div class='span1'>
-                            <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial6' id='head6'>
-                              <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>
-                            </a>
-                          </div>
+                          <!--<div class='span1'>-->
+                            <!--<a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial6' id='head6'>-->
+                              <!--<span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>-->
+                            <!--</a>-->
+                          <!--</div>-->
 
                         </div>
 
@@ -322,8 +322,6 @@
           <div class="span9">
             <p>
               <label>Name</label>
-              <%#= current_user.name %>
-              <%#= text_field_tag :name, @user.name %>
               <%= text_field_tag :name, current_user.name %>
             </p>
 
@@ -648,8 +646,8 @@
                       success:function (returning_data) {
                         if(returning_data!=''){
                           returning_data=returning_data.split("|");
-                            $("#points").html(returning_data[0]+"Points");
-                            $("#rank").html(returning_data[1]);
+                            $("#points").html(<%=current_user.refer_points%>+"Points");
+                            $("#rank").html(<%=User.order(:refer_points).map{|i| i.refer_points}.reverse.index(current_user.refer_points)+1%>);
                             $("#percentage").html(returning_data[2]+"%");
                             $(".bar").width(parseInt(returning_data[2])+"%");
                         }
@@ -684,54 +682,304 @@
 
 function view_register(){
   $('#register').modal('show')
+  $('#register_form').find('.dependent').dependentSelects();
 }
+
+
+
+
 </script>
 
-<div id="register" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <h2>Sign in</h2>
 
-  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%#= form_for(resource, :as => resource_name, :url => my_new_user_path) do |f| %>
 
+
+
+
+
+
+
+
+
+<div id="register" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding: 10px;">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>Sign Up</h3>
+  </div>
+   <br>
+  <%#= form_for(resource, :as => resource_name, :url => registration_path(resource_name) , :html => {:id => "register_form"}) do |f| %>
   <div class="modal-body">
-    <div class="row-fluid">
-      <div class="span9">
+  <%= form_for :users, :html => {:id => "register_form"} do |f| %>
+      <%= devise_error_messages! %>
 
-        <div><%= f.label :email %><br />
-          <%= f.email_field :email, :autofocus => true %></div>
-
-        <div><%= f.label :name %><br />
-          <%= f.text_field :name %></div>
-
-
-        <div><%= f.label :age %><br />
-          <%= f.text_field :age %></div>
-
-
-        <div><%= f.label :workx %><br />
-          <%= f.text_field :workx %></div>
+      <div class="row-fluid">
+        <div class="span12">
+          <div><label>Mobile Number</label>
+            <%= f.text_field :username %>
+            &nbsp;&nbsp;<span><a class="btn btn-info" href="#" type="button" id="password_submit" style="display:none;">Password</a></span>
+          </div>
+        </div>
+      </div>
 
 
-        <div><%= f.label :location %><br />
-          <%= f.text_field :location %></div>
+      <div id="after_register">
+      <div class="row-fluid">
+        <div class="span12">
+          <div><%= f.label :email %><br />
+            <%= f.email_field :email, :autofocus => true %></div>
+        </div>
+      </div>
 
-        <div><%= f.label :industry %><br />
-          <%= f.text_field :industry %></div>
+      <div class="row-fluid">
+        <div class="span12">
+          <div><%= f.label :name %><br />
+            <%= f.text_field :name %></div>
+        </div>
+      </div>
 
-        <div><%= f.label :username %><br />
-          <%= f.text_field :username, :autofocus => true %></div>
 
-        <div><%= f.label :password %><br />
-          <%= f.password_field :password %></div>
+      <div class="row-fluid">
+        <div class="span12">
+          <div><%= f.label :nickname %><br />
+            <%= f.text_field :nickname %></div>
+        </div>
+      </div>
 
-        <div><%= f.label :password_confirmation %><br />
-          <%= f.password_field :password_confirmation %></div>
-     </div> 
-   </div> 
- </div> 
+      <div class="row-fluid">
+        <div class="span12">
+          <div><%= f.label :age %><br />
+            <% age_array = (0..100).to_a.collect{|p| ["#{p}", p]} %>
+            <%= f.select(:age, options_for_select(age_array), :prompt => "Select age") %>
+          </div>
+        </div>
+      </div>
 
- <div><%= f.submit "Sign up" %></div>
- <% end %>
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div><label>Work Experience</label><br />
+            <% workx_array = (1..100).to_a.collect{|p| ["#{p}", p]} %>
+            <%= f.select(:workx, options_for_select(workx_array), :prompt => "Select work experience") %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div><%= f.label :location %><br />
+            <select name="register_location" class="dependent" id="register_location">
+              <option></option>
+              <option value="Andhra Pradesh, Hyderabad">Andhra Pradesh > Hyderabad</option>
+              <option value="Andhra Pradesh, Visakhapatnam">Andhra Pradesh > Visakhapatnam</option>
+              <option value="Assam, Guwahati">Assam > Guwahati</option>
+              <option value="Bihar, Patna">Bihar > Patna</option>
+              <option value="Chandigarh, Chandigarh">Chandigarh > Chandigarh</option>
+              <option value="Chhattisgarh, Raipur">Chhattisgarh > Raipur</option>
+              <option value="Delhi, Delhi">Delhi > Delhi</option>
+              <option value="Gujarat, Ahmedabad">Gujarat > Ahmedabad</option>
+              <option value="Gujarat, Surat">Gujarat > Surat</option>
+              <option value="Gujarat, Vadodara">Gujarat > Vadodara</option>
+              <option value="Haryana, Gurgaon">Haryana > Gurgaon</option>
+              <option value="Jammu and Kashmir, Jammu">Jammu and Kashmir > Jammu</option>
+              <option value="Jammu and Kashmir, Srinagar">Jammu and Kashmir > Srinagar</option>
+              <option value="Jharkhand, Ranchi">Jharkhand > Ranchi</option>
+              <option value="Karnataka, Bangalore">Karnataka > Bangalore</option>
+              <option value="Karnataka, Mysore">Karnataka > Mysore</option>
+              <option value="Kerala, Kochi (Cochin)">Kerala > Kochi (Cochin)</option>
+              <option value="Kerala, Thrissur">Kerala > Thrissur</option>
+              <option value="Kerala, Trivandrum (Thiruvananthapuram)">Kerala > Trivandrum (Thiruvananthapuram)</option>
+              <option value="Madhya Pradesh, Bhopal">Madhya Pradesh > Bhopal</option>
+              <option value="Madhya Pradesh, Indore">Madhya Pradesh > Indore</option>
+              <option value="Maharashtra, Aurangabad">Maharashtra > Aurangabad</option>
+              <option value="Maharashtra, Mumbai">Maharashtra > Mumbai</option>
+              <option value="Maharashtra, Nagpur">Maharashtra > Nagpur</option>
+              <option value="Maharashtra, Pune">Maharashtra > Pune</option>
+              <option value="Orissa, Bhubaneswar">Orissa > Bhubaneswar</option>
+              <option value="Orissa, Cuttack">Orissa > Cuttack</option>
+              <option value="Orissa, Rourkela">Orissa > Rourkela</option>
+              <option value="Puducherry, Puducherry">Puducherry > Puducherry</option>
+              <option value="Punjab, Amritsar">Punjab > Amritsar</option>
+              <option value="Punjab, Jalandhar">Punjab > Jalandhar</option>
+              <option value="Punjab, Ludhiana">Punjab > Ludhiana</option>
+              <option value="Punjab, Patiala">Punjab > Patiala</option>
+              <option value="Rajasthan, Ajmer">Rajasthan > Ajmer</option>
+              <option value="Rajasthan, Jaipur">Rajasthan > Jaipur</option>
+              <option value="Rajasthan, Jodhpur">Rajasthan > Jodhpur</option>
+              <option value="Rajasthan, Udaipur">Rajasthan > Udaipur</option>
+              <option value="Tamil Nadu, Chennai">Tamil Nadu > Chennai</option>
+              <option value="Tamil Nadu, Coimbatore">Tamil Nadu > Coimbatore</option>
+              <option value="Tamil Nadu, Madurai">Tamil Nadu > Madurai</option>
+              <option value="Tamil Nadu, Salem">Tamil Nadu > Salem</option>
+              <option value="Tamil Nadu, Tiruchirappalli">Tamil Nadu > Tiruchirappalli</option>
+              <option value="Tripura, Agartala">Tripura > Agartala</option>
+              <option value="Uttar Pradesh, Agra">Uttar Pradesh > Agra</option>
+              <option value="Uttar Pradesh, Allahabad">Uttar Pradesh > Allahabad</option>
+              <option value="Uttar Pradesh, Bulandshahr">Uttar Pradesh > Bulandshahr</option>
+              <option value="Uttar Pradesh, Ghaziabad">Uttar Pradesh > Ghaziabad</option>
+              <option value="Uttar Pradesh, Kanpur">Uttar Pradesh > Kanpur</option>
+              <option value="Uttar Pradesh, Lucknow">Uttar Pradesh > Lucknow</option>
+              <option value="Uttar Pradesh, Noida">Uttar Pradesh > Noida</option>
+              <option value="Uttar Pradesh, Varanasi">Uttar Pradesh > Varanasi</option>
+              <option value="Uttarakhand, Dehradun">Uttarakhand > Dehradun</option>
+              <option value="West Bengal, Asansol">West Bengal > Asansol</option>
+              <option value="West Bengal, Howrah">West Bengal > Howrah</option>
+              <option value="West Bengal, Kolkata">West Bengal > Kolkata</option>
+              <option value="West Bengal, Siliguri">West Bengal > Siliguri</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div><%= f.label :industry %><br />
+            <%= f.select "industry", options_for_select(["Graphic Design","Architecture & Planning", "Engineering",
+                                                         "Cosmetics", "Apparel & Fashion",
+                                                         "Consumer Electronics",
+                                                         "Furniture",
+                                                         "Retail",
+                                                         "Import and Export",
+                                                         "Luxury Goods & Jewelry",
+                                                         "Marketing and Advertising",
+                                                         "Market Research",
+                                                         "Public Relations and Communications",
+                                                         "Human Resources",
+                                                         "Banking",
+                                                         "Insurance",
+                                                         "Financial Services",
+                                                         "Accounting",
+                                                         "Computer Hardware",
+                                                         "Computer Networking",
+                                                         "Telecommunications",
+                                                         "Information Technology and Services",
+                                                         "Chemicals",
+                                                         "Mining & Metals",
+                                                         "Oil & Energy",
+                                                         "Textiles",
+                                                         "Electrical/Electronic Manufacturing",
+                                                         "Plastics",
+                                                         "Packaging and Containers",
+                                                         "Media",
+                                                         "Animation",
+                                                         "Biotechnology",
+                                                         "Medical Practice",
+                                                         "Hospital & Health Care",
+                                                         "Pharmaceuticals",
+                                                         "Veterinary",
+                                                         "Consumer Services",
+                                                         "Entertainment",
+                                                         "Leisure, Travel & Tourism",
+                                                         "Hospitality",
+                                                         "Airlines/Aviation",
+                                                        ]), :prompt => "Select industry" %></div>
+        </div>
+      </div>
+      </div>
+<% end %>
+    <div class="modal-footer">
+    <div class="row-fluid" style="margin-bottom: 10px;">
+    <div class="span12">
+      <a class="btn btn-success" href="#" type="button" id="register_submit">Sign Up</a>
+    </div>
+  </div>
+  </div>
+  </div>
 
 
 </div>
+
+<script type="text/javascript">
+
+    $(function(){
+        $("#register_form").find('input[name="users[username]"]').on('input',function(){
+
+            var mobile_no=($("#register_form").find('input[name="users[username]"]').val());
+            var data = {username: []}
+            data["username"].push(mobile_no);
+            $.ajax({
+                url: "<%= mobile_no_checking_path %>",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data=="Nothing"){
+
+                    }
+                    else
+                    {
+                      setTimeout(function(){
+                          $('#password_submit').show();
+                          $('#after_register').hide();
+                          $('#register_submit').hide();
+
+                      },2000);
+
+                       $('#password_submit').on("click",function(){
+                           var data = {mobile_no: []}
+                           data["mobile_no"].push(mobile_no);
+                           $.ajax({
+                               url: "<%= change_password_path %>",
+                               type: "POST",
+                               contentType: "application/json",
+                               data: JSON.stringify(data),
+                               success: function (data) {
+                               }
+                           });
+                       });
+
+                    }
+                }
+            });
+
+        });
+    });
+
+
+    $('#register_submit').on("click",function(){
+//        $("#register_form").find('#register_location').change(function(){
+//           alert( $("#register_location:selected").text());
+//
+//
+//        });
+
+        if ($("#register_form").find('input[name="users[username]"]').val()==""){
+            alert("Please enter your Mobile number");
+        }
+        else if ($("#register_form").find('input[name="users[email]"]').val()==""){
+            alert("Please enter your Email") ;
+        }
+        else if ($("#register_form").find('input[name="users[name]"]').val()==""){
+            alert("Please enter your Name") ;
+        }
+        else if ($("#register_form").find('input[name="users[nickname]"]').val()==""){
+            alert("Please enter your Industry") ;
+        }
+
+        else if ($("#register_form").find('input[name="users[age]"]').val()==""){
+            alert("Please enter your Age") ;
+        }
+        else if ($("#register_form").find('input[name="users[workx]"]').val()==""){
+            alert("Please enter your Work Experience") ;
+        }
+//        else if ($("#register_form").find('.dependent').val()==""){
+//            alert("Please enter your Location") ;
+//        }
+        else if ($("#register_form").find('input[name="users[industry]"]').val()==""){
+            alert("Please enter your Industry") ;
+        }
+
+        else
+        {
+            $('#register_form').attr({
+                action:'my_new_user',
+                method:'post'
+            });
+
+        }
+    });
+</script>
+
+

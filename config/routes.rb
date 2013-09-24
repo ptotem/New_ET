@@ -31,6 +31,9 @@ ETNew::Application.routes.draw do
   match '/tag_list' => "response#tag_list", :as => "tag_list"
   match '/question_details/:date_id' => "response#question_details", :as => "question_details"
 
+  match '/mobile_no_checking' => "welcome#mobile_no_checking", :as => "mobile_no_checking"
+  match '/change_password' => "welcome#change_password", :as => "change_password"
+
 
   match '/get_connections/(:access_token)' => "welcome#get_connections", :as => "get_connections"
   match '/parse_facebook_cookies' => "welcome#parse_facebook_cookies"

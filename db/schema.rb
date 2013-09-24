@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130919162720) do
+ActiveRecord::Schema.define(:version => 20130924130255) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -161,19 +161,19 @@ ActiveRecord::Schema.define(:version => 20130919162720) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "",       :null => false
-    t.string   "role",                   :default => "Player", :null => false
-    t.string   "encrypted_password",     :default => "",       :null => false
+    t.string   "email",                   :default => "",       :null => false
+    t.string   "role",                    :default => "Player", :null => false
+    t.string   "encrypted_password",      :default => "",       :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",           :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
     t.string   "provider"
     t.string   "uid"
     t.boolean  "admin"
@@ -185,11 +185,17 @@ ActiveRecord::Schema.define(:version => 20130919162720) do
     t.date     "dob"
     t.string   "username"
     t.integer  "score"
-    t.integer  "refer_points",           :default => 0
-    t.boolean  "display_modal",          :default => false
+    t.integer  "refer_points",            :default => 0
+    t.boolean  "display_modal",           :default => false
     t.string   "state"
     t.string   "city"
     t.string   "user_fb_access_token"
+    t.string   "nickname"
+    t.string   "user_photo_file_name"
+    t.string   "user_photo_content_type"
+    t.integer  "user_photo_file_size"
+    t.datetime "user_photo_updated_at"
+    t.string   "picture"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

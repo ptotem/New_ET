@@ -73,7 +73,7 @@ class WelcomeController < ApplicationController
 
   def facebook
     if user_signed_in?
-      #render :text => request.env["omniauth.auth"].credentials.token
+      #render :text => request.env["omniauth.auth"].info.image.to_s
       #return
       @user = current_user
       @user_first_name=request.env["omniauth.auth"].extra.raw_info.first_name
@@ -82,6 +82,7 @@ class WelcomeController < ApplicationController
       @user.location = request.env["omniauth.auth"]["extra"]["raw_info"]["location"]["name"]
       @user.uid = request.env["omniauth.auth"]["uid"]
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
+      @user.picture = request.env["omniauth.auth"].info.image
       @user.save!
       redirect_to "/profile" and return
     else
@@ -93,7 +94,7 @@ class WelcomeController < ApplicationController
           if users_email.nil?
             @user = User.create(:provider => auth["provider"], :uid => auth["uid"], :name => auth["info"]["name"])
           else
-            @user = User.create(:provider => auth["provider"], :email => users_email, :password => Devise.friendly_token[0, 20], :uid => auth["uid"], :name => auth["info"]["name"])
+            @user = User.create(:provider => auth["provider"], :email => users_email, :password => Devise.friendly_token[0, 20], :uid => auth["uid"], :name => auth["info"]["name"] ,:picture => auth.info.image)
           end
         else
           @user=User.find_by_email(auth.info.email)
@@ -109,17 +110,47 @@ class WelcomeController < ApplicationController
       sign_in(:user, @user)
       @user.uid = request.env["omniauth.auth"]["uid"]
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
+      @user.user_photo = request.env["omniauth.auth"].info.image
       @user.save
       redirect_to "/profile" and return
     end
   end
 
+  def mobile_no_checking
+    @mobile_no=User.find_by_username(params[:username][0])
+    if !@mobile_no.nil?
+      render :text => @mobile_no.name
+      return
+    else
+      render :text => "Nothing"
+      return
+    end
+  end
+
+
+  def change_password
+    require 'open-uri'
+    passwd=Random.new.rand(10000000..99999999).to_s
+    @user=User.find_by_username(params[:mobile_no][0])
+    @user.password = passwd
+    @user.password_confirmation=passwd
+    @user.save
+    str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com using the following password to login: '+passwd+'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+@user.username)
+    @r =open(str)
+    render :text=>"Thank your for playing Win with ET. As requested, the following is your password to login on kyet.ptotem.com:"+@user.password
+    return
+
+  end
+
 
   def my_new_user
-    #@user=User.create!(:email => params[:user][:email],:name => params[:name],:age => params[:age],:workx => params[:workx],:location => params[:location],:industry => params[:industry],:username => params[:user][:username],:password => params[:user][:password])
-    #@user.save
-    #redirect_to "/"
+    @user=User.create!(:email => params[:users][:email],:username => params[:users][:username],:name => params[:users][:name],:nickname => params[:users][:nickname],:age => params[:users][:age],:workx => params[:users][:workx],:location => params[:location],:industry => params[:users][:industry],:password => "password")
+    @user.save
+    redirect_to "/"
   end
+
+
+
 
   #def parse_facebook_cookies
   #  @facebook_cookies ||= Koala::Facebook::OAuth.new('648492791862773', 'a9efe5c308bc11d1058432d9b7313d91').get_user_info_from_cookie(cookies)

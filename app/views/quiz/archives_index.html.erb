@@ -104,8 +104,8 @@
           <input id="datepicker-example13" type="text" style="display:none;">
           <div id="container" style="margin: 10px 0 0 0"></div>
 
-          <div id="container2" class="tabbable tabs-left" style="max-height: 350px;overflow-y: scroll;overflow-x: hidden;display: none;max-width:300px; ">
-            <ul class="nav nav-tabs" ></ul>
+          <div id="container2" class="blog-side-tags widget-tp" style="max-height: 350px;min-height:350px;overflow-y: scroll;overflow-x: hidden;display: none;max-width:290px;width:290px; ">
+            <ul></ul>
           </div>
         </div>
       </form>
@@ -396,7 +396,7 @@
                     $.each(data, function (key, value) {
                         value = value.split('|');
                         $('#container2').show();
-                        $('#container2 ul').append('<li class="insert_li" id=' + value[0] + '><a href="#tabs'+(key+1)+'" data-toggle="tab"> '+ value[1] + '</a></li>');
+                        $('#container2 ul').append('<li class="insert_li" id=' + value[0] + '><a href="# '+(key+1)+' "data-toggle="tab" class="side-tag"> '+ value[1] + '</a></li>');
                     });
 
                     $('.insert_li').on('click', function () {

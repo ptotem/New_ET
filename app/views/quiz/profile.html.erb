@@ -15,7 +15,13 @@
 
             <div class="row-fluid" style="margin-top:15px;">
               <div class="span3">
-                <img src="assets/img/avatar-4.png">
+
+               <% if current_user.picture.nil? %>
+                    <img src="assets/img/avatar-4.png">
+               <% else %>
+                    <%= image_tag current_user.picture %>
+              <% end %>
+
               </div>
 
               <div class="span5">
@@ -208,7 +214,9 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           ×
         </button>
-        <h3>Edit Profile</h3>
+        <h3>
+          Edit Profile
+        </h3>
       </div>
       <div class="modal-body">
         <div class="row-fluid">
@@ -344,6 +352,12 @@
                                                           "Airlines/Aviation",
                                                          ], :selected => @user.industry), :prompt => "Select industry" %>
             </p>
+
+            <p>
+              <label>Password</label>
+              <%= password_field_tag :password %>
+            </p>
+
 
           </div>
         </div>

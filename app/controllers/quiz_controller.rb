@@ -125,8 +125,7 @@ class QuizController < ApplicationController
   end
 
   def profile
-    @user=User.find(current_user.id)
-    #render :layout => false
+  @user=User.find(current_user.id)
   end
 
   def change_profile
@@ -136,10 +135,11 @@ class QuizController < ApplicationController
     @profile.workx=params[:workx]
     @profile.location=params[:location]
     @profile.industry=params[:industry]
+    @profile.password=params[:password]
     @profile.save
+    sign_in(@profile, :bypass => true)
     if params[:from_page]=="index"
       redirect_to "/"
-      #@profile.display_modal=true
     else
       redirect_to "/profile"
     end
