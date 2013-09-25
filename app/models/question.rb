@@ -1,10 +1,11 @@
 class Question < ActiveRecord::Base
-  attr_accessible :answer, :is_mcq, :name, :insertion_date, :quiz_id, :happy_hr,:tag_list, :question_type, :options_attributes,:display_time,:close_time,:view_article
+  attr_accessible :answer, :is_mcq, :name, :insertion_date, :quiz_id, :happy_hr,:tag_list, :question_type, :options_attributes,:display_time,:close_time,:view_article,:promotions,:promotions_attributes,:promotion_ids
   just_define_datetime_picker :insertion_date, :add_to_attr_accessible => true
   has_many :options, :dependent => :destroy
   has_many :responses, :dependent => :destroy
   accepts_nested_attributes_for :options
   has_and_belongs_to_many :bonus
+  has_and_belongs_to_many :promotions
   belongs_to :quiz
 
   has_attached_file :view_article, styles: {thumb: "100x100#"}

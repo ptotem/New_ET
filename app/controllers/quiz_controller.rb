@@ -14,7 +14,7 @@ class QuizController < ApplicationController
       end
       @questions=@questions.uniq.flatten!
       @score<<@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
-      @leaderboard<<{:user_id=>u.id,:score=>@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum}
+      @leaderboard<<{:user_id => u.id, :score => @questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum}
 
       if (u==current_user)
         @points=@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
@@ -25,37 +25,37 @@ class QuizController < ApplicationController
             @answer_rate=@answer_rate+1
           end
         end
-      unless @user_score.count==0
+        unless @user_score.count==0
           @answer_correct_rate=(@answer_rate*100/@user_score.count)
-       end
+        end
       end
     end
     @rank= @score.sort().reverse.index(@points)+1 rescue ''
     @recent_activity=Array.new
     unless !user_signed_in?
-    Version.find_all_by_whodunnit(current_user.id).each do |ver|
-      case ver.item_type
-        when "User"
-          @recent_activity<<"User updated his profile"
-        when "Response"
-          case ver.event
-            when "create"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
-            when "update"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
-          end
+      Version.find_all_by_whodunnit(current_user.id).each do |ver|
+        case ver.item_type
+          when "User"
+            @recent_activity<<"User updated his profile"
+          when "Response"
+            case ver.event
+              when "create"
+                @response=Response.find(ver.item_id)
+                @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
+              when "update"
+                @response=Response.find(ver.item_id)
+                @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
+            end
+        end
       end
-    end
     end
     @recent_activity=@recent_activity.reverse!
   end
 
   def index
     @current_date = DateTime.now.to_date.strftime('%d %B %Y')
-    @question = Question.find_by_insertion_date(Date.today)  
-    if !@question.nil?  
+    @question = Question.find_by_insertion_date(Date.today)
+    if !@question.nil?
       @question_name = @question.name
       @question_id = @question.id
       @user_id = current_user
@@ -95,53 +95,52 @@ class QuizController < ApplicationController
     @week_leaderboard=Array.new
     @week_questions=Question.show_for_current_week
     @week_questions.all.each do |q|
-      @users<<Response.find_all_by_question_id(q.id).map{|i| i.user_id}
+      @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
     end
     @users=@users.flatten.uniq
     @users.each do |u|
       @user_res=Array.new
-       @week_questions.all.each do |q|
-        @user_res<<Response.find_all_by_question_id_and_user_id(q.id,u).last
+      @week_questions.all.each do |q|
+        @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
       end
-      @user_res=@user_res.delete_if{|x| x==nil}
-      @week_leaderboard<<{:user_id=>u,:score=>@user_res.map{|i| i.points}.sum}
-    end  
+      @user_res=@user_res.delete_if { |x| x==nil }
+      @week_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.sum}
+    end
 
     @month_users=Array.new
     @month_leaderboard=Array.new
     @month_questions=Question.show_sales_for_current_month(Date.today.year, Date.today.month)
     @month_questions.all.each do |q|
-      @month_users<<Response.find_all_by_question_id(q.id).map{|i| i.user_id}
+      @month_users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
     end
     @month_users=@month_users.flatten.uniq
     @month_users.each do |u|
       @user_res=Array.new
-       @month_questions.all.each do |q|
-        @user_res<<Response.find_all_by_question_id_and_user_id(q.id,u).last
+      @month_questions.all.each do |q|
+        @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
       end
-      @user_res=@user_res.delete_if{|x| x==nil}
-      @month_leaderboard<<{:user_id=>u,:score=>@user_res.map{|i| i.points}.sum}
+      @user_res=@user_res.delete_if { |x| x==nil }
+      @month_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.sum}
     end
-
 
 
     @daily_users=Array.new
     @daily_leaderboard=Array.new
     @daily_questions=Question.find_by_insertion_date(Date.today)
-    @daily_users=Response.find_all_by_question_id(@daily_questions.id).map{|i| i.user_id}
+    @daily_users=Response.find_all_by_question_id(@daily_questions.id).map { |i| i.user_id }
     @daily_users=@daily_users.flatten.uniq
     @daily_users.each do |d|
       @user_res=Array.new
-      @user_res<<Response.find_all_by_question_id_and_user_id_and_is_correct(@daily_questions.id,d,true).last
-      @user_res=@user_res.delete_if{|x| x==nil}
-      @daily_leaderboard<<{:user_id=>d,:score=>@user_res.map{|i| i.points}.sum}
+      @user_res<<Response.find_all_by_question_id_and_user_id_and_is_correct(@daily_questions.id, d, true).last
+      @user_res=@user_res.delete_if { |x| x==nil }
+      @daily_leaderboard<<{:user_id => d, :score => @user_res.map { |i| i.points }.sum}
     end
 
 
   end
 
   def profile
-  @user=User.find(current_user.id)
+    @user=User.find(current_user.id)
   end
 
   def change_profile
@@ -153,6 +152,10 @@ class QuizController < ApplicationController
     @profile.industry=params[:industry]
     @profile.password=params[:password]
     @profile.save
+    @version=Version.last
+    @version.event="profile_update"
+    @version.whodunnit=current_user.id
+    @version.save
     sign_in(@profile, :bypass => true)
     if params[:from_page]=="index"
       redirect_to "/"
@@ -163,10 +166,19 @@ class QuizController < ApplicationController
 
   def recent_activity
     @recent_activity=Array.new
+    #Version.find_all_by_item_id_and_item_type(current_user.id, "User").each do |ver|
     Version.find_all_by_whodunnit(current_user.id).each do |ver|
       case ver.item_type
         when "User"
-          @recent_activity<<"User updated his profile"
+          case ver.event
+            when "profile_update"
+              @recent_activity<<"User updated his profile"
+            when "correct"
+              @recent_activity<<"User has answered correctly"
+            when "incorrect"
+              @recent_activity<<"User has answered incorrectly"
+          end
+
         when "Response"
           case ver.event
             when "create"
@@ -191,7 +203,7 @@ class QuizController < ApplicationController
       end
       @questions=@questions.uniq.flatten!
       @score<<@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
-      @leaderboard<<{:user_id=>u.id,:score=>@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum}
+      @leaderboard<<{:user_id => u.id, :score => @questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum}
 
       if (u==current_user)
         @points=@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
@@ -202,14 +214,14 @@ class QuizController < ApplicationController
             @answer_rate=@answer_rate+1
           end
         end
-      unless @user_score.count==0
+        unless @user_score.count==0
           @answer_correct_rate=(@answer_rate*100/@user_score.count)
-       end
+        end
       end
     end
     @rank= @score.sort().reverse.index(@points)+1 rescue ''
-    render :text=>"#{@points}|#{@rank}|#{@answer_correct_rate}"   
-  end  
+    render :text => "#{@points}|#{@rank}|#{@answer_correct_rate}"
+  end
 
   def current_status
     render :text => "#{@user_score.count}|#{@answer_rate*100/@user_score.count}"
@@ -217,5 +229,4 @@ class QuizController < ApplicationController
   end
 
 
-
- end
+end

@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_many :referrals, :dependent => :destroy
   has_one :profile, :dependent => :destroy
   has_many :feedbacks
+
   has_paper_trail
   after_create :refer_email
 
@@ -68,17 +69,33 @@ class User < ActiveRecord::Base
         if @valid_responses.points>0
           str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Congratulations, your answer today was correct. Check your score and rank on kyet.ptotem.com. Come back tomorrow to win daily and weekly prizes.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
           @r << open(str)
+          if !User.find(u).nil?
+            @user=User.find(u)
+            @user.refer_points=@user.refer_points+@valid_responses.points
+            @user.save
+            @version=Version.last
+            @version.event="correct"
+            @version.whodunnit=u
+            @version.save
+            #@r<<@user.refer_points
+          end
+
         else  
           str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Sorry, your answer today was incorrect. Play again tomorrow to win daily and weekly prizes. Refer a friend to maximise your scores for the grand prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
-          @r << open(str)  
+          @r << open(str)
+          if !User.find(u).nil?
+            @user=User.find(u)
+            @user.refer_points=@user.refer_points+@valid_responses.points
+            @user.save
+            @version=Version.last
+            @version.event="incorrect"
+            @version.whodunnit=u
+            @version.save
+            #@r<<@user.refer_points
+          end
         end
 
-        if !User.find(u).nil?
-          @user=User.find(u)
-          @user.refer_points=@user.refer_points+@valid_responses.points
-          @user.save 
-        #@r<<@user.refer_points
-      end 
+
     end
   else
     puts "There is no Question today"

@@ -40,9 +40,13 @@ ActiveAdmin.register Question do
       f.input :happy_hr
     end
 
-      f.inputs do
+    f.inputs do
         f.input :view_article, :as => :file
-      end
+    end
+
+   f.inputs "Bonuses" do
+     f.input :promotions
+   end
 
     f.actions
 

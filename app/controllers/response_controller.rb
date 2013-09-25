@@ -239,6 +239,9 @@ class ResponseController < ApplicationController
             @response.points=0
           end
           @response.save
+          @version = Version.last
+          @version.whodunnit=@user.id
+          @version.save
           render :text=>@a+"Thank you for playing Double Trouble on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
           return
         elsif params[:message].include?("WINETT")
@@ -280,6 +283,9 @@ class ResponseController < ApplicationController
             @response.points=0
           end
           @response.save
+          @version = Version.last
+          @version.whodunnit=@user.id
+          @version.save
           render :text=>@a+"Thank you for playing Triple Threat on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
           return
         elsif params[:message].include?("PWD")
@@ -317,6 +323,10 @@ class ResponseController < ApplicationController
             @response.points= -(@option.question.quiz.minus)
           end
           @response.save
+          @version = Version.last
+          @version.event="create"
+          @version.whodunnit=@user.id
+          @version.save
           render :text=>@a+"Thank You for playing Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
           return
         else
@@ -587,23 +597,41 @@ class ResponseController < ApplicationController
   require 'open-uri'
   def send_response
     @responses=Response.find_all_by_question_id(Question.find_by_insertion_date(Date.today)).map{|i| i.user_id}.uniq
+    #render :text=>@responses
+    #return
     @r=Array.new
     @responses.each_with_index do |u|
       @valid_responses=Response.find_all_by_question_id_and_user_id(Question.find_by_insertion_date(Date.today),u).last
       if @valid_responses.points>0
         str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Congratulations, your answer today was correct. Check your score and rank on kyet.ptotem.com. Come back tomorrow to win daily and weekly prizes.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
         @r << open(str)
+        if !User.find(u).nil?
+          @user=User.find(u)
+          @user.refer_points=@user.refer_points+@valid_responses.points
+          @user.save
+          @version=Version.last
+          @version.event="correct"
+          @version.whodunnit=u
+          @version.save
+          #@r<<@user.refer_points
+        end
+
       else  
         str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Sorry, your answer today was incorrect. Play again tomorrow to win daily and weekly prizes. Refer a friend to maximise your scores for the grand prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
-        @r << open(str)  
+        @r << open(str)
+        if !User.find(u).nil?
+          @user=User.find(u)
+          @user.refer_points=@user.refer_points+@valid_responses.points
+          @user.save
+          @version=Version.last
+          @version.event="incorrect"
+          @version.whodunnit=u
+          @version.save
+          #@r<<@user.refer_points
+        end
       end
       
-      if !User.find(u).nil?
-        @user=User.find(u)
-        @user.refer_points=@user.refer_points+@valid_responses.points
-        @user.save 
-        #@r<<@user.refer_points
-      end 
+
     end
     render :text=>@r
     return  
