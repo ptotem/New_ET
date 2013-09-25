@@ -10,45 +10,53 @@
 
     <div class="white-card" id="white-card_archive">
       <div id="archives_content">
-        <h4>
-          <% Date.today.strftime("%d %b %y") %></h4>
-        <h6>
-            <span id="tag_list">
-                <%#= raw (@yesterday_question.tag_list.map { |t| link_to t, tag_path(t) }.join(', ')) %>
-            </span>
-
-            <span class="pull-right">
+        <!--<h4>-->
+          <%# Date.today.strftime("%d %b %y") %>
+        <!--</h4>-->
+           <div class="row-fluid">
+             <div class="span12">
+               <span class="pull-right">
                 <button class="btn btn-success" onclick="view_score()">View Answer</button>
-                <button class="btn btn-warning" onclick="view_stat()">View Statistics</button>
+                <!--<button class="btn btn-warning" onclick="view_stat()">View Statistics</button>-->
                 <button class="btn btn-info" onclick="view_article()">View Article</button>
-            </span>
-        </h6>
-        <br>
-        <h4 class="question"><%= @question %></h4>
-
-        <div class="blog-categories widget-tp">
-          <ul>
-            <li>
-              <div class="answeroptions shadow"><span class="badge badge-warning">A</span>
-                <h4 class="option1" id="<%= @option[0].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[0].name %></h4>
-              </div>
-            </li>
-            <li>
-              <div class="answeroptions shadow"><span class="badge badge-success">B</span>
-                <h4 class="option2" id="<%= @option[1].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[1].name %></h4>
-              </div>
-            </li>
-            <li>
-              <div class="answeroptions shadow"><span class="badge badge-important">C</span>
-                <h4 class="option3" id="<%= @option[2].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[2].name %></h4>
-              </div>
-            </li>
-            <li>
-              <div class="answeroptions shadow"><span class="badge badge-info">D</span>
-                <h4 class="option4" id="<%= @option[3].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[3].name %></h4>
-              </div>
-            </li>
-          </ul>
+                </span>
+                <span id="tag_list">
+                <%#= raw (@yesterday_question.tag_list.map { |t| link_to t, tag_path(t) }.join(', ')) %>
+               </span>
+             </div>
+           </div>
+          <div class="row-fluid">
+            <div class="span12">
+              <h4 class="question"><%= @question %></h4>
+            </div>
+          </div>
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="blog-categories widget-tp">
+              <ul>
+                <li>
+                  <div class="answeroptions shadow"><span class="badge badge-warning">A</span>
+                    <h4 class="option1" id="<%= @option[0].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[0].name %></h4>
+                  </div>
+                </li>
+                <li>
+                  <div class="answeroptions shadow"><span class="badge badge-success">B</span>
+                    <h4 class="option2" id="<%= @option[1].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[1].name %></h4>
+                  </div>
+                </li>
+                <li>
+                  <div class="answeroptions shadow"><span class="badge badge-important">C</span>
+                    <h4 class="option3" id="<%= @option[2].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[2].name %></h4>
+                  </div>
+                </li>
+                <li>
+                  <div class="answeroptions shadow"><span class="badge badge-info">D</span>
+                    <h4 class="option4" id="<%= @option[3].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[3].name %></h4>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -347,6 +355,7 @@
                     quest = data.toString().split('|')[6];
                     var image = data.toString().split('|')[7];
                     var tags = data.toString().split('|')[8];
+                    var insertion_date=data.toString().split('|')[9];
                     $('.question').html(question);
 
 
@@ -364,7 +373,7 @@
 
                     $('#article').append('<img  src=' + image + '>');
 
-                    $('#tag_list').append(tags);
+                    $('#tag_list').append('<h5>'+ insertion_date +'</h5>');
                 }
             }
         });

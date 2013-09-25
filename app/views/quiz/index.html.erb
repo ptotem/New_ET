@@ -7,13 +7,9 @@
 
 <section class='section-wrapper'>
   <div class='container'>
-
     <!-- Row Start -->
-
     <div class='row'>
-
       <div class='span9'>
-
         <h4 class="section-header">Today's Quiz<span class="pull-right"><%= Date.today.strftime("%d-%b-%y") %></span></h4>
         <%if !@question.nil?%>
         <% if @question.question_type=="type1" %>
@@ -49,11 +45,7 @@
         <%else%>
           <p>Welcome to Winet, There is no question today, please see the newspaper to get updated.</p>
         <%end%>
-
-
-
-      </div>
-
+        </div>
       <% if !user_signed_in? %>
           <div class="span3">
             <div class="white-card">
@@ -144,7 +136,6 @@
             </div>
           </div>
       <% end %>
-
         </div>
 
         <!-- Row End -->
@@ -152,9 +143,7 @@
         <!-- Row Start -->
 
         <div class='row'>
-
           <div class='span12'>
-
             <ul class="ch-grid">
               <li onclick='window.location="/";'>
                 <div class="ch-item ch-img-1">
@@ -233,9 +222,7 @@
             </ul>
           </div>
         </div>
-
         <!-- Row End -->
-
       </div>
     </section>
 
@@ -303,9 +290,10 @@
           }
         });
         <%end%>
+
+
         <% if !@question.nil?%>
         <% if @question.close_time<Time.now and @question.question_type=="type1"%>
-        
         $(".answeroptions").on("click",function () {
           option_answer = $(this).next().val();
           var question_id = $(".question").attr("id");
@@ -387,11 +375,13 @@
         });
         <%else%>
         $('#check_bonus').hide();
-        $('.answeroptions').click(function(){
+
+$('.answeroptions').click(function(){
           //alert("HH");
           //console.log(<%#=@question.close_time%>,<%#=Time.now%>);
           alert("Either closing time is finished or Question type");
         });
+
         <% end %>
         <%end%>
       });

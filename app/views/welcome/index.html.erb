@@ -52,12 +52,9 @@
                       <div class="ch-info">
                         <h3>Profile</h3>
                         <p>View, edit or link your profile with your facebook account</p>
-
                         </div>
                       </a>
                     </div>
-
-
                   </li>
                 </ul>
 
@@ -67,9 +64,10 @@
               <% if !user_signed_in? %>
               <div class="span3">
                 <div class="white-card">
+                  <h5>Registered Players</h5>
                   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 
-                     <div class="row-fluid" style="padding-top: 10px;">
+                     <div class="row-fluid" style="padding-top: 5px;">
                        <div class="span12">
                          <%= f.text_field :username, :autofocus => true,:placeholder => "Mobile Number",:style => "width:95%;" %>
                        </div>
@@ -87,12 +85,6 @@
                         </div>
                       </div>
 
-                      <div class="row-fluid" style="padding-top:5px;">
-                        <div class="span12" style="text-align: center;">
-                          <a href="#" onclick="view_register();">Need an account Register here</a>
-                        </div>
-                      </div>
-
                       <div class="row-fluid" style="text-align: center;">
                         <div class="span12">
                           <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
@@ -103,6 +95,11 @@
                       <% end %>
 
                    </div>
+                <div class="row-fluid">
+                  <div class="span12" style="text-align: center;">
+                    <a class="btn btn-danger" href="#" onclick="view_register();">Not Playing Yet? Register Here</a>
+                  </div>
+                </div>
                     </div>
                   <% else %>
                   <div class='span3'>
@@ -204,54 +201,69 @@
                             </a>
                           </div>
 
-                          <!--<div class='span1'>-->
-                            <!--<a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial6' id='head6'>-->
-                              <!--<span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/avatar-4.png"/></span>-->
-                            <!--</a>-->
-                          <!--</div>-->
-
                         </div>
 
                         <div class='testimonials-speeches'>
-
-                          <div class='testimonials-speech active' id='testimonial1'>
-                            <p>
-                              Darth Vader has significant experience in the financial services industry. His many years of experience
-                              coupled with newspaper information from The Economic Times has ensured that remains in the top 20 in the
-                              campaign. Vader has an extremely aggressive strategy of using bonus options on all questions that are
-                              related to finance.
-                            </p>
+                          <% @daily_users=Array.new %>
+                          <% @daily_leaderboard=Array.new %>
+                          <% @daily_questions=Question.find_by_insertion_date(Date.today)%>
+                          <% @daily_users=Response.find_all_by_question_id(@daily_questions.id).map{|i| i.user_id} %>
+                          <% @daily_users=@daily_users.flatten.uniq %>
+                          <% @daily_users.each do |d| %>
+                          <% @user_res=Array.new %>
+                          <% @user_res<<Response.find_all_by_question_id_and_user_id_and_is_correct(@daily_questions.id,d,true).last %>
+                          <% @user_res=@user_res.delete_if{|x| x==nil}%>
+                          <% @daily_leaderboard<<{:user_id=>d,:score=>@user_res.map{|i| i.points}.sum}%>
+                          <% end %>
+                          <% @daily_leaderboard.sort_by {|hsh| hsh[:score]}.reverse![0..4].each_with_index do |user,index| %>
+                          <div class='testimonials-speech' id='testimonial<%= (index+1) %>'>
+                            <div class="row-fluid">
+                              <div class="span2">
+                                <% if User.find(user[:user_id]).picture.blank? %>
+                                    <img src="assets/img/avatar-4.png" style="width:100%;">
+                                <% else %>
+                                    <%= image_tag User.find(user[:user_id]).picture.url %>
+                                <% end %>
+                              </div>
+                              <div class="span10">
+                                <ul style="list-style: none;">
+                                  <li><%= User.find(user[:user_id]).nickname %></li>
+                                  <li><%= User.find(user[:user_id]).location %></li>
+                                  <li><%= User.find(user[:user_id]).industry %></li>
+                                </ul>
+                              </div>
+                            </div>
                           </div>
+                         <% end %>
+                          <!--<div class='testimonials-speech' id='testimonial2'>-->
+                            <!--<p>-->
+                              <!--Luke Skywalker, a marketing executive has been in the top 10 quizzers since the begining of the campaign.-->
+                              <!--His strategy is unique that he rarely uses any bonus options; he has a very high correct answer rate. Luke-->
+                              <!--is extremely passive in his quizzing style but has a very sharp memory that makes him a daunting rival in-->
+                              <!--the campaign.-->
+                            <!--</p>-->
+                          <!--</div>-->
 
-                          <div class='testimonials-speech' id='testimonial2'>
-                            <p>
-                              Luke Skywalker, a marketing executive has been in the top 10 quizzers since the begining of the campaign.
-                              His strategy is unique that he rarely uses any bonus options; he has a very high correct answer rate. Luke
-                              is extremely passive in his quizzing style but has a very sharp memory that makes him a daunting rival in
-                              the campaign.
-                            </p>
-                          </div>
+                          <!--<div class='testimonials-speech' id='testimonial3'>-->
+                            <!--<p>-->
+                              <!--Dummy Text 1-->
+                            <!--</p>-->
+                          <!--</div>-->
 
-                          <div class='testimonials-speech' id='testimonial3'>
-                            <p>
-                              Dummy Text 1
-                            </p>
-                          </div>
+                          <!--<div class='testimonials-speech' id='testimonial4'>-->
+                            <!--<p>-->
+                              <!--Luke Skywalker, a marketing executive has been in the top 10 quizzers since the begining of the campaign.-->
+                              <!--His strategy is unique that he rarely uses any bonus options; he has a very high correct answer rate. Luke-->
+                              <!--is extremely passive in his quizzing style but has a very sharp memory that makes him a daunting rival in-->
+                              <!--the campaign.-->
+                            <!--</p>-->
+                          <!--</div>-->
 
-                          <div class='testimonials-speech' id='testimonial4'>
-                            <p>
-                              Luke Skywalker, a marketing executive has been in the top 10 quizzers since the begining of the campaign.
-                              His strategy is unique that he rarely uses any bonus options; he has a very high correct answer rate. Luke
-                              is extremely passive in his quizzing style but has a very sharp memory that makes him a daunting rival in
-                              the campaign.
-                            </p>
-                          </div>
-
-                          <div class='testimonials-speech' id='testimonial5'>
-                            <p>
-                              Dummy Text 2
-                            </p>
-                          </div>
+                          <!--<div class='testimonials-speech' id='testimonial5'>-->
+                            <!--<p>-->
+                              <!--Dummy Text 2-->
+                            <!--</p>-->
+                          <!--</div>-->
 
                           <% if user_signed_in? %>
                               <div class='testimonials-speech' id='testimonial6'>
@@ -267,8 +279,6 @@
                                 </p>
                               </div>
                           <% end %>
-
-
                         </div>
                       </div>
                     </div>

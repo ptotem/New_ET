@@ -122,6 +122,22 @@ class QuizController < ApplicationController
       @user_res=@user_res.delete_if{|x| x==nil}
       @month_leaderboard<<{:user_id=>u,:score=>@user_res.map{|i| i.points}.sum}
     end
+
+
+
+    @daily_users=Array.new
+    @daily_leaderboard=Array.new
+    @daily_questions=Question.find_by_insertion_date(Date.today)
+    @daily_users=Response.find_all_by_question_id(@daily_questions.id).map{|i| i.user_id}
+    @daily_users=@daily_users.flatten.uniq
+    @daily_users.each do |d|
+      @user_res=Array.new
+      @user_res<<Response.find_all_by_question_id_and_user_id_and_is_correct(@daily_questions.id,d,true).last
+      @user_res=@user_res.delete_if{|x| x==nil}
+      @daily_leaderboard<<{:user_id=>d,:score=>@user_res.map{|i| i.points}.sum}
+    end
+
+
   end
 
   def profile
