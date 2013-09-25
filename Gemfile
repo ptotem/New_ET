@@ -30,6 +30,9 @@ gem 'spreadsheet'
 gem "paperclip", "~> 3.0"
 gem 'yaml_db'
 gem 'mysql2'
+gem 'rufus-scheduler'
+
+
 #gem "koala", "~> 1.7.0rc1"
 #gem "koala", "~> 1.2.1"
 

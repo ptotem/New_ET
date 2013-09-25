@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+  :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture
   attr_accessor :user_photo
@@ -46,6 +46,43 @@ class User < ActiveRecord::Base
       @refer_points=@user_id.refer_points
       @user_id.update_attributes(:refer_points=>@refer_points+20)
       @user_id.save
-   end
+    end
   end
+
+  def self.score_update
+    @user=User.find(1)
+    @user.refer_points=@user.refer_points+5
+    @user.save
+    puts "Score Updated"
+  end 
+
+  
+  def self.send_response
+
+    require 'open-uri'
+    if !Question.find_by_insertion_date(Date.today).nil?
+      @responses=Response.find_all_by_question_id(Question.find_by_insertion_date(Date.today)).map{|i| i.user_id}.uniq
+      @r=Array.new
+      @responses.each_with_index do |u|
+        @valid_responses=Response.find_all_by_question_id_and_user_id(Question.find_by_insertion_date(Date.today),u).last
+        if @valid_responses.points>0
+          str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Congratulations, your answer today was correct. Check your score and rank on kyet.ptotem.com. Come back tomorrow to win daily and weekly prizes.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
+          @r << open(str)
+        else  
+          str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Sorry, your answer today was incorrect. Play again tomorrow to win daily and weekly prizes. Refer a friend to maximise your scores for the grand prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
+          @r << open(str)  
+        end
+
+        if !User.find(u).nil?
+          @user=User.find(u)
+          @user.refer_points=@user.refer_points+@valid_responses.points
+          @user.save 
+        #@r<<@user.refer_points
+      end 
+    end
+  else
+    puts "There is no Question today"
+  end 
+end  
+
 end
