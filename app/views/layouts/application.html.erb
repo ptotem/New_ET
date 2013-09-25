@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
 <head>
-  <title>ETNew</title>
+  <title>Win with ET</title>
 
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
   <link href="/assets/css/theme_venera.css" media="all" rel="stylesheet" type="text/css"/>
   <link href="http://fonts.googleapis.com/css?family=Abel:400|Oswald:300,400,700" media="all" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" type="text/css" href="/assets/css/magic.css">
-  
+
   <script type="text/javascript" src="/assets/js/modernizr.custom.79639.js"></script>
   <%= javascript_include_tag "application" %>
   <script src="/assets/js/theme_venera.js" type="text/javascript"></script>
   <%= csrf_meta_tags %>
-  <%= feedback_includes%>
+  <%= feedback_includes %>
 
 </head>
 <body>
@@ -42,43 +42,26 @@
 <!--//    }(document, 'script', 'facebook-jssdk'));-->
 <!--</script>-->
 
-<%= yield %>
-
 <header id='header'>
   <div class='navbar navbar-fixed-top'>
     <div class='navbar-inner'>
-      <div class="row-fluid">
-        <div class="span4">
-          <a href="/"><%= image_tag "WWET.jpg",:style => "max-width:80px;margin-left:100px;" %></a>
-        </div>
-
-        <div class="span4">
+      <div class='container-fluid'>
+        <a class="brand" href="/" style="margin-left: 5%">Win with ET</a>
+        <div class="pull-right" style="margin-right: 5%">
           <% if user_signed_in? %>
               <a href="#" class="btn btn-success">Hi <%= current_user.name %></a>
               <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account btn btn success" %>
           <% end %>
-        </div>
-
-        <div class="span4 pull-right">
-          <!--<div class="row-fluid">-->
-            <%= feedback_tab(:position => 'right') %>
-            <!--<div class="span12">-->
-
-              <%#= feedback_link "Leave us feedback!" %>
-              <!--<a  class="btn btn-success" href="#" id="faqcall">Feedback</a>-->
-            <!--</div>-->
-          <!--</div>-->
-          <div class="row-fluid">
-            <div class="span12">
-              <a  class="btn btn-success" href="#">F A Q</a>
-            </div>
-          </div>
+          <%#= feedback_tab(:position => 'right') %>
+          <a class="btn btn-danger" href="#">Feedback</a>
+          <a class="btn btn-warning" href="#">FAQ</a>
         </div>
       </div>
     </div>
   </div>
-
 </header>
+
+<%= yield %>
 
 <%= js extend_gritter :position => :bottom_right %>
 <%= js add_gritter(flash[:notice], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
@@ -95,33 +78,41 @@
   <div class="modal-body">
 
     <h4> 1. What is Win With ET? </h4>
-    <p>Win With ET is a quiz contest which features in The Economic Times every day from Monday to Friday, based on the content of the newspaper. It is a quiz that will make newspaper reading a fun and rewarding experience and enable you to win attractive prizes.</p>
+
+    <p>Win With ET is a quiz contest which features in The Economic Times every day from Monday to Friday, based on the
+      content of the newspaper. It is a quiz that will make newspaper reading a fun and rewarding experience and enable
+      you to win attractive prizes.</p>
 
     <h4>2. What is the eligibility criterion to participate in the quiz?</h4>
+
     <p>Any Resident Indian citizen can participate in the Win With ET quiz.</p>
 
     <h4>3. How do I register on the website?</h4>
 
     <p>
-    To register: <br>
-    Enter your phone number <br>
-    A Password will be sent to your mobile number <br>
-    Log in again with your mobile number  and Password sent via SMS  <br>
-    Check your score, other’s scores, previous day’s answers and winners on the website <br><br>
+      To register: <br>
+      Enter your phone number <br>
+      A Password will be sent to your mobile number <br>
+      Log in again with your mobile number and Password sent via SMS <br>
+      Check your score, other’s scores, previous day’s answers and winners on the website <br><br>
 
-    You can continue playing even without registering. However, to be eligible to win prizes, you will have to register
+      You can continue playing even without registering. However, to be eligible to win prizes, you will have to
+      register
     </p>
 
 
     <h4>4. What is the scoring system of this quiz? (ptotem to confirm)</h4>
 
     <p>
-    You will get 2 points for each correct answer.If you attempt all questions in a week, right or wrong, you will be rewarded 3 points.If you answer all questions in a week correctly, you will be rewarded 8 points.However, these points will not be used while tabulating the scores for Weekly Winners.<br>
+      You will get 2 points for each correct answer.If you attempt all questions in a week, right or wrong, you will be
+      rewarded 3 points.If you answer all questions in a week correctly, you will be rewarded 8 points.However, these
+      points will not be used while tabulating the scores for Weekly Winners.<br>
     </p>
 
     <h4>5. Can I answer the question on the website?</h4>
 
-    <p>You can answer the question only by sending an SMS WINET< space >< answer > to +91 9818505252. You will not be able to answer the question on the website.</p>
+    <p>You can answer the question only by sending an SMS WINET< space >< answer > to +91 9818505252. You will not be
+      able to answer the question on the website.</p>
 
     <h4>6. How will I be informed if I have won a prize?</h4>
 
@@ -129,7 +120,8 @@
 
     <h4>7. Can I change my answer once I have sent the SMS?</h4>
 
-    <p>You can change your answer by sending another SMS. However, the last answer sent by you in the day will be counted as the final answer and will be used to tabulate your score.</p>
+    <p>You can change your answer by sending another SMS. However, the last answer sent by you in the day will be
+      counted as the final answer and will be used to tabulate your score.</p>
 
     <h4>8. Can I continue to play and win if I have already won a prize?</h4>
 
@@ -137,30 +129,35 @@
 
     <h4>9. What are Promotions?</h4>
 
-    <p>On certain days, Promotions will be introduced which will enable players to earn extra points. Players have the option to choose or ignore promotions for that particular day.
-      If availed, scores will be awarded according to the promotion of that day. If not availed, scores will be awarded according to the standard scoring system prescribed.</p>
+    <p>On certain days, Promotions will be introduced which will enable players to earn extra points. Players have the
+      option to choose or ignore promotions for that particular day.
+      If availed, scores will be awarded according to the promotion of that day. If not availed, scores will be awarded
+      according to the standard scoring system prescribed.</p>
 
     <p><h5>1. Happy Hours – </h5>
-      Players who answer before 11AM get double the points for the day</p>
+    Players who answer before 11AM get double the points for the day</p>
 
     <p><h5>2. Double Trouble</h5>
-      If the player is confident of the answer, this option can double the points (+4 points)
-      If the answer is wrong and Double Trouble is availed, the player loses the same amount (- 4 points)
-      If Double Trouble is not selected, the question will remain at 2 points</p>
+    If the player is confident of the answer, this option can double the points (+4 points)
+    If the answer is wrong and Double Trouble is availed, the player loses the same amount (- 4 points)
+    If Double Trouble is not selected, the question will remain at 2 points</p>
 
     <p><h5>3. Triple Threat –</h5>
-      A Triple Threat question is for 3 points (instead of 2)
-      If the question is attempted with Triple Threat, player wins 9 points if correct and loses 9 points if wrong
-      If this promotion not selected, the question will remain at 3 points</p>
+    A Triple Threat question is for 3 points (instead of 2)
+    If the question is attempted with Triple Threat, player wins 9 points if correct and loses 9 points if wrong
+    If this promotion not selected, the question will remain at 3 points</p>
 
     <h4>10. How does the referral system work?</h4>
 
-    <p>You can refer your friends to play the quiz by simply providing their email addresses or inviting them through Facebook. If the referred friend registers on the website www.WWET.ptotem.com, and sends the answer via an SMS, you will be awarded points.
+    <p>You can refer your friends to play the quiz by simply providing their email addresses or inviting them through
+      Facebook. If the referred friend registers on the website www.WWET.ptotem.com, and sends the answer via an SMS,
+      you will be awarded points.
       Converted referrals on specific days will give bonus points.</p>
 
     <h4>11. What if I refer a friend and he does not register on the website, do I still get points?</h4>
 
-    <p>You will get bonus points only if your friend registers on the website and plays the quiz by sending his/her answer via an SMS. Points will not be awarded for referrals that do not get converted.</p>
+    <p>You will get bonus points only if your friend registers on the website and plays the quiz by sending his/her
+      answer via an SMS. Points will not be awarded for referrals that do not get converted.</p>
 
     <h4>12. What if the friend I referred refers another friend, will I get extra points?</h4>
 
@@ -173,7 +170,7 @@
 
 <footer>
   <div class="deep-footer">
-    <div class="container">
+    <div class="container" style="padding-bottom: 10px;margin-top: 10px;">
       <div class="row">
         <div class="span6">
           <div class="copyright">Copyright © 2013 The Economic Times</div>
@@ -181,13 +178,6 @@
 
         <div class="span6">
           <ul class="footer-links">
-
-            <a href=""><img src="/assets/img/facebook.png" style="width:8%;"></a>
-
-            <a href=""><img src="/assets/img/twitter.png" style="width:8%;"></a>
-
-            <a href=""><img src="/assets/img/linkedin.png" style="width:8%;"></a>
-
           </ul>
         </div>
       </div>
@@ -196,9 +186,9 @@
 </footer>
 
 <script>
-  $("#faqcall").on("click",function(){
-    $("#faqmodal").modal("show");
-  });
+    $("#faqcall").on("click", function () {
+        $("#faqmodal").modal("show");
+    });
 </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 .ch-grid {
-	margin: 20px 0 0 0;
+	margin: 0 0 0 0;
 	padding: 0;
 	list-style: none;
 	display: block;
@@ -18,8 +18,35 @@
 }
 
 .ch-grid li {
-	width: 195px;
+	width: 30%;
 	height: 270px;
 	display: inline-block;
-	margin: 10px;
+}
+
+.hero-unit{
+    padding:20px;
+    margin-bottom: 10px;
+}
+
+.insetted-info{
+    padding:20px;
+}
+
+#refer-white-card{
+    height:250px;
+}
+
+#rules-white-card{
+    height:250px;
+}
+
+.avatar-icon{
+    width:10%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#register{
+    width:25%;
+    margin-left: -10%;
 }

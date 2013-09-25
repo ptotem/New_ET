@@ -4,9 +4,9 @@
 	position: relative;
 	cursor: default;
 	box-shadow: 
-		inset 0 0 0 0 rgba(200,95,66, 0.4),
-		inset 0 0 0 16px rgba(255,255,255,0.6),
-		0 1px 2px rgba(0,0,0,0.1);
+		inset 0 0 0 0 rgba(124, 41, 28, 0.9),
+		inset 0 0 0 8px rgba(0,0,0,0.5),
+		0 1px 2px rgba(124, 41, 28, 0.43);
 		
 	-webkit-transition: all 0.4s ease-in-out;
 	-moz-transition: all 0.4s ease-in-out;
@@ -36,7 +36,7 @@
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	
+
 	-webkit-transition: all 0.4s ease-in-out;
 	-moz-transition: all 0.4s ease-in-out;
 	-o-transition: all 0.4s ease-in-out;
@@ -53,23 +53,12 @@
 
 }
 
-.ch-info h3 {
-	color: #000000;
-	text-transform: uppercase;
-	position: relative;
-	letter-spacing: 2px;
-	font-size: 20px;
-	margin: 0 20px;
-	padding: 10px 0 0 0;
-	height: 70px;
-	font-family: 'Open Sans', Arial, sans-serif;
-	text-shadow: 
-		0 0 1px #fff, 
-		0 1px 2px rgba(0,0,0,0.3);
+.ch-info h4 {
+	color: #fff;
 }
 
 .ch-info p {
-	color: #000000;
+	color: #fff;
 	padding: 10px 5px;
 	margin: 0 20px;
 	font-size: 16px;
@@ -95,8 +84,8 @@
 }
 
 .ch-item:hover {
-	box-shadow: 
-		inset 0 0 0 110px rgba(200,95,66, 0.4),
+	box-shadow:
+		inset 0 0 0 110px rgba(124, 41, 28, 0.8),
 		inset 0 0 0 16px rgba(255,255,255,0.8),
 		0 1px 2px rgba(0,0,0,0.1);
 }

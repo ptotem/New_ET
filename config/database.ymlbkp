@@ -33,7 +33,7 @@ development:
   database: et_development_db
   pool: 5
   username: root
-  password: 19loki76
+  password: p20o20e13
 
 
 # **socket: /opt/local/var/run/mysql5/mysqld.sock**
@@ -45,7 +45,7 @@ test:
   database: et_test_db
   pool: 5
   username: root
-  password: 19loki76
+  password: p20o20e13
 
 #  socket: **/opt/local/var/run/mysql5/mysqld.sock**
 
@@ -56,7 +56,7 @@ production:
   database: et_production_db
   pool: 5
   username: root
-  password: 19loki76
+  password: p20o20e13
 
 
 #  socket: **/opt/local/var/run/mysql5/mysqld.sock**
