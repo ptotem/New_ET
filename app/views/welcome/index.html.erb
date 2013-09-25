@@ -593,62 +593,77 @@
                 </div>
               </div>
               <% end %>
-              <script>
-                $(document).ready(function () {
-                    <% if user_signed_in? %>
-                    $('.dependent').dependentSelects();
-                    var curr_usr_sign_in_count = "<%= current_user.sign_in_count %>";
-                    var display_modal = <%= current_user.display_modal %>;
-                    //alert(display_modal);
-                    if ((curr_usr_sign_in_count <= 1) && (display_modal==false)) {
-                        $('#edit_profile').modal('show');
+<script>
+    $(document).ready(function () {
+        <% if user_signed_in? %>
+        $('.dependent').dependentSelects();
+        var curr_usr_sign_in_count = "<%= current_user.sign_in_count %>";
+        var display_modal = <%= current_user.display_modal %>;
 
-                        $.ajax({
-                            url:"/control_edit_profile_modal",
-                            type:"post",
-                            success: function (data) {
+        if ((curr_usr_sign_in_count <= 1) && (display_modal==false)) {
+            $('#edit_profile').modal('show');
 
-                            }
-                        });
-                    }
-                    <% end %>
+            $.ajax({
+                url:"/control_edit_profile_modal",
+                type:"post",
+                success: function (data) {
 
-                  $(function () {
-                    $("#head1").addClass('magictime tinRightIn')
-                  });
-                  $(function () {
-                    $("#head2").addClass('magictime tinRightIn')
-                  });
-                  $(function () {
-                    $("#head3").addClass('magictime tinRightIn')
-                  });
-                  $(function () {
-                    $("#head4").addClass('magictime tinRightIn')
-                  });
-                  $(function () {
-                    $("#head5").addClass('magictime tinRightIn')
-                  });
-                  $(function () {
-                    $("#head6").addClass('magictime tinRightIn')
-                  });
+                }
+            });
+        }
+        <% end %>
+
+        $(function () {
+            $("#head1").addClass('magictime tinRightIn')
+        });
+        $(function () {
+            $("#head2").addClass('magictime tinRightIn')
+        });
+        $(function () {
+            $("#head3").addClass('magictime tinRightIn')
+        });
+        $(function () {
+            $("#head4").addClass('magictime tinRightIn')
+        });
+        $(function () {
+            $("#head5").addClass('magictime tinRightIn')
+        });
+        $(function () {
+            $("#head6").addClass('magictime tinRightIn')
+        });
 
 
 
-                  <%if user_signed_in?%>
-                    $.ajax({
-                      url:"/recent_activity",
-                      type:"get",
-                      success:function (returning_data) {
-                        if(returning_data!=''){
-                          returning_data=returning_data.split(",");
-                          $('#recent_activity').html();
-                          $.each(returning_data,function(){
-                            recent=this.replace("[","").replace("]","").replace('"','');
-                            $("#recent_activity").append('<li><a href="#">'+recent+'</a></li>');
-                          });
-                        }
-                      }
+        <%if user_signed_in?%>
+        var curr_usr_fb_sign_in_count = "<%= current_user.fb_sign_in_count %>";
+        var fb_signed_in = <%= current_user.fb_signed_in %>;
+
+        $.ajax({
+            url:"/recent_activity",
+            type:"get",
+            success:function (returning_data) {
+                if(returning_data!=''){
+                    returning_data=returning_data.split(",");
+                    $('#recent_activity').html();
+                    $.each(returning_data,function(){
+                        recent=this.replace("[","").replace("]","").replace('"','');
+                        $("#recent_activity").append('<li><a href="#">'+recent+'</a></li>');
                     });
+                }
+            }
+        });
+
+        if ( fb_signed_in == true) {
+
+            $.ajax({
+                url:"/update_fb_sign_in_score",
+                type:"get",
+                success:function (returning_data) {
+
+                }
+            });
+
+        }
 
                     $.ajax({
                       url:"/get_score",
@@ -656,44 +671,56 @@
                       success:function (returning_data) {
                         if(returning_data!=''){
                           returning_data=returning_data.split("|");
-                            $("#points").html(<%=current_user.refer_points%>+"Points");
+                            var fb_sign_in_score = <%= current_user.fb_sign_in_score.to_i %>;
+                            var ref_pts = <%= current_user.refer_points.to_i %>;
+                            var fb_signed_in = <%= current_user.fb_signed_in %>;
+
+                            if ( fb_signed_in == true) {
+                                $("#points").html(ref_pts + fb_sign_in_score + " Points");
+                            }
+                            else{
+                                $("#points").html(<%=current_user.refer_points%>+"Points");
+                            }
+
+
+
                             $("#rank").html(<%=User.order(:refer_points).map{|i| i.refer_points}.reverse.index(current_user.refer_points)+1%>);
                             $("#percentage").html(returning_data[2]+"%");
                             $(".bar").width(parseInt(returning_data[2])+"%");
                         }
                       }
                     });
-                  <%end%>
-                  $('#box1').click(function () {
-                      window.location = "/quiz";
-                  });
-                  $('#box2').click(function () {
-                      window.location = "/archives";
-                  });
+        <%end%>
+        $('#box1').click(function () {
+            window.location = "/quiz";
+        });
+        $('#box2').click(function () {
+            window.location = "/archives";
+        });
 
-                  $("#submit_email").click(function () {
-                    var email = $("#referance_friend").val();
-                    var data = {email: []}
-                    data["email"].push(email);
-                    $.ajax({
-                      url: "<%= ref_mail_path %>",
-                      type: "POST",
-                      contentType: "application/json",
-                      data: JSON.stringify(data),
-                      success: function (data) {
-                        alert(data)
-                      }
-                    });
+        $("#submit_email").click(function () {
+            var email = $("#referance_friend").val();
+            var data = {email: []}
+            data["email"].push(email);
+            $.ajax({
+                url: "<%= ref_mail_path %>",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    alert(data)
+                }
+            });
 
-                  });
+        });
 
 
-                });
+    });
 
-function view_register(){
-  $('#register').modal('show')
-  $('#register_form').find('.dependent').dependentSelects();
-}
+    function view_register(){
+        $('#register').modal('show')
+        $('#register_form').find('.dependent').dependentSelects();
+    }
 
 
 

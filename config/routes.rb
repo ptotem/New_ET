@@ -25,6 +25,7 @@ ETNew::Application.routes.draw do
   match "/all_participant_data",:to=>"response#all_participant_data",:as=>"each_question_data"
   match "/recent_activity", :to=>"quiz#recent_activity"
   match "/get_score", :to=>"quiz#get_score"
+  match "/update_fb_sign_in_score", :to=>"welcome#update_fb_sign_in_score"
   match "/cs", :to=>"quiz#current_status"
   match '/create_guest_user' => "welcome#create_guest_user", :as => :create_guest_user
   match '/my_new_user' => "welcome#my_new_user", :as => "my_new_user"

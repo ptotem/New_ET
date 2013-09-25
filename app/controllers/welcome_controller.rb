@@ -74,6 +74,7 @@ class WelcomeController < ApplicationController
   def facebook
     if user_signed_in?
       #render :text => request.env["omniauth.auth"].info.image.to_s
+      #render :text => request.env["omniauth.auth"]["provider"]
       #return
       @user = current_user
       @user_first_name=request.env["omniauth.auth"].extra.raw_info.first_name
@@ -83,9 +84,23 @@ class WelcomeController < ApplicationController
       @user.uid = request.env["omniauth.auth"]["uid"]
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
       @user.picture = request.env["omniauth.auth"].info.image
+
+      if (!@user.fb_signed_in)
+        #if request.env["omniauth.auth"]["provider"]=="facebook"
+        @user.provider = request.env["omniauth.auth"]["provider"]
+        @user.fb_sign_in_count = @user.fb_sign_in_count+1
+        @user.fb_signed_in=true
+        #render :text => "provider :- #{@user.provider}, fb_sign_in_count :- #{@user.fb_sign_in_count}, fb_sign_in_score :- #{@user.fb_sign_in_score}"
+        #return
+        #end
+      end
+
       @user.save!
+
       redirect_to "/profile" and return
     else
+      #render :text => "else part"
+      #return
       auth=request.env["omniauth.auth"]
 
       if auth.provider=='facebook' # Checking if request comes from facebook or twitter
@@ -107,6 +122,7 @@ class WelcomeController < ApplicationController
           @user=User.find_by_uid(auth['uid'])
         end
       end
+
       sign_in(:user, @user)
       @user.uid = request.env["omniauth.auth"]["uid"]
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
@@ -114,6 +130,13 @@ class WelcomeController < ApplicationController
       @user.save
       redirect_to "/profile" and return
     end
+  end
+
+  def update_fb_sign_in_score
+    @user = User.find(current_user.id)
+    @user.fb_sign_in_score = 20
+    @user.save!
+    render :text => @user.fb_sign_in_score
   end
 
   def mobile_no_checking

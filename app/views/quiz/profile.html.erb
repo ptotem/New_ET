@@ -371,6 +371,10 @@
   $(function(){
       $('.dependent').dependentSelects();
     <%if user_signed_in?%>
+
+      var curr_usr_fb_sign_in_count = "<%= current_user.fb_sign_in_count %>";
+      var fb_signed_in = <%= current_user.fb_signed_in %>;
+
         $.ajax({
           url:"/recent_activity",
           type:"get",
@@ -386,13 +390,36 @@
           }
         });
 
+      if ( fb_signed_in == true) {
+
+          $.ajax({
+              url:"/update_fb_sign_in_score",
+              type:"get",
+              success:function (returning_data) {
+
+              }
+          });
+
+      }
+
         $.ajax({
           url:"/get_score",
           type:"get",
           success:function (returning_data) {
             if(returning_data!=''){
               returning_data=returning_data.split("|");
-              $("#points").html(<%=current_user.refer_points%>+"Points");
+
+                var fb_sign_in_score = <%= current_user.fb_sign_in_score.to_i %>;
+                var ref_pts = <%= current_user.refer_points.to_i %>;
+                var fb_signed_in = <%= current_user.fb_signed_in %>;
+                console.log(fb_signed_in);
+                if ( fb_signed_in == true) {
+                    $("#points").html(ref_pts + fb_sign_in_score + " Points");
+                }
+                else{
+                    $("#points").html(<%=current_user.refer_points%>+"Points");
+                }
+
               $("#rank").html(<%=User.order(:refer_points).map{|i| i.refer_points}.reverse.index(current_user.refer_points)+1%>);
               $("#percentage").html(returning_data[2]+"%");
               $(".bar").width(parseInt(returning_data[2])+"%");
