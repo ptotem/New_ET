@@ -13,7 +13,7 @@
   <script src="/assets/js/theme_venera.js" type="text/javascript"></script>
   <%= csrf_meta_tags %>
   <%= feedback_includes %>
-
+  <%= js extend_gritter :position => :bottom_right %>
 </head>
 <body>
 <!--<div id="fb-root"></div>-->
@@ -47,9 +47,7 @@
     <div class='navbar-inner'>
       <div class='container-fluid'>
         <a class="brand" href="/" style="margin-left: 5%">Win with ET</a>
-        <% flash.each do |name, msg| %>
-            <%= content_tag :a, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
-        <% end %>
+
         <div class="pull-right" style="margin-right: 5%">
           <% if user_signed_in? %>
               <a href="#" class="btn btn-success">Hi <%= current_user.name %></a>
@@ -69,7 +67,10 @@
 
 
 
-<div id="faqmodal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<%= js add_gritter(flash[:alert], :image => :warning, :title => "Alert!", :sticky => false, :time => 2000) %>
+
+
+ <div id="faqmodal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
       ×
