@@ -210,8 +210,6 @@ ActiveRecord::Schema.define(:version => 20130925144441) do
     t.integer  "user_photo_file_size"
     t.datetime "user_photo_updated_at"
     t.string   "picture"
-    t.integer  "fb_sign_in_count",        :default => 0
-    t.integer  "fb_sign_in_score",        :default => 0
     t.boolean  "fb_signed_in",            :default => false
   end
 

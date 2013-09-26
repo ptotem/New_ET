@@ -18,7 +18,8 @@ class User < ActiveRecord::Base
   has_many :feedbacks
 
   has_paper_trail
-  after_create :refer_email
+  #after_create :refer_email
+  after_create :refer_email, :check_country_code_in_username
 
   def superadmin?
     role=="Superadmin"
@@ -47,6 +48,18 @@ class User < ActiveRecord::Base
       @refer_points=@user_id.refer_points
       @user_id.update_attributes(:refer_points=>@refer_points+20)
       @user_id.save
+    end
+  end
+
+  def check_country_code_in_username
+    @user = User.find(self.id)
+
+    @username = @user.username
+    @first_two_char = @username[0..1]
+
+    if @first_two_char != "91"
+      @user.username = "91#{@username}"
+      @user.save!
     end
   end
 

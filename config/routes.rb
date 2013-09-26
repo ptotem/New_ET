@@ -6,6 +6,7 @@ ETNew::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   #devise_for :users
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  #devise_for :users, :controllers => { :sessions => "users/sessions" }
   get 'tags/:tag', :to=> 'quiz#archives', :as=>"tag"
   match "/quiz"=>"quiz#index"
   match "/archives"=>"quiz#archives_index"

@@ -169,6 +169,7 @@ class WelcomeController < ApplicationController
   def my_new_user
     @user=User.create!(:email => params[:users][:email],:username => params[:users][:username],:name => params[:users][:name],:nickname => params[:users][:nickname],:age => params[:users][:age],:workx => params[:users][:workx],:location => params[:location],:industry => params[:users][:industry],:password => "password")
     @user.save
+    sign_in(:user, @user)
     redirect_to "/"
   end
 
