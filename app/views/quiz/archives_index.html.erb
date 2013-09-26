@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="assets/css/style8.css"/>
 <link rel="stylesheet" href="assets/css/default.css" type="text/css">
 
+
 <section class='section-wrapper'>
 <div class='container'>
 <div class='row'>
@@ -303,7 +304,10 @@
     var correct;
     var quest;
     var tag_quest;
+    var date = <%= @date.strftime("%d") %> ;
     $(document).ready(function () {
+
+        //alert(a);
 
         correct =<%= @correct  %>;
         quest=<%= @yesterday_question.id  %>;
@@ -311,12 +315,42 @@
             always_visible:$('#container'),
             onSelect:function (view, element) {
                 $("#" + correct).css("background", "none");
-                load_quest(element)
+                load_quest(view, element)
+
 
             }
         });
 
+        $('.Zebra_DatePicker').find('.dp_footer').css("display","none");
+        //$('td').removeClass('');
+        setTimeout(function(){
+            load_datepicker(date);
+        },1000)
+
+
     });
+
+    function load_datepicker(date){
+         a=getcurrent(date);
+         if (a.length===1){
+             $(a).addClass('dp_selected');
+         }
+         else{
+             var curr;
+             $(a).eaah(function(){
+                  if(($(v).text()=="2")&&(!$(v).hasClass('dp_not_in_month'))){
+                       curr=$(v)
+                  }
+             })
+             curr.addClass('dp_selected');
+         }
+    }
+
+    function getcurrent(ar_date){
+        //$('.dp_daypicker>td').filter(function(){
+            return $('td:contains("'+ar_date+'")');
+        //});
+    }
 
     function view_score() {
         $("#" + correct).css("background", "green");
@@ -331,7 +365,8 @@
         window.location = "/view_question_stat/" + quest;
     }
 
-    function load_quest(this_obj) {
+    function load_quest(viewing,this_obj) {
+
         var data = {question:[]}
         data["question"].push(this_obj);
         $.ajax({
@@ -356,6 +391,7 @@
                     var image = data.toString().split('|')[7];
                     var tags = data.toString().split('|')[8];
                     var insertion_date=data.toString().split('|')[9];
+                    var quiz_date=data.toString().split('|')[10];
                     $('.question').html(question);
 
 
@@ -373,7 +409,10 @@
 
                     $('#article').append('<img  src=' + image + '>');
 
-                    $('#tag_list').append('<h5>'+ insertion_date +'</h5>');
+                    $('#tag_list').append('<h5>'+ quiz_date +'</h5>');
+                    load_datepicker(insertion_date);
+
+
                 }
             }
         });

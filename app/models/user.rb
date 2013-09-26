@@ -91,7 +91,6 @@ class User < ActiveRecord::Base
             @version.event="incorrect"
             @version.whodunnit=u
             @version.save
-            #@r<<@user.refer_points
           end
         end
 

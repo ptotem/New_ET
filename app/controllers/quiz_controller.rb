@@ -68,8 +68,9 @@ class QuizController < ApplicationController
     @previous_date = @date.strftime('%d %B %Y')
     #@yesterday_question =Question.find_all_by_insertion_date(Date.yesterday).first
     @yesterday_question=Question.all.sort_by(&:insertion_date)
-    @yesterday_question=@yesterday_question[@yesterday_question.count-2]
+    @yesterday_question=@yesterday_question[@yesterday_question.count-1]
     @question = @yesterday_question.name
+    @date=@yesterday_question.insertion_date
     @option = Option.find_all_by_question_id(@yesterday_question.id)
     @correct=Option.find_by_question_id_and_is_correct(@yesterday_question.id, true).id
     @month_list=(Question.order('insertion_date DESC').last.insertion_date..Question.order('insertion_date DESC').first.insertion_date).map { |d| [d.year, d.month] }.uniq

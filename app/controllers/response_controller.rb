@@ -67,7 +67,7 @@ class ResponseController < ApplicationController
       else
         @option = Option.find_all_by_question_id(@question.id)
         @correct=Option.find_by_question_id_and_is_correct(@question.id, true).id
-        render :text => "#{@question.name}|#{@option[0].id};#{@option[0].name}|#{@option[1].id};#{@option[1].name}|#{@option[2].id};#{@option[2].name}|#{@option[3].id};#{@option[3].name}|#{@correct}|#{@question.id}|#{@question.view_article}|#{@question.tag_list}|#{@question.insertion_date}"
+        render :text => "#{@question.name}|#{@option[0].id};#{@option[0].name}|#{@option[1].id};#{@option[1].name}|#{@option[2].id};#{@option[2].name}|#{@option[3].id};#{@option[3].name}|#{@correct}|#{@question.id}|#{@question.view_article}|#{@question.tag_list}|#{@question.insertion_date.strftime("%d")}|#{@question.insertion_date}"
       end
     else
       render :text => "Not Found"

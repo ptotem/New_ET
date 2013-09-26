@@ -70,16 +70,16 @@
 
 /* = FOOTER
 ----------------------------------------------------------------------------------------------------------------------*/
-.Zebra_DatePicker .dp_footer            { margin-top: 3px }
-.Zebra_DatePicker .dp_footer .dp_hover  { background: #222; color: #FFF }
+.Zebra_DatePicker .dp_footer            { margin-top: 3px;display: none; }
+.Zebra_DatePicker .dp_footer .dp_hover  { background: #222; color: #FFF;display: none; }
 
 /* = SELECT CURRENT DAY
 ----------------------------------------------------------------------------------------------------------------------*/
-.Zebra_DatePicker .dp_today { color: #FFF; padding: 3px }
+.Zebra_DatePicker .dp_today { color: #FFF; padding: 3px;display: none; }
 
 /* = CLEAR DATE
 ----------------------------------------------------------------------------------------------------------------------*/
-.Zebra_DatePicker .dp_clear { color: #FFF; padding: 3px }
+.Zebra_DatePicker .dp_clear { color: #FFF; padding: 3px;display: none; }
 
 /* = SOME MORE GLOBALS (MUST BE LAST IN ORDER TO OVERWRITE PREVIOUS PROPERTIES)
 ----------------------------------------------------------------------------------------------------------------------*/
