@@ -47,14 +47,18 @@
     <div class='navbar-inner'>
       <div class='container-fluid'>
         <a class="brand" href="/" style="margin-left: 5%">Win with ET</a>
+        <% flash.each do |name, msg| %>
+            <%= content_tag :a, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+        <% end %>
         <div class="pull-right" style="margin-right: 5%">
           <% if user_signed_in? %>
               <a href="#" class="btn btn-success">Hi <%= current_user.name %></a>
               <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account btn btn success" %>
           <% end %>
+
           <%#= feedback_tab(:position => 'right') %>
           <a class="btn btn-danger" href="#">Feedback</a>
-          <a class="btn btn-warning" href="#">FAQ</a>
+          <a class="btn btn-warning" href="#" id="faqcall">FAQ</a>
         </div>
       </div>
     </div>
@@ -63,10 +67,7 @@
 
 <%= yield %>
 
-<%= js extend_gritter :position => :bottom_right %>
-<%= js add_gritter(flash[:notice], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
-<%= js add_gritter(flash[:message], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
-<%= js add_gritter(flash[:alert], :image => :warning, :title => "Alert!", :sticky => false, :time => 2000) %>
+
 
 <div id="faqmodal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">

@@ -94,23 +94,24 @@
           </div>
         </div>
         <div class='span3'>
-            <div class="row-fluid">
-            <div class="accordion" id="accordion2">
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                    <strong><span>Your Score</span><span id="points" class="pull-right"><%= @points %> Points</span></strong>
-                  </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse in">
-                  <div class="accordion-inner">
-                    <div class="blog-categories widget-tp">
-                      <ul>
-                       <li>
-                        <a href="#">Your Current Rank is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
+          <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                  <strong><span>Your Score</span><span class="pull-right" id="points"><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></strong>
+                </a>
+              </div>
+              <div id="collapseOne" class="accordion-body collapse in">
+                <div class="accordion-inner">
+                  <div class="blog-categories widget-tp">
+                    <ul>
+                      <li>
+                        <a href="#">Your Current Rank
+                          is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
                       </li>
                       <li>
-                        <a href="#">Your Correct Answer Rate is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
+                        <a href="#">Your Correct Answer Rate
+                          is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
 
                           <div class="progress progress-striped active">
                             <div class="bar bar-success"></div>
@@ -124,14 +125,34 @@
             </div>
             <div class="accordion-group">
               <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
                   <strong>Recent Activity</strong>
                 </a>
               </div>
-              <div id="collapseOne" class="accordion-body collapse">
+              <div id="collapseTwo" class="accordion-body collapse">
                 <div class="accordion-inner">
                   <div class="blog-categories widget-tp">
                     <ul id="recent_activity">
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                  <strong>Profile</strong>
+                </a>
+              </div>
+              <div id="collapseThree" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <div class="blog-categories widget-tp">
+                    <ul id="user_profile">
+                      <li><strong>Nickname</strong> :  <%= current_user.name %></li>
+                      <li><strong>Location&nbsp;&nbsp;</strong> :  <%= current_user.location %></li>
+                      <li><strong>Industry&nbsp;&nbsp;&nbsp;</strong> :  <%= current_user.industry %></li>
+                      <li><button class="btn btn-info" id="profile_page" onclick='window.location="/profile"'>View Profile</button></li>
                     </ul>
                   </div>
                 </div>
@@ -139,12 +160,6 @@
             </div>
           </div>
         </div>
-            <div class="row-fluid">
-          <button class="btn btn-danger btn-large" style="margin-top:25px;" onclick="refer_friend();">Refer A Friend And Get 20
-            Points
-          </button>
-        </div>
-      </div>
 
       <!-- Row End -->
 
