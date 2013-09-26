@@ -98,6 +98,7 @@
                 <div class="span12">
                   <%= f.password_field :password, :placeholder => "Password", :style => "width:95%;", :class => "required",:"data-msg-required"=> "Please enter your Password"  %>
                   <% flash.each do |name, msg| %>
+                      <% msg = "Invalid Phone Number and Password" %>
                       <%= content_tag :label, msg, :id => "flash_#{name}", :class => "error" if msg.is_a?(String) %>
                   <% end %>
                 </div>
