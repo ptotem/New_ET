@@ -16,3 +16,4 @@
 /public
 config.database.yml.sqlite3
 /db/data.yml
+/.idea
