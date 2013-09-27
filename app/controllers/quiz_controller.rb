@@ -107,9 +107,8 @@ class QuizController < ApplicationController
         @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
       end
       @user_res=@user_res.delete_if { |x| x==nil }
-      @week_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.sum}
+      @week_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
     end
-
     @month_users=Array.new
     @month_leaderboard=Array.new
     @month_questions=Question.show_sales_for_current_month(Date.today.year, Date.today.month)
@@ -123,7 +122,7 @@ class QuizController < ApplicationController
         @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
       end
       @user_res=@user_res.delete_if { |x| x==nil }
-      @month_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.sum}
+      @month_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.delete_if{|x| x==nil}.sum}
     end
 
 
