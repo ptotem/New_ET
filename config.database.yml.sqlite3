@@ -3,7 +3,6 @@
 #
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
-
 #development:
 #  adapter: sqlite3
 #  database: db/development.sqlite3
@@ -34,7 +33,8 @@ development:
   database: et_development_db
   pool: 5
   username: root
-  password: p20o20e13
+  #password: p20o20e13
+  password:
 
 
 # **socket: /opt/local/var/run/mysql5/mysqld.sock**

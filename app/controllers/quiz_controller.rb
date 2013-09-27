@@ -153,6 +153,22 @@ class QuizController < ApplicationController
     @profile.workx=params[:workx]
     @profile.location=params[:location]
     @profile.industry=params[:industry]
+    #@profile.password=params[:password]
+    @profile.save
+    @version=Version.last
+    @version.event="profile_update"
+    @version.whodunnit=current_user.id
+    @version.save
+    sign_in(@profile, :bypass => true)
+    if params[:from_page]=="index"
+      redirect_to "/"
+    else
+      redirect_to "/profile"
+    end
+  end
+
+  def quiz_change_password
+    @profile=User.find(current_user.id)
     @profile.password=params[:password]
     @profile.save
     @version=Version.last
@@ -187,9 +203,12 @@ class QuizController < ApplicationController
             when "create"
               @response=Response.find(ver.item_id)
               @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
-            when "update"
+            when "DD"
               @response=Response.find(ver.item_id)
-              @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
+              @recent_activity<<"User applied for double delight for question dated "+@response.question.insertion_date.to_s
+            when "TT"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"User applied for Triple Treat for question dated "+@response.question.insertion_date.to_s
           end
       end
     end

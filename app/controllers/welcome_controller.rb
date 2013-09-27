@@ -79,7 +79,7 @@ class WelcomeController < ApplicationController
       @user = current_user
       @user_first_name=request.env["omniauth.auth"].extra.raw_info.first_name
       @user_last_name=request.env["omniauth.auth"].extra.raw_info.last_name
-      @user.name = @user_first_name + @user_last_name
+      @user.name = "#{@user_first_name} #{@user_last_name}"
       @user.location = request.env["omniauth.auth"]["extra"]["raw_info"]["location"]["name"]
       @user.uid = request.env["omniauth.auth"]["uid"]
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
@@ -90,6 +90,7 @@ class WelcomeController < ApplicationController
         @user.provider = request.env["omniauth.auth"]["provider"]
         @user.fb_sign_in_count = @user.fb_sign_in_count+1
         @user.fb_signed_in=true
+        @user.fb_sign_in_score = 20
         #render :text => "provider :- #{@user.provider}, fb_sign_in_count :- #{@user.fb_sign_in_count}, fb_sign_in_score :- #{@user.fb_sign_in_score}"
         #return
         #end

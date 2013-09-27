@@ -187,33 +187,33 @@ class ResponseController < ApplicationController
       if User.find_by_username(params[:uname]).nil?
         passwd=Random.new.rand(10000000..99999999).to_s
         @user=User.create(:email => "abc#{Time.now.to_i}@gmail.com", :username => params[:uname], :password => passwd, :password_confirmation => passwd);
-        str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com using the following password to login: '+passwd+'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+params[:uname])
+        str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Thanks for playing Win with ET. Refer friends and increase your score on www.winwithet.com. Username: mobile number Password '+passwd+'. Play Daily! Win Daily!&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+params[:uname])
         @r =open(str)
         sleep(2)
       else
         @user=User.find_by_username(params[:uname])
       end
       @question = Question.find_by_insertion_date(Date.today)
-      
-      
+
+
       if @question.nil?
-       render :text=>"Welcome to Win with ET, There is no quiz today, please see the newspaper to get updated"
-       return
-     end
+        render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+        return
+      end
 
-     if Time.zone.now> @question.close_time
-      render :text=>"Thank your for playing Win with ET. We are unable to accept any answers after 6PM each day. Please play again tomorrow. Visit kyet.ptotem.com to look up our archives."
-      return
-    end
-
-    
+      if Time.zone.now> @question.close_time
+        render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+        return
+      end
 
 
 
-    if params[:message].include?("WINETD")
-      @question = Question.find_by_insertion_date(Date.today)
-      @selected_option=params[:message].split(' ')[1]
-      case @selected_option
+
+
+      if params[:message].include?("WINETD")
+        @question = Question.find_by_insertion_date(Date.today)
+        @selected_option=params[:message].split(' ')[1]
+        case @selected_option
           when "A" #compare to 1
             @option=@question.options[0]
           when "B" #compare to 2
@@ -225,124 +225,126 @@ class ResponseController < ApplicationController
           else
             render :text =>"Wrong Option Selected"
             return
-          end
-
-          @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
-          if @response.created_at<@option.question.happy_hr and @option.is_correct
-            @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
-          elsif @option.is_correct
-            @response.points=@option.question.quiz.plus
-          elsif @response.created_at<@option.question.happy_hr
-            @response.points=0
-          else
-            @response.points= -(@option.question.quiz.minus)
-          end
-          @response.save
-          @response.promotion=true
-          if @response.option.is_correct
-            @response.points=@response.points+@response.option.question.quiz.plus*2
-          else
-            @response.points=@response.points-@response.option.question.quiz.plus*2
-          end
-
-          if @response.created_at<@response.option.question.happy_hr and !@response.option.is_correct
-            @response.points=0
-          end
-          @response.save
-          @version = Version.last
-          @version.whodunnit=@user.id
-          @version.save
-          render :text=>@a+"Thank you for playing Double Trouble on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
-          return
-        elsif params[:message].include?("WINETT")
-          @question = Question.find_by_insertion_date(Date.today)
-
-          @selected_option=params[:message].split(' ')[1]
-          case @selected_option
-          when "A" #compare to 1
-            @option=@question.options[0]
-          when "B" #compare to 2
-            @option=@question.options[1]
-          when "C"
-            @option=@question.options[2]
-          when "D"
-            @option=@question.options[3]
-          else
-            render :text =>"Wrong Option Selected"
-            return
-          end
-          @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
-          if @response.created_at<@option.question.happy_hr and @option.is_correct
-            @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
-          elsif @option.is_correct
-            @response.points=@option.question.quiz.plus
-          elsif @response.created_at<@option.question.happy_hr
-            @response.points=0
-          else
-            @response.points= -(@option.question.quiz.minus)
-          end
-          @response.save
-          @response.promotion=true
-          if @response.option.is_correct
-            @response.points=@response.points+@response.option.question.quiz.plus*3
-          else
-            @response.points=@response.points-@response.option.question.quiz.plus*3
-          end
-
-          if @response.created_at<@response.option.question.happy_hr and !@response.option.is_correct
-            @response.points=0
-          end
-          @response.save
-          @version = Version.last
-          @version.whodunnit=@user.id
-          @version.save
-          render :text=>@a+"Thank you for playing Triple Threat on Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
-          return
-        elsif params[:message].include?("PWD")
-          passwd=Random.new.rand(10000000..99999999).to_s
-          @user.password = passwd
-          @user.password_confirmation=passwd
-          @user.save
-          render :text=>"Thank your for playing Win with ET. As requested, the following is your password to login on kyet.ptotem.com:"+@user.password
-          return
-        elsif params[:message].include?("WINET")
-
-          @selected_option=params[:message].split(' ')[1]
-          case @selected_option
-          when "A" #compare to 1
-            @option=@question.options[0]
-          when "B" #compare to 2
-            @option=@question.options[1]
-          when "C"
-            @option=@question.options[2]
-          when "D"
-            @option=@question.options[3]
-          else
-            render :text =>"Wrong Option Selected"
-            return
-          end
-
-          @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
-          if @response.created_at<@option.question.happy_hr and @option.is_correct
-            @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
-          elsif @option.is_correct
-            @response.points=@option.question.quiz.plus
-          elsif @response.created_at<@option.question.happy_hr
-            @response.points=0
-          else
-            @response.points= -(@option.question.quiz.minus)
-          end
-          @response.save
-          @version = Version.last
-          @version.event="create"
-          @version.whodunnit=@user.id
-          @version.save
-          render :text=>@a+"Thank You for playing Win with ET. Your answer has been recorded. You shall be informed if you were right or wrong by 8PM. Visit kyet.ptotem.com to see your score"
-          return
-        else
-          render :text=>"Thank your for playing Win with ET. We were unable to process your previous SMS. Please check and resend with the correct keyword. Check our column for options."
-          return
         end
+
+        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
+        if @response.created_at<@option.question.happy_hr and @option.is_correct
+          @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
+        elsif @option.is_correct
+          @response.points=@option.question.quiz.plus
+        elsif @response.created_at<@option.question.happy_hr
+          @response.points=0
+        else
+          @response.points= -(@option.question.quiz.minus)
+        end
+        @response.save
+        @response.promotion=true
+        if @response.option.is_correct
+          @response.points=@response.points+@response.option.question.quiz.plus*2
+        else
+          @response.points=@response.points-@response.option.question.quiz.plus*2
+        end
+
+        if @response.created_at<@response.option.question.happy_hr and !@response.option.is_correct
+          @response.points=0
+        end
+        @response.save
+        @version = Version.last
+        @version.event="DD"
+        @version.whodunnit=@user.id
+        @version.save
+        render :text=>@a+"Thanks for playing Double Delight on Win with ET. Winners will be contacted daily.Refer friends & increase your score on www.winwithet.com. Play Daily! Win Daily!"
+        return
+      elsif params[:message].include?("WINETT")
+        @question = Question.find_by_insertion_date(Date.today)
+
+        @selected_option=params[:message].split(' ')[1]
+        case @selected_option
+          when "A" #compare to 1
+            @option=@question.options[0]
+          when "B" #compare to 2
+            @option=@question.options[1]
+          when "C"
+            @option=@question.options[2]
+          when "D"
+            @option=@question.options[3]
+          else
+            render :text =>"Wrong Option Selected"
+            return
+        end
+        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
+        if @response.created_at<@option.question.happy_hr and @option.is_correct
+          @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
+        elsif @option.is_correct
+          @response.points=@option.question.quiz.plus
+        elsif @response.created_at<@option.question.happy_hr
+          @response.points=0
+        else
+          @response.points= -(@option.question.quiz.minus)
+        end
+        @response.save
+        @response.promotion=true
+        if @response.option.is_correct
+          @response.points=@response.points+@response.option.question.quiz.plus*3
+        else
+          @response.points=@response.points-@response.option.question.quiz.plus*3
+        end
+
+        if @response.created_at<@response.option.question.happy_hr and !@response.option.is_correct
+          @response.points=0
+        end
+        @response.save
+        @version = Version.last
+        @version.event="TT"
+        @version.whodunnit=@user.id
+        @version.save
+        render :text=>@a+"Thanks for playing Triple Treat on Win with ET. Winners will be contacted daily.Refer friends & increase your score on www.winwithet.com. Play Daily! Win Daily!"
+        return
+      elsif params[:message].include?("WINET PWD")
+        passwd=Random.new.rand(10000000..99999999).to_s
+        @user.password = passwd
+        @user.password_confirmation=passwd
+        @user.save
+        render :text=>"Thank your for playing Win with ET. Following is your password to login on win.economictimes.com: "+passwd+". Play daily to win prizes!"
+        return
+      elsif params[:message].include?("WINET")
+
+        @selected_option=params[:message].split(' ')[1]
+        case @selected_option
+          when "A" #compare to 1
+            @option=@question.options[0]
+          when "B" #compare to 2
+            @option=@question.options[1]
+          when "C"
+            @option=@question.options[2]
+          when "D"
+            @option=@question.options[3]
+          else
+            render :text =>"Wrong Option Selected"
+            return
+        end
+
+        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
+        if @response.created_at<@option.question.happy_hr and @option.is_correct
+          @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
+        elsif @option.is_correct
+          @response.points=@option.question.quiz.plus
+        elsif @response.created_at<@option.question.happy_hr
+          @response.points=0
+        else
+          @response.points= -(@option.question.quiz.minus)
+        end
+        @response.save
+        @version = Version.last
+        @version.event="create"
+        @version.whodunnit=@user.id
+        @version.save
+        render :text=>@a+"Thanks for playing Win with ET. Winners will be contacted daily. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+        return
+      else
+        render :text=>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Refer friends and increase your score on www.winwithet.com . Play Daily! Win Daily!"
+        return
+      end
       #end
     else
       render :text=>"Un authorized auth key"

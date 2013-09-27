@@ -195,9 +195,7 @@
             </div>
             <div style="text-align: center;" class="row-fluid">
               <div class="span12">
-
                 <a onclick="forgot_password();" id="forgot_password_btn" href="#">Forgot your Password</a>
-
               </div>
             </div>
           </form>
@@ -270,6 +268,7 @@
                     <li><strong>Location&nbsp;&nbsp;</strong> :  <%= current_user.location %></li>
                     <li><strong>Industry&nbsp;&nbsp;&nbsp;</strong> :  <%= current_user.industry %></li>
                     <li><button class="btn btn-info" id="profile_page" onclick='window.location="/profile"'>View Profile</button></li>
+                    <li><button class="btn btn-info" id="change_pwd_btn" onclick="change_password();">Change Password</button></li>
                   </ul>
                 </div>
               </div>
@@ -864,7 +863,7 @@
             success: function (returning_data) {
                 if (returning_data != '') {
                     returning_data = returning_data.split("|");
-                    //var fb_sign_in_score = <%#= current_user.fb_sign_in_score.to_i %>;
+                    var fb_sign_in_score = <%= current_user.fb_sign_in_score.to_i %>;
                     var ref_pts = <%= current_user.refer_points.to_i %>;
                     var fb_signed_in = <%= current_user.fb_signed_in %>;
 
@@ -872,7 +871,7 @@
                         $("#points").html(ref_pts + fb_sign_in_score + " Points");
                     }
                     else {
-                        $("#points").html(<%=current_user.refer_points%> + "Points");
+                        $("#points").html(<%=current_user.refer_points%>+" Points");
                     }
 
 
@@ -915,6 +914,7 @@
 
     function view_register() {
         $('#register').modal('show');
+        $('#register_submit').show();
         $('#register_form').find('.dependent').dependentSelects();
         $("#register_form").find('input[name="users[username]"]').val("");
         $("#register_form").find('input[name="users[email]"]').val("");
@@ -961,7 +961,8 @@
               <div class="input-prepend">
                 <span class="add-on">91</span>
                 <!--<input class="span2" id="prependedInput" type="text" placeholder="Username">-->
-                <%= f.text_field :username, :placeholder => "Mobile Number" %>
+                <%= f.text_field :username, :placeholder => "Mobile Number", :style=>"width:71%" %>
+                <img src="/assets/loading.gif" style="height:24px;width:24px;display: none;" id="reg_form_username_wait_img">
               </div>
               &nbsp;&nbsp;
               <span><a class="btn btn-info" href="#" type="button" id="password_submit" style="display:none;">Password</a></span>
@@ -1136,7 +1137,7 @@
   <div class="modal-footer">
       <div class="row-fluid" style="margin-bottom: 10px;">
         <div class="span12">
-          <a class="btn btn-success" href="#" type="button" id="register_submit">Sign Up</a>
+          <a class="btn btn-success pull-left" href="#" type="button" id="register_submit">Sign Up</a>
         </div>
       </div>
     </div>
@@ -1170,13 +1171,39 @@
   <div class="modal-footer">
     <div class="row-fluid" style="margin-bottom: 10px;">
       <div class="span12">
-        <a class="btn btn-success" href="#" type="button" id="forgot_submit">Send</a>
+        <a class="btn btn-success pull-left" href="#" type="button" id="forgot_submit">Send</a>
       </div>
     </div>
   </div>
 </div>
 
+<div id="change_pwd_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= form_tag :quiz_change_password do |f| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>
+          Change Password
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="row-fluid">
+          <div class="span9">
+            <p>
+              <label>Password</label>
+              <%= password_field_tag :password %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <%= hidden_field_tag 'from_page', 'index' %>
+      <div class="modal-footer">
+        <%= submit_tag "Change", :class => "btn btn-medium btn-primary pull-left" %>
+      </div>
+  <% end %>
 </div>
+
 
 <script type="text/javascript">
 
@@ -1187,7 +1214,14 @@
     $(function () {
 
         $("#register_form").find('input[name="users[username]"]').on('input', function () {
+            $("#register_form").find("#reg_form_username_wait_img").show();
+
+            if ( $("#register_form").find('input[name="users[username]"]').val()=="" ){
+                $("#register_form").find("#reg_form_username_wait_img").hide();
+            }
+
             var mobile_no = ($("#register_form").find('input[name="users[username]"]').val());
+
             $('#not_register_message').hide();
 
             var uname_first_char = mobile_no.charAt(0);
@@ -1214,8 +1248,10 @@
                                 setTimeout(function () {
                                     $('#password_submit').show();
                                     $('#after_register').hide();
-//                                    $('#register_submit').hide();
+                                    $('#register_submit').hide();
                                     $('#not_register_message').hide();
+                                    //$('#register_form').find('#register_submit').hide();
+
 
                                 }, 2000);
 
@@ -1241,9 +1277,13 @@
 
 
 
+
         });
     });
 
+    $("#register_form").find('input[name="users[username]"]').blur(function() {
+        $("#register_form").find("#reg_form_username_wait_img").hide();
+    });
 
     $('#register_submit').on("click", function () {
 
@@ -1295,6 +1335,10 @@
         $('#forgot_submit').hide();
     }
 
+    function change_password(){
+        $('#change_pwd_modal').modal('show');
+    }
+
 
     //if ($('#forgot_password').find('input[name="username"]').val().length>=10){
         //
@@ -1314,7 +1358,7 @@
             if ( (uname_first_char!="9") || (uname_second_char!="1") ) {
                 //$('#forgot_password').find('input[name="username"]').val("91"+mobile_no);
                 var prepended_mob_no = "91"+$('#forgot_password').find('input[name="username"]').val();
-                //console.log(prepended_mob_no);
+                console.log(prepended_mob_no);
                 var data = {username: []}
                 //data["username"].push(mobile_no);
                 data["username"].push(prepended_mob_no);
@@ -1336,28 +1380,32 @@
                             $('#not_register_message').hide();
                         }
 
-                        $('#forgot_submit').on("click", function () {
 
-                            var data = {mobile_no: []}
-                            //data["mobile_no"].push(mobile_no);
-                            data["mobile_no"].push(prepended_mob_no);
-                            $.ajax({
-                                url: "<%= change_password_path %>",
-                                type: "POST",
-                                contentType: "application/json",
-                                data: JSON.stringify(data),
-                                success: function (data) {
-                                    location.reload();
-                                }
-                            });
+
+
+                    $('#forgot_submit').on("click", function () {
+
+                        var data = {mobile_no: []}
+                        //data["mobile_no"].push(mobile_no);
+                        data["mobile_no"].push(prepended_mob_no);
+                        $.ajax({
+                            url: "<%= change_password_path %>",
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(data),
+                            success: function (data) {
+                                $('#forgot_password').modal('hide');
+                            }
+
                         });
 
-                    }
-                })
+                    })
+
 
             }
+        });
         }
-
+        }
 
 
 

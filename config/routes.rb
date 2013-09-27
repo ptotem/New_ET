@@ -19,6 +19,7 @@ ETNew::Application.routes.draw do
   match "/view_question_stat/:id", :to=> "response#view_question_stat"
   match "/load_question", :to=> "response#load_question", :as=> "load_question"
   match "/update_profile", :to=> "quiz#change_profile", :as=> "update_profile"
+  match "/quiz_change_password", :to=> "quiz#quiz_change_password", :as=> "quiz_change_password"
   match "/control_edit_profile_modal", :to=> "welcome#control_edit_profile_modal", :as=> "control_edit_profile_modal"
   match "/each_question_data/:id",:to=>"response#each_question_data",:as=>"each_question_data"
   match "/each_participant_data/:id",:to=>"response#each_participant_data",:as=>"each_question_data"
