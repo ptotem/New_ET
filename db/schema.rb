@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130925144441) do
+ActiveRecord::Schema.define(:version => 20130927064540) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(:version => 20130925144441) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.integer  "score"
+    t.string   "location"
   end
 
   create_table "responses", :force => true do |t|
@@ -210,6 +211,8 @@ ActiveRecord::Schema.define(:version => 20130925144441) do
     t.integer  "user_photo_file_size"
     t.datetime "user_photo_updated_at"
     t.string   "picture"
+    t.integer  "fb_sign_in_count",        :default => 0
+    t.integer  "fb_sign_in_score",        :default => 0
     t.boolean  "fb_signed_in",            :default => false
   end
 

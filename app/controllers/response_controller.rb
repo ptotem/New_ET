@@ -67,7 +67,7 @@ class ResponseController < ApplicationController
       else
         @option = Option.find_all_by_question_id(@question.id)
         @correct=Option.find_by_question_id_and_is_correct(@question.id, true).id
-        render :text => "#{@question.name}|#{@option[0].id};#{@option[0].name}|#{@option[1].id};#{@option[1].name}|#{@option[2].id};#{@option[2].name}|#{@option[3].id};#{@option[3].name}|#{@correct}|#{@question.id}|#{@question.view_article}|#{@question.tag_list}|#{@question.insertion_date.strftime("%d")}|#{@question.insertion_date}"
+        render :text => "#{@question.name}|#{@option[0].id};#{@option[0].name}|#{@option[1].id};#{@option[1].name}|#{@option[2].id};#{@option[2].name}|#{@option[3].id};#{@option[3].name}|#{@correct}|#{@question.id}|#{@question.view_article}|#{@question.tag_list}|#{@question.insertion_date.strftime("%d")}|#{@question.insertion_date.strftime("%d %B %Y, %A")}"
       end
     else
       render :text => "Not Found"
@@ -92,14 +92,24 @@ class ResponseController < ApplicationController
   end
 
   def send_ref_mail
-    @emails=params[:email][0]
-    @eaddresses=@emails.split(',')
-    @eaddresses.each do |eaddr|
-      NotificationMailer.welcome_email(eaddr).deliver
-      @referral=Referral.create(:user_id => current_user.id, :referred_mail => eaddr)
+    @eaddresses=Array.new
+    @eaddresses<< params[:email_and_location][0]
+    @eaddresses<< params[:email_1_and_location_1][0]
+    @eaddresses<< params[:email_2_and_location_2][0]
+    @eaddresses<< params[:email_3_and_location_3][0]
+    @eaddresses<< params[:email_4_and_location_4][0]
+
+    @eaddresses.each_with_index do |eaddr,index|
+      @loc=eaddr.split('||')[1]
+      @email=eaddr.split('||')[0]
+      @referral=Referral.create(:user_id => current_user.id, :referred_mail => @email,:location => @loc)
+      if @referral.location !="Bangalore,Karnataka"
+        NotificationMailer.welcome_email(@email).deliver
+      end
     end
-    render :text => "OK"
+    render :text => NotificationMailer.welcome_email(@email).deliver
     return
+
   end
 
   #require 'gruff'
@@ -582,7 +592,7 @@ class ResponseController < ApplicationController
         Option.find_all_by_question_id(a.id).each do |o|
           @option=o.name
         end
-        @returning_data<<"#{a.id}|#{a.insertion_date}|#{a.name}|#{@option}"
+        @returning_data<<"#{a.id}|#{a.insertion_date}|#{a.name}|#{@option}|#{a.view_article}"
       end
       render :text => @returning_data
       return

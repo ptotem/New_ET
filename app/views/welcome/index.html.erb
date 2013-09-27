@@ -591,25 +591,101 @@
 
         <p>Remember, bonus points will be added to your score only after your friend clicks on the referral link and
           registers</p>
-        <h5>Enter the email addresses of your friends</h5>
 
         <div class="row-fluid">
-          <div class="span3"></div>
-          <div class="span9">
-            <input type="text" name="ref_email" id="referance_friend">
+          <div class="span12">
+            <h5>Enter the email addresses of your friends</h5>
+            <table>
+              <tr>
+                <td><input type="text" name="ref_email" id="referance_friend"></td>
+                <td>
+                  <select name="location" id="refer_location">
+                    <option value="">Select The Location</option>
+                    <option value="Hyderabad,Andhra Pradesh">Hyderabad,Andhra Pradesh</option>
+                    <option value="Chennai,Tamil Nadu">Chennai,Tamil Nadu</option>
+                    <option value="Mumbai,Maharashtra">Mumbai,Maharashtra</option>
+                    <option value="Delhi, Delhi">Delhi,Delhi</option>
+                    <option value="Kolkata,West Bengal">Kolkata,West Bengal</option>
+                    <option value="Bangalore,Karnataka"> Bangalore,Karnataka</option>
+                    <option value="Ahmedabad,Gujarat">Ahmedabad,Gujarat</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="text" name="ref_email" id="referance_friend_1"></td>
+                <td>
+                  <select name="location" id="refer_location_1">
+                    <option value="">Select The Location</option>
+                    <option value="Hyderabad,Andhra Pradesh">Hyderabad,Andhra Pradesh</option>
+                    <option value="Chennai,Tamil Nadu">Chennai,Tamil Nadu</option>
+                    <option value="Mumbai,Maharashtra">Mumbai,Maharashtra</option>
+                    <option value="Delhi, Delhi">Delhi,Delhi</option>
+                    <option value="Kolkata,West Bengal">Kolkata,West Bengal</option>
+                    <option value="Bangalore,Karnataka"> Bangalore,Karnataka</option>
+                    <option value="Ahmedabad,Gujarat">Ahmedabad,Gujarat</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="text" name="ref_email" id="referance_friend_2"></td>
+                <td>
+                  <select name="location" id="refer_location_2">
+                    <option value="">Select The Location</option>
+                    <option value="Hyderabad,Andhra Pradesh">Hyderabad,Andhra Pradesh</option>
+                    <option value="Chennai,Tamil Nadu">Chennai,Tamil Nadu</option>
+                    <option value="Mumbai,Maharashtra">Mumbai,Maharashtra</option>
+                    <option value="Delhi, Delhi">Delhi,Delhi</option>
+                    <option value="Kolkata,West Bengal">Kolkata,West Bengal</option>
+                    <option value="Bangalore,Karnataka"> Bangalore,Karnataka</option>
+                    <option value="Ahmedabad,Gujarat">Ahmedabad,Gujarat</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="text" name="ref_email" id="referance_friend_3"></td>
+                <td>
+                  <select name="location" id="refer_location_3">
+                    <option value="">Select The Location</option>
+                    <option value="Hyderabad,Andhra Pradesh">Hyderabad,Andhra Pradesh</option>
+                    <option value="Chennai,Tamil Nadu">Chennai,Tamil Nadu</option>
+                    <option value="Mumbai,Maharashtra">Mumbai,Maharashtra</option>
+                    <option value="Delhi, Delhi">Delhi,Delhi</option>
+                    <option value="Kolkata,West Bengal">Kolkata,West Bengal</option>
+                    <option value="Bangalore,Karnataka"> Bangalore,Karnataka</option>
+                    <option value="Ahmedabad,Gujarat">Ahmedabad,Gujarat</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="text" name="ref_email" id="referance_friend_4"></td>
+                <td>
+                  <select name="location" id="refer_location_4">
+                    <option value="">Select The Location</option>
+                    <option value="Hyderabad,Andhra Pradesh">Hyderabad,Andhra Pradesh</option>
+                    <option value="Chennai,Tamil Nadu">Chennai,Tamil Nadu</option>
+                    <option value="Mumbai,Maharashtra">Mumbai,Maharashtra</option>
+                    <option value="Delhi, Delhi">Delhi,Delhi</option>
+                    <option value="Kolkata,West Bengal">Kolkata,West Bengal</option>
+                    <option value="Bangalore,Karnataka"> Bangalore,Karnataka</option>
+                    <option value="Ahmedabad,Gujarat">Ahmedabad,Gujarat</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </div>
+
           </div>
         </div>
 
-        <!--<hr>-->
-        <!--<h5>OR</h5>-->
-
-        <!--<a href="/get_connections/<#%= @usr_at %>">Get Connections</a>-->
-      </div>
       <div class="modal-footer">
-        <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
         <a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>
       </div>
-    </div>
+      </div>
+
 
 <% else %>
     <div id="refer_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -647,13 +723,12 @@
     <div class="row-fluid">
       <div class="span3"></div>
       <div class="span9">
-        <!--<input type="text" name="ref_email" id="referance_friend">-->
+
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
-    <!--<a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>-->
+
   </div>
 </div>
 
@@ -695,17 +770,15 @@
       </div>
       <div class="modal-body">
         <h2>Please Login to view your profile</h2>
-
         <div class="row-fluid">
           <div class="span3"></div>
           <div class="span9">
-            <!--<input type="text" name="ref_email" id="referance_friend">-->
+
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
-        <!--<a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>-->
+
       </div>
     </div>
 <% end %>
@@ -796,10 +869,10 @@
                     var fb_signed_in = <%= current_user.fb_signed_in %>;
 
                     if (fb_signed_in == true) {
-                        //$("#points").html(ref_pts + fb_sign_in_score + " Points");
+                        $("#points").html(ref_pts + fb_sign_in_score + " Points");
                     }
                     else {
-                        $("#points").html(<%=current_user.refer_points%>+"Points");
+                        $("#points").html(<%=current_user.refer_points%> + "Points");
                     }
 
 
@@ -818,16 +891,20 @@
         });
 
         $("#submit_email").click(function () {
-            var email = $("#referance_friend").val();
-            var data = {email: []}
-            data["email"].push(email);
+            var data = {email_and_location: [],email_1_and_location_1: [],email_2_and_location_2: [],email_3_and_location_3: [],email_4_and_location_4: []}
+            data["email_and_location"].push($("#referance_friend").val()+"||"+$('#refer_location').val());
+            data["email_1_and_location_1"].push($("#referance_friend_1").val()+"||"+$('#refer_location_1').val());
+            data["email_2_and_location_2"].push($("#referance_friend_2").val()+"||"+$('#refer_location_2').val());
+            data["email_3_and_location_3"].push($("#referance_friend_3").val()+"||"+$('#refer_location_3').val());
+            data["email_4_and_location_4"].push($("#referance_friend_4").val()+"||"+$('#refer_location_4').val());
+
             $.ajax({
                 url: "<%= ref_mail_path %>",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (data) {
-                    //alert(data)
+
                 }
             });
 
@@ -837,7 +914,7 @@
     });
 
     function view_register() {
-        $('#register').modal('show')
+        $('#register').modal('show');
         $('#register_form').find('.dependent').dependentSelects();
         $("#register_form").find('input[name="users[username]"]').val("");
         $("#register_form").find('input[name="users[email]"]').val("");
@@ -847,6 +924,7 @@
         $("#register_form").find('input[name="register_location"]').val("");
         $("#register_form").find('input[name="users[industry]"]').val("");
         $('#after_register').show();
+        $('#password_submit').hide();
     }
 
 
@@ -885,10 +963,10 @@
                 <!--<input class="span2" id="prependedInput" type="text" placeholder="Username">-->
                 <%= f.text_field :username, :placeholder => "Mobile Number" %>
               </div>
-
               &nbsp;&nbsp;
               <span><a class="btn btn-info" href="#" type="button" id="password_submit" style="display:none;">Password</a></span>
             </div>
+
           </div>
         </div>
 
@@ -936,11 +1014,58 @@
           </div>
 
 
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div>
+                <%= f.select "industry", options_for_select(["Graphic Design", "Architecture & Planning", "Engineering",
+                                                             "Cosmetics", "Apparel & Fashion",
+                                                             "Consumer Electronics",
+                                                             "Furniture",
+                                                             "Retail",
+                                                             "Import and Export",
+                                                             "Luxury Goods & Jewelry",
+                                                             "Marketing and Advertising",
+                                                             "Market Research",
+                                                             "Public Relations and Communications",
+                                                             "Human Resources",
+                                                             "Banking",
+                                                             "Insurance",
+                                                             "Financial Services",
+                                                             "Accounting",
+                                                             "Computer Hardware",
+                                                             "Computer Networking",
+                                                             "Telecommunications",
+                                                             "Information Technology and Services",
+                                                             "Chemicals",
+                                                             "Mining & Metals",
+                                                             "Oil & Energy",
+                                                             "Textiles",
+                                                             "Electrical/Electronic Manufacturing",
+                                                             "Plastics",
+                                                             "Packaging and Containers",
+                                                             "Media",
+                                                             "Animation",
+                                                             "Biotechnology",
+                                                             "Medical Practice",
+                                                             "Hospital & Health Care",
+                                                             "Pharmaceuticals",
+                                                             "Veterinary",
+                                                             "Consumer Services",
+                                                             "Entertainment",
+                                                             "Leisure, Travel & Tourism",
+                                                             "Hospitality",
+                                                             "Airlines/Aviation",
+                                                            ]), :prompt => "Select industry"%></div>
+            </div>
+          </div>
+
+
           <div class="row-fluid">
             <div class="span12">
               <div>
                 <select name="register_location" class="dependent" id="register_location">
-                  <option></option>
+                  <option value="Select Location"></option>
                   <option value="Andhra Pradesh, Hyderabad">Andhra Pradesh > Hyderabad</option>
                   <option value="Andhra Pradesh, Visakhapatnam">Andhra Pradesh > Visakhapatnam</option>
                   <option value="Assam, Guwahati">Assam > Guwahati</option>
@@ -1004,50 +1129,7 @@
           </div>
 
 
-          <div class="row-fluid">
-            <div class="span12">
-              <div>
-                <%= f.select "industry", options_for_select(["Graphic Design", "Architecture & Planning", "Engineering",
-                                                             "Cosmetics", "Apparel & Fashion",
-                                                             "Consumer Electronics",
-                                                             "Furniture",
-                                                             "Retail",
-                                                             "Import and Export",
-                                                             "Luxury Goods & Jewelry",
-                                                             "Marketing and Advertising",
-                                                             "Market Research",
-                                                             "Public Relations and Communications",
-                                                             "Human Resources",
-                                                             "Banking",
-                                                             "Insurance",
-                                                             "Financial Services",
-                                                             "Accounting",
-                                                             "Computer Hardware",
-                                                             "Computer Networking",
-                                                             "Telecommunications",
-                                                             "Information Technology and Services",
-                                                             "Chemicals",
-                                                             "Mining & Metals",
-                                                             "Oil & Energy",
-                                                             "Textiles",
-                                                             "Electrical/Electronic Manufacturing",
-                                                             "Plastics",
-                                                             "Packaging and Containers",
-                                                             "Media",
-                                                             "Animation",
-                                                             "Biotechnology",
-                                                             "Medical Practice",
-                                                             "Hospital & Health Care",
-                                                             "Pharmaceuticals",
-                                                             "Veterinary",
-                                                             "Consumer Services",
-                                                             "Entertainment",
-                                                             "Leisure, Travel & Tourism",
-                                                             "Hospitality",
-                                                             "Airlines/Aviation",
-                                                            ]), :prompt => "Select industry"%></div>
-            </div>
-          </div>
+
         </div>
     <% end %>
   </div>
@@ -1080,7 +1162,7 @@
             <span class="add-on">91</span>
             <%= text_field_tag :username %>
           </div>
-          <p>You are not registered. Please, register.</p>
+          <p id="not_register_message" style="display: none;">You are not registered. Please, register.</p>
         </div>
       </div>
     </div>
@@ -1106,41 +1188,58 @@
 
         $("#register_form").find('input[name="users[username]"]').on('input', function () {
             var mobile_no = ($("#register_form").find('input[name="users[username]"]').val());
-            var data = {username: []}
-            data["username"].push(mobile_no);
-            $.ajax({
-                url: "<%= mobile_no_checking_path %>",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (data) {
-                    if (data == "Nothing") {
+            $('#not_register_message').hide();
 
-                    }
-                    else {
-                        setTimeout(function () {
-                            $('#password_submit').show();
-                            $('#after_register').hide();
-                            $('#register_submit').hide();
+            var uname_first_char = mobile_no.charAt(0);
+            var uname_second_char = mobile_no.charAt(1);
+            //console.log(uname_first_char);
+            //console.log(uname_second_char);
 
-                        }, 2000);
 
-                        $('#password_submit').on("click", function () {
-                            var data = {mobile_no: []}
-                            data["mobile_no"].push(mobile_no);
-                            $.ajax({
-                                url: "<%= change_password_path %>",
-                                type: "POST",
-                                contentType: "application/json",
-                                data: JSON.stringify(data),
-                                success: function (data) {
-                                }
-                            });
-                        });
+            if (mobile_no.length>9){
+                if ( (uname_first_char!="9") || (uname_second_char!="1") ) {
+                    var prepended_mob_no = "91"+($("#register_form").find('input[name="users[username]"]').val());
+                    var data = {username: []}
+                    data["username"].push(prepended_mob_no);
+                    $.ajax({
+                        url: "<%= mobile_no_checking_path %>",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(data),
+                        success: function (data) {
+                            if (data == "Nothing") {
+                                $('#not_register_message').show();
+                            }
+                            else {
+                                setTimeout(function () {
+                                    $('#password_submit').show();
+                                    $('#after_register').hide();
+//                                    $('#register_submit').hide();
+                                    $('#not_register_message').hide();
 
-                    }
+                                }, 2000);
+
+                                $('#password_submit').on("click", function () {
+                                    var data = {mobile_no: []}
+                                    data["mobile_no"].push(mobile_no);
+                                    $.ajax({
+                                        url: "<%= change_password_path %>",
+                                        type: "POST",
+                                        contentType: "application/json",
+                                        data: JSON.stringify(data),
+                                        success: function (data) {
+                                        }
+                                    });
+                                });
+
+                            }
+                        }
+                    });
+
                 }
-            });
+            }
+
+
 
         });
     });
@@ -1183,7 +1282,7 @@
             });
 
 
-            $('##register_form').submit();
+            $('#register_form').submit();
 
 
         }
@@ -1201,6 +1300,7 @@
         //
     //}
     $('#forgot_password').find('input[name="username"]').on('input', function (){
+        $('#not_register_message').hide();
         var mobile_no = $('#forgot_password').find('input[name="username"]').val();
         //console.log(mobile_no.length);
 
@@ -1215,44 +1315,49 @@
                 //$('#forgot_password').find('input[name="username"]').val("91"+mobile_no);
                 var prepended_mob_no = "91"+$('#forgot_password').find('input[name="username"]').val();
                 //console.log(prepended_mob_no);
+                var data = {username: []}
+                //data["username"].push(mobile_no);
+                data["username"].push(prepended_mob_no);
+                console.log(data["username"]);
+                $.ajax({
+                    url: "<%= mobile_no_checking_path %>",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        $('#not_register_message').hide();
+                        if (data=="Nothing"){
+                            console.log(data);
+                            $('#not_register_message').show();
+                        }
+                        else
+                        {
+                            $('#forgot_submit').show();
+                            $('#not_register_message').hide();
+                        }
+
+                        $('#forgot_submit').on("click", function () {
+
+                            var data = {mobile_no: []}
+                            //data["mobile_no"].push(mobile_no);
+                            data["mobile_no"].push(prepended_mob_no);
+                            $.ajax({
+                                url: "<%= change_password_path %>",
+                                type: "POST",
+                                contentType: "application/json",
+                                data: JSON.stringify(data),
+                                success: function (data) {
+                                    location.reload();
+                                }
+                            });
+                        });
+
+                    }
+                })
+
             }
         }
-            var data = {username: []}
-            //data["username"].push(mobile_no);
-            data["username"].push(prepended_mob_no);
-            console.log(data["username"]);
-            $.ajax({
-                url: "<%= mobile_no_checking_path %>",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (data) {
-                    if (data=="Nothing"){
-                        console.log(data);
-                    }
-                    else
-                    {
-                        $('#forgot_submit').show();
-                    }
 
-                    $('#forgot_submit').on("click", function () {
-
-                        var data = {mobile_no: []}
-                        //data["mobile_no"].push(mobile_no);
-                        data["mobile_no"].push(prepended_mob_no);
-                        $.ajax({
-                            url: "<%= change_password_path %>",
-                            type: "POST",
-                            contentType: "application/json",
-                            data: JSON.stringify(data),
-                            success: function (data) {
-                                //alert(data);
-                            }
-                        });
-                    });
-
-                }
-            })
 
 
 

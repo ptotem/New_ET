@@ -19,7 +19,7 @@
                <span class="pull-right">
                 <button class="btn btn-success" onclick="view_score()">View Answer</button>
                 <!--<button class="btn btn-warning" onclick="view_stat()">View Statistics</button>-->
-                <button class="btn btn-info" onclick="view_article()">View Article</button>
+                <a href="#" target="_blank" id="archives_view_article"><button class="btn btn-info" >View Article</button></a>
                 </span>
                 <span id="tag_list">
                 <%#= raw (@yesterday_question.tag_list.map { |t| link_to t, tag_path(t) }.join(', ')) %>
@@ -37,22 +37,22 @@
               <ul>
                 <li>
                   <div class="answeroptions shadow"><span class="badge badge-warning">A</span>
-                    <h4 class="option1" id="<%= @option[0].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[0].name %></h4>
+                    <h4 class="option1" id="<%= @option[0].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[0].name %>&nbsp;&nbsp;<span class="image_right"></span></h4>
                   </div>
                 </li>
                 <li>
                   <div class="answeroptions shadow"><span class="badge badge-success">B</span>
-                    <h4 class="option2" id="<%= @option[1].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[1].name %></h4>
+                    <h4 class="option2" id="<%= @option[1].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[1].name %>&nbsp;&nbsp;<span class="image_right"></span></h4>
                   </div>
                 </li>
                 <li>
                   <div class="answeroptions shadow"><span class="badge badge-important">C</span>
-                    <h4 class="option3" id="<%= @option[2].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[2].name %></h4>
+                    <h4 class="option3" id="<%= @option[2].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[2].name %>&nbsp;&nbsp;<span class="image_right"></span></h4>
                   </div>
                 </li>
                 <li>
                   <div class="answeroptions shadow"><span class="badge badge-info">D</span>
-                    <h4 class="option4" id="<%= @option[3].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[3].name %></h4>
+                    <h4 class="option4" id="<%= @option[3].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[3].name %>&nbsp;&nbsp;<span class="image_right"></span></h4>
                   </div>
                 </li>
               </ul>
@@ -62,6 +62,8 @@
       </div>
     </div>
 
+
+
     <div class="white-card" id="white-card_quest" style="display: none;">
       <div>
         <h4>
@@ -69,8 +71,9 @@
         <h6>
             <span class="pull-right">
                 <button class="btn btn-success" id="correct_option">View Answer</button>
-                <button class="btn btn-warning" id="stat_tag">View Statistics</button>
-                <button class="btn btn-info" id="tag_article">View Article</button>
+                <!--<button class="btn btn-warning" id="stat_tag">View Statistics</button>-->
+              <!--<a href="#" target="_blank" id="tag_article" onclick="view_tag_article();"><button class="btn btn-info" >View Article</button></a>-->
+              <a href="#" target="_blank" id="tag_article"><button class="btn btn-info" >View Article</button></a>
             </span>
         </h6>
         <br>
@@ -305,6 +308,7 @@
     var quest;
     var tag_quest;
     var date = <%= @date.strftime("%d") %> ;
+    var correct_ans_append_count=0;
     $(document).ready(function () {
 
         //alert(a);
@@ -314,9 +318,9 @@
         $('#datepicker-example13').Zebra_DatePicker({
             always_visible:$('#container'),
             onSelect:function (view, element) {
-                $("#" + correct).css("background", "none");
+//                $("#" + correct).html("");
                 load_quest(view, element)
-
+                correct_ans_append_count=0;
 
             }
         });
@@ -353,12 +357,17 @@
     }
 
     function view_score() {
-        $("#" + correct).css("background", "green");
+        if (correct_ans_append_count==0){
+            $("#" + correct).append('<img src="assets/img/right.png" style="margin-left: 2%;">');
+        }
+        correct_ans_append_count=correct_ans_append_count+1
     }
 
     function view_article() {
         $('#view_article').modal('show')
     }
+
+
 
 
     function view_stat() {
@@ -379,6 +388,10 @@
                     $('#not_found_modal').modal('show');
                 } else {
                     $('#article').html("");
+                    $('#archives_view_article').attr('href',"");
+
+                    $('#tag_article').attr('href',"");
+
                     $('#tag_list').html("");
 
                     var question = data.toString().split('|')[0];
@@ -408,6 +421,9 @@
                     $('.option4').html(a4.toString().split(';')[1]);
 
                     $('#article').append('<img  src=' + image + '>');
+                    $('#archives_view_article').attr('href',image);
+
+                    $('#tag_article').attr('href',image);
 
                     $('#tag_list').append('<h5>'+ quiz_date +'</h5>');
                     load_datepicker(insertion_date);
@@ -448,6 +464,7 @@
                     });
 
                     $('.insert_li').on('click', function () {
+                        correct_ans_append_count=0;
                         $('#que_content').html('');
                         $('#bolg_ul_li').find("input[value='true']").parent().css("background","white");
                         $.ajax({
@@ -479,7 +496,11 @@
 
 
     $('#correct_option').on("click",function(){
-        $('#bolg_ul_li').find("input[value='true']").parent().css("background","red");
+        if (correct_ans_append_count==0){
+            $('#bolg_ul_li').find("input[value='true']").parent().append('<img src="assets/img/right.png" style="margin-left: 2%;">');
+        }
+        correct_ans_append_count=correct_ans_append_count+1
+
     });
 
     $('#backing').on("click",function(){
@@ -487,7 +508,7 @@
     });
 
     $('#tag_article').on("click",function(){
-          $('#view_article_tags').modal('show')
+//          $('#view_article_tags').modal('show')
     });
 
     $('#stat_tag').on("click",function(){
