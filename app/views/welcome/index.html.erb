@@ -1080,6 +1080,7 @@
             <span class="add-on">91</span>
             <%= text_field_tag :username %>
           </div>
+          <p>You are not registered. Please, register.</p>
         </div>
       </div>
     </div>
@@ -1195,43 +1196,66 @@
         $('#forgot_submit').hide();
     }
 
+
+    //if ($('#forgot_password').find('input[name="username"]').val().length>=10){
+        //
+    //}
     $('#forgot_password').find('input[name="username"]').on('input', function (){
         var mobile_no = $('#forgot_password').find('input[name="username"]').val();
-        console.log(mobile_no);
+        //console.log(mobile_no.length);
 
-        var data = {username: []}
-        data["username"].push(mobile_no);
-        $.ajax({
-            url: "<%= mobile_no_checking_path %>",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            success: function (data) {
-             if (data=="Nothing"){
-              console.log(data);
-             }
-             else
-             {
-                 $('#forgot_submit').show();
-             }
+        var uname_first_char = mobile_no.charAt(0);
+        var uname_second_char = mobile_no.charAt(1);
+        //console.log(uname_first_char);
+        //console.log(uname_second_char);
 
-                $('#forgot_submit').on("click", function () {
 
-                    var data = {mobile_no: []}
-                    data["mobile_no"].push(mobile_no);
-                    $.ajax({
-                        url: "<%= change_password_path %>",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify(data),
-                        success: function (data) {
-                            //alert(data);
-                        }
-                    });
-                });
-
+        if (mobile_no.length>9){
+            if ( (uname_first_char!="9") || (uname_second_char!="1") ) {
+                //$('#forgot_password').find('input[name="username"]').val("91"+mobile_no);
+                var prepended_mob_no = "91"+$('#forgot_password').find('input[name="username"]').val();
+                //console.log(prepended_mob_no);
             }
-        })
+        }
+            var data = {username: []}
+            //data["username"].push(mobile_no);
+            data["username"].push(prepended_mob_no);
+            console.log(data["username"]);
+            $.ajax({
+                url: "<%= mobile_no_checking_path %>",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data=="Nothing"){
+                        console.log(data);
+                    }
+                    else
+                    {
+                        $('#forgot_submit').show();
+                    }
+
+                    $('#forgot_submit').on("click", function () {
+
+                        var data = {mobile_no: []}
+                        //data["mobile_no"].push(mobile_no);
+                        data["mobile_no"].push(prepended_mob_no);
+                        $.ajax({
+                            url: "<%= change_password_path %>",
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(data),
+                            success: function (data) {
+                                //alert(data);
+                            }
+                        });
+                    });
+
+                }
+            })
+
+
+
     });
 
 
