@@ -113,10 +113,8 @@ end
         end
       end
     end
-
     render :text => "OK"
     return
-
   end
 
 
@@ -659,8 +657,6 @@ def send_response
           #@r<<@user.refer_points
       end
   end
-
-
 end
 render :text=>@r
 return  
@@ -669,7 +665,7 @@ end
 def question_details
 	@quest_name=Question.find(params[:date_id])
 	render :text =>"#{@quest_name.name}||#{Option.find_all_by_question_id(@quest_name.id).map{|o| o.name }.join("&&")}||#{Option.find_all_by_question_id(@quest_name.id).map{|o| o.id}.join("&&")}||#{Option.find_all_by_question_id(@quest_name.id).map{|o| o.is_correct}.join("&&")}||#{@quest_name.view_article}||#{@quest_name.id}"
-
 end
+
 
 end

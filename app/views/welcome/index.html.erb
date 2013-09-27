@@ -195,7 +195,9 @@
             </div>
             <div style="text-align: center;" class="row-fluid">
               <div class="span12">
-                <a onclick="forgot_password();" id="forgot_password_btn" href="#">Forgot your Password</a>
+
+                <a onclick="forgot_password();" id="forgot_password_btn" href="#">Forgot Password?</a>
+
               </div>
             </div>
           </form>
@@ -203,7 +205,7 @@
         </div>
         <div class="row-fluid">
           <div class="span12" style="text-align: center;">
-            <a class="btn btn-danger" href="#" onclick="view_register();">Not Playing Yet? Register Here</a>
+            <a class="btn btn-danger" href="#" onclick="view_register();">Not Registered? Sign Up</a>
           </div>
         </div>
       </div>
@@ -213,7 +215,7 @@
           <div class="accordion-group">
             <div class="accordion-heading">
               <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                <strong><span>Your Score</span><span class="pull-right" id="points"><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></strong>
+                <strong><span>Your Score:</span><span class="pull-right" id="points"><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></strong>
               </a>
             </div>
             <div id="collapseOne" class="accordion-body collapse in">
@@ -221,12 +223,10 @@
                 <div class="blog-categories widget-tp">
                   <ul>
                     <li>
-                      <a href="#">Your Current Rank
-                        is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
+                      <a href="#">Your Current Rank:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
                     </li>
                     <li>
-                      <a href="#">Your Correct Answer Rate
-                        is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
+                      <a href="#">Your Correct Answer Rate:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
 
                         <div class="progress progress-striped active">
                           <div class="bar bar-success"></div>
@@ -327,41 +327,38 @@
           </a>
         </div>
 
+        <div class='avatar-icon'>
+          <a class='testimonials-user-w' data-toggle='testimonial' href='#testimonial5' id='head5'>
+            <span class='testimonials-user'><img alt="Avatar-4" src="/assets/img/landing/ai4.jpg"/></span>
+          </a>
+        </div>
+
       </div>
 
       <div class='testimonials-speeches'>
-        <% @daily_users=Array.new %>
-        <% @daily_leaderboard=Array.new %>
-        <% if !Question.find_by_insertion_date(Date.today).nil? %>
-            <% @daily_questions=Question.find_by_insertion_date(Date.today) %>
-            <% @daily_users=Response.find_all_by_question_id(@daily_questions.id).map { |i| i.user_id } %>
-            <% @daily_users=@daily_users.flatten.uniq %>
-            <% @daily_users.each do |d| %>
-                <% @user_res=Array.new %>
-                <% @user_res<<Response.find_all_by_question_id_and_user_id_and_is_correct(@daily_questions.id, d, true).last %>
-                <% @user_res=@user_res.delete_if { |x| x==nil } %>
-                <% @daily_leaderboard<<{:user_id => d, :score => @user_res.map { |i| i.points }.sum} %>
-            <% end %>
-            <% @daily_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4].each_with_index do |user, index| %>
-                <div class='testimonials-speech' id='testimonial<%= (index+1) %>'>
-                  <div class="row-fluid">
-                    <div class="span2">
-                      <% if User.find(user[:user_id]).picture.blank? %>
-                          <img src="assets/img/avatar-4.png" style="width:100%;">
-                      <% else %>
-                          <%= image_tag User.find(user[:user_id]).picture.url rescue "" %>
-                      <% end %>
-                    </div>
-                    <div class="span10">
-                      <ul style="list-style: none;">
-                        <li><%= User.find(user[:user_id]).nickname %></li>
-                        <li><%= User.find(user[:user_id]).location %></li>
-                        <li><%= User.find(user[:user_id]).industry %></li>
-                      </ul>
-                    </div>
-                  </div>
+        <% if !DailyWinner.find_all_by_is_display(true).nil? %>
+        <% @daily_leaderboard=DailyWinner.find_all_by_is_display(true) %>
+           <% @daily_leaderboard.each_with_index do |e,index| %>
+                <% @usr=User.find(e.user_id) %>
+            <div class='testimonials-speech' id='testimonial<%= (index+1) %>'>
+              <div class="row-fluid">
+                <div class="span2">
+                  <% if @usr.picture.blank? %>
+                      <img src="assets/img/avatar-4.png" style="width:100%;">
+                  <% else %>
+                      <%= image_tag @usr.picture.url rescue "" %>
+                  <% end %>
                 </div>
-            <% end %>
+                <div class="span10">
+                  <ul style="list-style: none;">
+                    <li><%= @usr.name %></li>
+                    <li><%= @usr.location %></li>
+                    <li><%= @usr.industry %></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        <% end %>
         <% end %>
 
         <% if user_signed_in? %>
@@ -692,7 +689,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           ×
         </button>
-        <h3>Please Login to refer a friend</h3>
+        <h3>Not signed in. Please login to refer a friend.</h3>
       </div>
       <div class="modal-body">
       </div>
@@ -880,6 +877,9 @@
                     $.each(returning_data, function () {
                         recent = this.replace("[", "").replace("]", "").replace('"', '');
                         $("#all_recent_activity").append('<li><a href="#">' + recent + '</a></li>');
+                        recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
+                        $("#all_recent_activity").append('<li><a href="#">' + recent + '</a></li>')
+
                     });
                 }
             }
@@ -965,12 +965,18 @@
         $("#register_form").find('input[name="users[industry]"]').val("");
         $('#after_register').show();
         $('#password_submit').hide();
+        $('#password_submit_text').hide();
+
     }
 
     function show_rec_act(){
         $("#rec_act_modal").modal('show');
     }
 
+
+    function view_recent_activity(){
+       $('#recent_activity_of_user').modal('show');
+    }
 
 </script>
 
@@ -989,7 +995,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
       ×
     </button>
-    <h3>Sign Up</h3>
+    <h3>Player Registration</h3>
   </div>
   <br>
   <%#= form_for(resource, :as => resource_name, :url => registration_path(resource_name) , :html => {:id => "register_form"}) do |f| %>
@@ -1008,8 +1014,9 @@
                 <%= f.text_field :username, :placeholder => "Mobile Number", :style=>"width:71%" %>
                 <img src="/assets/loading.gif" style="height:24px;width:24px;display: none;" id="reg_form_username_wait_img">
               </div>
+              <p style="display: none;" id="password_submit_text">Your number is already present in our records. If you would like us to send across your password via SMS please click “Send”</p>
               &nbsp;&nbsp;
-              <span><a class="btn btn-info" href="#" type="button" id="password_submit" style="display:none;">Password</a></span>
+              <span></span>
             </div>
 
           </div>
@@ -1185,6 +1192,7 @@
       <div class="row-fluid" style="margin-bottom: 10px;">
         <div class="span12">
           <a class="btn btn-success pull-left" href="#" type="button" id="register_submit">Sign Up</a>
+          <a class="btn btn-info" href="#" type="button" id="password_submit" style="display:none;">Send</a>
         </div>
       </div>
     </div>
@@ -1197,13 +1205,14 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
       ×
     </button>
-    <h3>Forgot Your Password</h3>
+    <h3>Forgot Your Password?</h3>
   </div>
   <br>
   <div class="modal-body" style="overflow: hidden">
     <div class="row-fluid">
       <div class="span12">
         <div>
+          <p>Enter your mobile number and we will send you a new password</p>
           <%#= text_field_tag :username %>
            <br>
           <div class="input-prepend">
@@ -1224,6 +1233,7 @@
     </div>
   </div>
 </div>
+
 
 <div id="change_pwd_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <%= form_tag :quiz_change_password do |f| %>
@@ -1281,12 +1291,10 @@
 </div>
 
 
+
+
+
 <script type="text/javascript">
-
-
-
-
-
     $(function () {
 
         $("#register_form").find('input[name="users[username]"]').on('input', function () {
@@ -1323,6 +1331,7 @@
                             else {
                                 setTimeout(function () {
                                     $('#password_submit').show();
+                                    $('#password_submit_text').show();
                                     $('#after_register').hide();
                                     $('#register_submit').hide();
                                     $('#not_register_message').hide();

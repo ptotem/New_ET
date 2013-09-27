@@ -68,7 +68,7 @@ class QuizController < ApplicationController
     @previous_date = @date.strftime('%d %B %Y')
     #@yesterday_question =Question.find_all_by_insertion_date(Date.yesterday).first
     @yesterday_question=Question.all.sort_by(&:insertion_date)
-    @yesterday_question=@yesterday_question[@yesterday_question.count-1]
+    @yesterday_question=@yesterday_question[@yesterday_question.count-2]
     @question = @yesterday_question.name
     @date=@yesterday_question.insertion_date
     @option = Option.find_all_by_question_id(@yesterday_question.id)
@@ -190,6 +190,25 @@ class QuizController < ApplicationController
     end
   end
 
+  def admin_change_profile
+
+    @profile=User.find(params[:uid].to_i)
+
+    @profile.name=params[:name]
+    @profile.age=params[:age]
+    @profile.workx=params[:workx]
+    @profile.location=params[:location]
+    @profile.industry=params[:industry]
+    @profile.password=params[:password]
+    @profile.save
+    @version=Version.last
+    @version.event="profile_update"
+    @version.whodunnit=current_user.id
+    @version.save
+    sign_in(@profile, :bypass => true)
+    redirect_to "/daily_winner"
+  end
+
   def recent_activity
     @recent_activity=Array.new
     #Version.find_all_by_item_id_and_item_type(current_user.id, "User").each do |ver|
@@ -291,6 +310,32 @@ class QuizController < ApplicationController
     render :text => "#{@user_score.count}|#{@answer_rate*100/@user_score.count}"
     return
   end
+
+  def decide_daily_winner
+    DailyWinner.destroy_all
+    @question=Question.find_by_insertion_date(Date.today)
+    @daily_winners=Response.find_all_by_question_id(@question.id).map{|i| i.user_id}.uniq
+    @daily_winners.shuffle[0..9].each do |dw|
+      DailyWinner.create(:question_id=>@question.id,:user_id=>dw,:is_display=>false)
+    end
+    render :text=>@daily_winners
+    return
+
+  end
+
+  def daily_winner
+    @daily_winners=DailyWinner.all
+  end
+
+  def dis_value_change
+    @daily_display=DailyWinner.find_by_user_id(params[:dis_val][0])
+    @daily_display.is_display=true
+    @daily_display.save
+    render :text => @daily_display
+    return
+  end
+
+
 
 
 end

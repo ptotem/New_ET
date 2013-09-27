@@ -20,13 +20,20 @@ ETNew::Application.routes.draw do
   match "/load_question", :to=> "response#load_question", :as=> "load_question"
   match "/update_profile", :to=> "quiz#change_profile", :as=> "update_profile"
   match "/quiz_change_password", :to=> "quiz#quiz_change_password", :as=> "quiz_change_password"
+  match "/admin_update_profile", :to=> "quiz#admin_change_profile", :as=> "admin_update_profile"
+  match "/dis_value_change", :to=> "quiz#dis_value_change", :as=> "dis_value_change"
   match "/control_edit_profile_modal", :to=> "welcome#control_edit_profile_modal", :as=> "control_edit_profile_modal"
   match "/each_question_data/:id",:to=>"response#each_question_data",:as=>"each_question_data"
   match "/each_participant_data/:id",:to=>"response#each_participant_data",:as=>"each_question_data"
   match "/all_question_data",:to=>"response#all_question_data",:as=>"each_question_data"
   match "/all_participant_data",:to=>"response#all_participant_data",:as=>"each_question_data"
   match "/recent_activity", :to=>"quiz#recent_activity"
+
   match "/all_recent_activities", :to=>"quiz#all_recent_activities"
+
+  match "/daily_winner", :to=>"quiz#daily_winner"
+  match "/decide_daily_winner", :to=>"quiz#decide_daily_winner" ,:as => "decide_daily_winner"
+
   match "/get_score", :to=>"quiz#get_score"
   match "/update_fb_sign_in_score", :to=>"welcome#update_fb_sign_in_score"
   match "/cs", :to=>"quiz#current_status"
