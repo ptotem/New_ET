@@ -1,3 +1,4 @@
+<script src="assets/jquery.dependent-selects.js"></script>
 <h5>Daily Winners</h5>
 <table>
   <tbody>
@@ -22,7 +23,6 @@
 <script type="text/javascript">
     function update_this_user(this_obj) {
         $("#uid").val($(this_obj).prev().val());
-        alert($("#uid").val())
         $('#edit_profile').modal('show');
     }
 
@@ -65,18 +65,18 @@
               <%= text_field_tag :name %>
             </p>
 
-            <p>
-              <label>Age</label>
-              <% age_array = (1..100).to_a.collect { |p| ["#{p}", p] } %>
-              <%= select_tag(:age, options_for_select(age_array), :prompt => "Select age") %>
-            </p>
+            <!--<p>-->
+              <!--<label>Age</label>-->
+              <!--<%# age_array = (1..100).to_a.collect { |p| ["#{p}", p] } %>-->
+              <!--<%#= select_tag(:age, options_for_select(age_array), :prompt => "Select age") %>-->
+            <!--</p>-->
 
-            <p>
-              <label>Work Experience</label>
-              <%#= text_field_tag :workx, @user.workx %>
-              <% workx_array = (1..100).to_a.collect { |p| ["#{p}", p] } %>
-              <%= select_tag(:workx, options_for_select(workx_array), :prompt => "Select work experience") %>
-            </p>
+            <!--<p>-->
+              <!--<label>Work Experience</label>-->
+              <!--<%#= text_field_tag :workx, @user.workx %>-->
+              <!--<%# workx_array = (1..100).to_a.collect { |p| ["#{p}", p] } %>-->
+              <!--<%#= select_tag(:workx, options_for_select(workx_array), :prompt => "Select work experience") %>-->
+            <!--</p>-->
 
             <p>
               <label> Location (State, City)</label>

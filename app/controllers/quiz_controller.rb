@@ -144,13 +144,6 @@ class QuizController < ApplicationController
 
   def profile
     @user=User.find(current_user.id)
-    #render :text => "dob :- #{@user.dob} || Today :- #{Date.today}"
-    #@user_age = Time.now.year.to_i - @user.dob.strftime("%Y").to_i
-    #render :text => @user_age.to_i
-    #return
-    #@user.age = @user_age.to_i
-    #@user.save!
-
   end
 
   def change_profile
@@ -160,22 +153,6 @@ class QuizController < ApplicationController
     @profile.workx=params[:workx]
     @profile.location=params[:location]
     @profile.industry=params[:industry]
-    #@profile.password=params[:password]
-    @profile.save
-    @version=Version.last
-    @version.event="profile_update"
-    @version.whodunnit=current_user.id
-    @version.save
-    sign_in(@profile, :bypass => true)
-    if params[:from_page]=="index"
-      redirect_to "/"
-    else
-      redirect_to "/profile"
-    end
-  end
-
-  def quiz_change_password
-    @profile=User.find(current_user.id)
     @profile.password=params[:password]
     @profile.save
     @version=Version.last
@@ -228,52 +205,14 @@ class QuizController < ApplicationController
           case ver.event
             when "create"
               @response=Response.find(ver.item_id)
-              @recent_activity<<"Last played on "+"#{@response.question.insertion_date.strftime('%d %B %Y')}"
-            when "DD"
+              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
+            when "update"
               @response=Response.find(ver.item_id)
-              @recent_activity<<"Double Delight promotion used on "+"#{@response.question.insertion_date.strftime('%d %B %Y')}"
-            when "TT"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"Triple Treat promotion used on  "+"#{@response.question.insertion_date.strftime('%d %B %Y').to_s}"
-            when "TT"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"Happy Hour promotion used on  "+"#{@response.question.insertion_date.strftime('%d %B %Y').to_s}"
+              @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
           end
       end
     end
     render :text => @recent_activity.reverse![0..2]
-  end
-
-  def all_recent_activities
-    @recent_activity=Array.new
-    #Version.find_all_by_item_id_and_item_type(current_user.id, "User").each do |ver|
-    Version.find_all_by_whodunnit(current_user.id).each do |ver|
-      case ver.item_type
-        when "User"
-          case ver.event
-            when "profile_update"
-              @recent_activity<<"User updated his profile"
-            when "correct"
-              @recent_activity<<"User has answered correctly"
-            when "incorrect"
-              @recent_activity<<"User has answered incorrectly"
-          end
-
-        when "Response"
-          case ver.event
-            when "create"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
-            when "DD"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"User applied for double delight for question dated "+@response.question.insertion_date.to_s
-            when "TT"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"User applied for Triple Treat for question dated "+@response.question.insertion_date.to_s
-          end
-      end
-    end
-    render :text => @recent_activity
   end
 
   def get_score

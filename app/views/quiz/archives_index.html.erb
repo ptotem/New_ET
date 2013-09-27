@@ -22,6 +22,7 @@
                 <a href="#" target="_blank" id="archives_view_article"><button class="btn btn-info" >View Article</button></a>
                 </span>
                 <span id="tag_list">
+                  <h5><%= @yesterday_question.insertion_date.strftime("%d %B %Y, %A") %></h5>
                 <%#= raw (@yesterday_question.tag_list.map { |t| link_to t, tag_path(t) }.join(', ')) %>
                </span>
              </div>
@@ -348,8 +349,8 @@
          }
          else{
              var curr;
-             $(a).eaah(function(){
-                  if(($(v).text()=="2")&&(!$(v).hasClass('dp_not_in_month'))){
+             $(a).each(function(i,v){
+                  if(!$(v).hasClass('dp_not_in_month')){
                        curr=$(v)
                   }
              })
