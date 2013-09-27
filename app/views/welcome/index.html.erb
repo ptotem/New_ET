@@ -177,7 +177,8 @@
                 <div class="input-prepend">
                   <span class="add-on">91</span>
                   <!--<input class="span2" id="prependedInput" type="text" placeholder="Username">-->
-                  <input type="text" style="width:79%;" size="30" placeholder="Mobile Number" name="user[username]" id="user_username" data-msg-required="Please enter your mobile number" class="required error" autofocus="autofocus"><label for="user_username" class="error">Please enter your mobile number</label>
+                  <!--<input type="text" style="width:79%;" size="30" placeholder="Mobile Number" name="user[username]" id="user_username" data-msg-required="Please enter your mobile number" class="required error" autofocus="autofocus"><label for="user_username" class="error">Please enter your mobile number</label>-->
+                  <input type="text" style="width:79%;" size="30" placeholder="Mobile Number" name="user[username]" id="user_username" data-msg-required="Please enter your mobile number" class="required error">
                 </div>
               </div>
             </div>
@@ -1073,8 +1074,12 @@
     <div class="row-fluid">
       <div class="span12">
         <div>
-          <%= text_field_tag :username %>
+          <%#= text_field_tag :username %>
            <br>
+          <div class="input-prepend">
+            <span class="add-on">91</span>
+            <%= text_field_tag :username %>
+          </div>
         </div>
       </div>
     </div>
@@ -1192,6 +1197,8 @@
 
     $('#forgot_password').find('input[name="username"]').on('input', function (){
         var mobile_no = $('#forgot_password').find('input[name="username"]').val();
+        console.log(mobile_no);
+
         var data = {username: []}
         data["username"].push(mobile_no);
         $.ajax({
@@ -1209,6 +1216,7 @@
              }
 
                 $('#forgot_submit').on("click", function () {
+
                     var data = {mobile_no: []}
                     data["mobile_no"].push(mobile_no);
                     $.ajax({
