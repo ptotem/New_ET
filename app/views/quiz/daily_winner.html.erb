@@ -1,9 +1,16 @@
 <script src="assets/jquery.dependent-selects.js"></script>
+<script type="text/javascript">
+  $(function(){
+     $('.dependent').dependentSelects();
+  });
+</script>
+
+<div style="padding: 15px;">
 <h5>Daily Winners</h5>
 <table>
   <tbody>
   <tr>
-    <th>Name</th>
+    <th>Mobile Number</th>
     <th></th>
     <th></th>
   </tr>
@@ -195,4 +202,5 @@
         <%= submit_tag "Update", :class => "btn btn-medium btn-primary" %>
       </div>
   <% end %>
+</div>
 </div>

@@ -1,7 +1,9 @@
 class QuizController < ApplicationController
-  #before_filter :authenticate_user!, :only => [:profile]
+  before_filter :authenticate_user!, :only => [:profile,:decide_daily_winner,:daily_winner,:dis_value_change]
   #before_filter :set_var
   #before_filter :set_var,:only =>[:profile]
+
+
 
   #private
   def set_var
