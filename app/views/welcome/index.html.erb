@@ -860,7 +860,7 @@
                     returning_data = returning_data.split(",");
                     $('#recent_activity').html();
                     $.each(returning_data, function () {
-                        recent = this.replace("[", "").replace("]", "").replace('"', '');
+                        recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
                         $("#recent_activity").append('<li class="rec_act" onclick="show_rec_act();"><a href="#">' + recent + '</a></li>');
                     });
                 }
@@ -875,8 +875,6 @@
                     returning_data = returning_data.split(",");
                     $('#recent_activity').html();
                     $.each(returning_data, function () {
-                        recent = this.replace("[", "").replace("]", "").replace('"', '');
-                        $("#all_recent_activity").append('<li><a href="#">' + recent + '</a></li>');
                         recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
                         $("#all_recent_activity").append('<li><a href="#">' + recent + '</a></li>')
 

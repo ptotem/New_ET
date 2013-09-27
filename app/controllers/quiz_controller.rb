@@ -276,6 +276,35 @@ class QuizController < ApplicationController
   end
 
 
+  def all_recent_activities
+    @recent_activity=Array.new
+    #Version.find_all_by_item_id_and_item_type(current_user.id, "User").each do |ver|
+    Version.find_all_by_whodunnit(current_user.id).each do |ver|
+      case ver.item_type
+        when "User"
+          case ver.event
+            when "profile_update"
+              @recent_activity<<"User updated his profile"
+            when "correct"
+              @recent_activity<<"User has answered correctly"
+            when "incorrect"
+              @recent_activity<<"User has answered incorrectly"
+          end
+
+        when "Response"
+          case ver.event
+            when "create"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
+            when "update"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
+          end
+      end
+    end
+    render :text => @recent_activity.reverse!
+  end
+
 
 
 end
