@@ -793,17 +793,42 @@
         var curr_usr_sign_in_count = "<%= current_user.sign_in_count %>";
         var display_modal = <%= current_user.display_modal %>;
 
-        if ((curr_usr_sign_in_count <= 1) && (display_modal == false)) {
-            $('#edit_profile').modal('show');
+        var curr_usr_email = "<%= current_user.email %>";
+        var curr_usr_name = "<%= current_user.name %>";
+        var curr_usr_nickname = "<%= current_user.nickname %>";
+        var curr_usr_age = "<%= current_user.age %>";
+        var curr_usr_workx = "<%= current_user.workx %>";
+        var curr_usr_industry = "<%= current_user.industry %>";
+        var curr_usr_location = "<%= current_user.location %>";
 
-            $.ajax({
-                url: "/control_edit_profile_modal",
-                type: "post",
-                success: function (data) {
+        //console.log("Email :- "+curr_usr_email + ", Name :- "+curr_usr_name + ", Nickname :- "+curr_usr_nickname + ", Age :- "+curr_usr_age + ", Workx :- "+curr_usr_workx + ", Industry :- "+curr_usr_industry + ", Location :- "+curr_usr_location);
 
+
+
+
+
+
+            if ((curr_usr_sign_in_count <= 1) && (display_modal == false) ) {
+                if ( (curr_usr_email=="")||(curr_usr_name=="")||(curr_usr_nickname=="")||(curr_usr_age=="")||(curr_usr_workx=="")||(curr_usr_industry=="")||(curr_usr_location=="") ) {
+                    //console.log("1");
+                    $('#edit_profile').modal('hide');
                 }
-            });
-        }
+                else{
+                    //console.log("2");
+                    $('#edit_profile').modal('show');
+                }
+
+                $.ajax({
+                    url: "/control_edit_profile_modal",
+                    type: "post",
+                    success: function (data) {
+
+                    }
+                });
+            }
+
+
+
         <% end %>
 
         $(function () {
@@ -839,7 +864,22 @@
                     $('#recent_activity').html();
                     $.each(returning_data, function () {
                         recent = this.replace("[", "").replace("]", "").replace('"', '');
-                        $("#recent_activity").append('<li><a href="#">' + recent + '</a></li>');
+                        $("#recent_activity").append('<li class="rec_act" onclick="show_rec_act();"><a href="#">' + recent + '</a></li>');
+                    });
+                }
+            }
+        });
+
+        $.ajax({
+            url: "/all_recent_activities",
+            type: "get",
+            success: function (returning_data) {
+                if (returning_data != '') {
+                    returning_data = returning_data.split(",");
+                    $('#recent_activity').html();
+                    $.each(returning_data, function () {
+                        recent = this.replace("[", "").replace("]", "").replace('"', '');
+                        $("#all_recent_activity").append('<li><a href="#">' + recent + '</a></li>');
                     });
                 }
             }
@@ -927,6 +967,10 @@
         $('#password_submit').hide();
     }
 
+    function show_rec_act(){
+        $("#rec_act_modal").modal('show');
+    }
+
 
 </script>
 
@@ -940,7 +984,7 @@
 
 
 
-<div id="register" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding: 10px;">
+<div id="register" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding: 10px; height: 620px;">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
       ×
@@ -949,7 +993,7 @@
   </div>
   <br>
   <%#= form_for(resource, :as => resource_name, :url => registration_path(resource_name) , :html => {:id => "register_form"}) do |f| %>
-  <div class="modal-body" style="overflow: hidden">
+  <div class="modal-body" style="overflow-y: scroll;">
     <%= form_for :users, :html => {:id => "register_form"} do |f| %>
         <%= devise_error_messages! %>
 
@@ -998,8 +1042,11 @@
           <div class="row-fluid">
             <div class="span12">
               <div>
-                <% age_array = (0..100).to_a.collect { |p| ["#{p}", p] } %>
-                <%= f.select(:age, options_for_select(age_array), :prompt => "Select age") %>
+                <%# age_array = (0..100).to_a.collect { |p| ["#{p}", p] } %>
+                <%#= f.select(:age, options_for_select(age_array), :prompt => "Select age") %>
+
+                <%#= f.date_select :dob %>
+                <%= f.date_select :dob, :order => [:day, :month, :year], :start_year => Date.current.year, :end_year => 1920 %>
               </div>
             </div>
           </div>
@@ -1162,6 +1209,7 @@
           <div class="input-prepend">
             <span class="add-on">91</span>
             <%= text_field_tag :username %>
+            <img src="/assets/loading.gif" style="height:24px;width:24px; display: none;" id="forgot_pwd_wait_img">
           </div>
           <p id="not_register_message" style="display: none;">You are not registered. Please, register.</p>
         </div>
@@ -1202,6 +1250,34 @@
         <%= submit_tag "Change", :class => "btn btn-medium btn-primary pull-left" %>
       </div>
   <% end %>
+</div>
+
+<div id="rec_act_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>
+          Recent Activity
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="row-fluid">
+          <div class="span9">
+            <div class="blog-categories widget-tp">
+              <ul id="all_recent_activity">
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+
+      </div>
+
 </div>
 
 
@@ -1345,6 +1421,7 @@
     //}
     $('#forgot_password').find('input[name="username"]').on('input', function (){
         $('#not_register_message').hide();
+        $("#forgot_pwd_wait_img").show();
         var mobile_no = $('#forgot_password').find('input[name="username"]').val();
         //console.log(mobile_no.length);
 
@@ -1358,6 +1435,7 @@
             if ( (uname_first_char!="9") || (uname_second_char!="1") ) {
                 //$('#forgot_password').find('input[name="username"]').val("91"+mobile_no);
                 var prepended_mob_no = "91"+$('#forgot_password').find('input[name="username"]').val();
+
                 console.log(prepended_mob_no);
                 var data = {username: []}
                 //data["username"].push(mobile_no);
@@ -1377,6 +1455,7 @@
                         else
                         {
                             $('#forgot_submit').show();
+                            $("#forgot_pwd_wait_img").hide();
                             $('#not_register_message').hide();
                         }
 

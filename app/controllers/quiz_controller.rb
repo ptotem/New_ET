@@ -144,6 +144,13 @@ class QuizController < ApplicationController
 
   def profile
     @user=User.find(current_user.id)
+    #render :text => "dob :- #{@user.dob} || Today :- #{Date.today}"
+    #@user_age = Time.now.year.to_i - @user.dob.strftime("%Y").to_i
+    #render :text => @user_age.to_i
+    #return
+    #@user.age = @user_age.to_i
+    #@user.save!
+
   end
 
   def change_profile
@@ -216,6 +223,38 @@ class QuizController < ApplicationController
       end
     end
     render :text => @recent_activity.reverse![0..2]
+  end
+
+  def all_recent_activities
+    @recent_activity=Array.new
+    #Version.find_all_by_item_id_and_item_type(current_user.id, "User").each do |ver|
+    Version.find_all_by_whodunnit(current_user.id).each do |ver|
+      case ver.item_type
+        when "User"
+          case ver.event
+            when "profile_update"
+              @recent_activity<<"User updated his profile"
+            when "correct"
+              @recent_activity<<"User has answered correctly"
+            when "incorrect"
+              @recent_activity<<"User has answered incorrectly"
+          end
+
+        when "Response"
+          case ver.event
+            when "create"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
+            when "DD"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"User applied for double delight for question dated "+@response.question.insertion_date.to_s
+            when "TT"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"User applied for Triple Treat for question dated "+@response.question.insertion_date.to_s
+          end
+      end
+    end
+    render :text => @recent_activity
   end
 
   def get_score

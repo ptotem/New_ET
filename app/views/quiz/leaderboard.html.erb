@@ -290,6 +290,34 @@
       </div>
     </div>
 
+    <div id="rec_act_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>
+          Recent Activity
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="row-fluid">
+          <div class="span9">
+            <div class="blog-categories widget-tp">
+              <ul id="all_recent_activity">
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+
+      </div>
+
+    </div>
+
   </section>
 
   <script>
@@ -308,10 +336,25 @@
               $('#recent_activity').html();
               $.each(returning_data,function(){
                 recent=this.replace("[","").replace("]","").replace('"','');
-                $("#recent_activity").append('<li><a href="#">'+recent+'</a></li>');
+                  $("#recent_activity").append('<li class="rec_act" onclick="show_rec_act();"><a href="#">' + recent + '</a></li>');
               });
             }
           }
+        });
+
+        $.ajax({
+            url: "/all_recent_activities",
+            type: "get",
+            success: function (returning_data) {
+                if (returning_data != '') {
+                    returning_data = returning_data.split(",");
+                    $('#recent_activity').html();
+                    $.each(returning_data, function () {
+                        recent = this.replace("[", "").replace("]", "").replace('"', '');
+                        $("#all_recent_activity").append('<li><a href="#">' + recent + '</a></li>');
+                    });
+                }
+            }
         });
 
         if ( fb_signed_in == true) {
@@ -341,7 +384,7 @@
                     $("#points").html(ref_pts + fb_sign_in_score + " Points");
                 }
                 else{
-                    $("#points").html(<%=current_user.refer_points%>+"Points");
+                    $("#points").html(<%=current_user.refer_points%>+" Points");
                 }
 
 
@@ -367,5 +410,9 @@
 
     function refer_friend(){
       $('#refer_box').modal('show')
+    }
+
+    function show_rec_act(){
+        $("#rec_act_modal").modal('show');
     }
   </script>

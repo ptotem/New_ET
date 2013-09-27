@@ -91,26 +91,34 @@ def add_bonus_tt
 	return
 end
 
-def send_ref_mail
-	@eaddresses=Array.new
-	@eaddresses<< params[:email_and_location][0]
-	@eaddresses<< params[:email_1_and_location_1][0]
-	@eaddresses<< params[:email_2_and_location_2][0]
-	@eaddresses<< params[:email_3_and_location_3][0]
-	@eaddresses<< params[:email_4_and_location_4][0]
 
-	@eaddresses.each_with_index do |eaddr,index|
-		@loc=eaddr.split('||')[1]
-		@email=eaddr.split('||')[0]
-		@referral=Referral.create(:user_id => current_user.id, :referred_mail => @email,:location => @loc)
-		if @referral.location !="Bangalore,Karnataka"
-			NotificationMailer.welcome_email(@email).deliver
-		end
-	end
-	render :text => NotificationMailer.welcome_email(@email).deliver
-	return
 
-end
+  def send_ref_mail
+    @eaddresses=Array.new
+    @eaddresses<< params[:email_and_location][0]
+    @eaddresses<< params[:email_1_and_location_1][0]
+    @eaddresses<< params[:email_2_and_location_2][0]
+    @eaddresses<< params[:email_3_and_location_3][0]
+    @eaddresses<< params[:email_4_and_location_4][0]
+
+    @eaddresses.each_with_index do |eaddr,index|
+      unless eaddr.split('||')[0].nil? && eaddr.split('||')[1].nil?
+        @loc= eaddr.split('||')[1]
+        @email=eaddr.split('||')[0]
+        unless @loc.nil? && @email.nil?
+          @referral=Referral.create(:user_id => current_user.id, :referred_mail => @email,:location => @loc)
+        end
+        if @referral.location =="Bangalore,Karnataka"
+          NotificationMailer.welcome_email(@email).deliver
+        end
+      end
+    end
+
+    render :text => "OK"
+    return
+
+  end
+
 
   #require 'gruff'
 

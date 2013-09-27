@@ -26,6 +26,7 @@ ETNew::Application.routes.draw do
   match "/all_question_data",:to=>"response#all_question_data",:as=>"each_question_data"
   match "/all_participant_data",:to=>"response#all_participant_data",:as=>"each_question_data"
   match "/recent_activity", :to=>"quiz#recent_activity"
+  match "/all_recent_activities", :to=>"quiz#all_recent_activities"
   match "/get_score", :to=>"quiz#get_score"
   match "/update_fb_sign_in_score", :to=>"welcome#update_fb_sign_in_score"
   match "/cs", :to=>"quiz#current_status"
