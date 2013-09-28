@@ -109,7 +109,7 @@ end
           @referral=Referral.create(:user_id => current_user.id, :referred_mail => @email,:location => @loc)
         end
         if @referral.location =="Bangalore,Karnataka"
-          NotificationMailer.welcome_email(@email).deliver
+          NotificationMailer.welcome_email(@email,current_user).deliver
         end
       end
     end

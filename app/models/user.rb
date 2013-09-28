@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture, :dob
+  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture, :dob, :successful_reference
   attr_accessor :user_photo
 
   has_attached_file :user_photo
@@ -18,8 +18,7 @@ class User < ActiveRecord::Base
   has_many :feedbacks
 
   has_paper_trail
-  #after_create :refer_email
-  after_create :refer_email, :check_country_code_in_username
+  after_create  :check_country_code_in_username
 
   def superadmin?
     role=="Superadmin"
@@ -36,9 +35,7 @@ class User < ActiveRecord::Base
     u
   end
 
-  #def create_profile
-  #  Profile.create!(:user_id=>self.id,:location=>nil,:industry=>nil,:age=>nil,:workx=>nil)
-  #end
+
 
   def refer_email
     @user=User.find_by_email(self.email)
@@ -46,9 +43,10 @@ class User < ActiveRecord::Base
       @refer=Referral.find_by_referred_mail(@user.email).user_id
       @user_id=User.find(@refer)
       @refer_points=@user_id.refer_points
-      @user_id.update_attributes(:refer_points=>@refer_points+20)
+      @user_id.update_attributes(:refer_points=>@refer_points+5)
       @user_id.save
     end
+
   end
 
   def check_country_code_in_username

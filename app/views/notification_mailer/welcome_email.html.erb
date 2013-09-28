@@ -3,13 +3,13 @@
   Greetings from The Economic Times and welcome to Win With ET.
   Your friend
   <b>
-  <% @refer_id=Referral.find_by_referred_mail(@user).user_id rescue nil %>
+  <% @refer_id=Referral.find_by_referred_mailby_referred_mail(@user).user_id rescue nil %>
   <%= User.find(@refer_id).name rescue "" %>
   </b>
   has started playing the game and has the chance to win exciting daily, weekly and a monthly Grand Prize. You have been recommended by your friend to play the game and earn a shot at winning. Click on the link below to go to the website and register. By clicking the link, you also earn X points for your friend and will help him get closer to maximizing his points to win.
   <br><br>
 
-  <a href="http://localhost:3000/users/sign_up">Check out the quiz through this link.</a>
+  <a href="http://localhost:3000/?=referred&referred_by=<%= @current_user.id %>">Check out the quiz through this link.</a>
 
   Win With ET is a quiz hosted in The Economic Times newspaper. Look out for the column in the newspaper every weekday to see what today’s question is. The answer to the question can be found in the same edition. All you need to do is find the correct answer after reading the right article and send us a simple SMS.
   With every correct answer, you increase your chances of winning exciting cash vouchers to redeem on any product of your choice on Indiatimes.com

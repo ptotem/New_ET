@@ -172,17 +172,15 @@ class WelcomeController < ApplicationController
     @dob_day = params[:users]["dob(3i)"]
     @dob_month = params[:users]["dob(2i)"]
     @dob_year = params[:users]["dob(1i)"]
-    #@day_month_year = "#{@dob_day} #{@dob_month} #{@dob_year}"
-    #render :text => @day_month_year
-    #render :text => "Day #{@dob_day}, Month #{@dob_month}, Year #{@dob_year}"
-    #return
-
     @user_age = Time.now.year.to_i - params[:users]["dob(1i)"].to_i
-
-
-
     @user=User.create!(:email => params[:users][:email],:username => params[:users][:username],:name => params[:users][:name],:nickname => params[:users][:nickname],:dob => "#{@dob_day}-#{@dob_month}-#{@dob_year}", :age=>@user_age, :workx => params[:users][:workx],:location => params[:location],:industry => params[:users][:industry],:password => "password")
     @user.save
+    if !params[:refere_id].nil?
+      @ruser=User.find(params[:refere_id].to_i)
+      @ruser.successful_reference=@ruser.successful_reference+1
+      @ruser.refer_points=@ruser.refer_points+5
+      @ruser.save
+    end
     sign_in(:user, @user)
     redirect_to "/"
   end
