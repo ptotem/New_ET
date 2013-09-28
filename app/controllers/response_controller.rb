@@ -201,18 +201,27 @@ def res
     	end
     	@question = Question.find_by_insertion_date(Date.today)
 
+      if params[:message].include?("WINET PWD")
+        passwd=Random.new.rand(10000000..99999999).to_s
+        @user.password = passwd
+        @user.password_confirmation=passwd
+        @user.save
+        render :text=>"Thank your for playing Win with ET. Following is your password to login on win.economictimes.com: "+passwd+". Play daily to win prizes!"
+        return
+      end
 
-    	if @question.nil?
-    		render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
-    		return
-    	end
 
-    	# if Time.zone.now> @question.close_time
-    	# 	render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
-    	# 	return
-    	# end
 
     	if params[:message].include?("WINETD")
+        if @question.nil?
+          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          return
+        end
+
+        if Time.zone.now> @question.close_time
+          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          return
+        end
     		@question = Question.find_by_insertion_date(Date.today)
     		@selected_option=params[:message].split(' ')[1]
     		case @selected_option
@@ -250,6 +259,15 @@ def res
           render :text=>@a+"Thanks for playing Double Delight on Win with ET. Winners will be contacted daily.Refer friends & increase your score on www.winwithet.com. Play Daily! Win Daily!"
           return
       elsif params[:message].include?("WINETT")
+        if @question.nil?
+          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          return
+        end
+
+        if Time.zone.now> @question.close_time
+          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          return
+        end
       	@question = Question.find_by_insertion_date(Date.today)
 
       	@selected_option=params[:message].split(' ')[1]
@@ -286,15 +304,17 @@ def res
           @version.save
           render :text=>@a+"Thanks for playing Triple Treat on Win with ET. Winners will be contacted daily.Refer friends & increase your score on www.winwithet.com. Play Daily! Win Daily!"
           return
-      elsif params[:message].include?("WINET PWD")
-      	passwd=Random.new.rand(10000000..99999999).to_s
-      	@user.password = passwd
-      	@user.password_confirmation=passwd
-      	@user.save
-      	render :text=>"Thank your for playing Win with ET. Following is your password to login on win.economictimes.com: "+passwd+". Play daily to win prizes!"
-      	return
-      elsif params[:message].include?("WINET")
 
+      elsif params[:message].include?("WINET")
+        if @question.nil?
+          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          return
+        end
+
+        if Time.zone.now> @question.close_time
+          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          return
+        end
       	@selected_option=params[:message].split(' ')[1]
       	case @selected_option
           when "A" #compare to 1
