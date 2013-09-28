@@ -195,21 +195,27 @@ class QuizController < ApplicationController
         when "User"
           case ver.event
             when "profile_update"
-              @recent_activity<<"User updated his profile"
-            when "correct"
-              @recent_activity<<"User has answered correctly"
-            when "incorrect"
-              @recent_activity<<"User has answered incorrectly"
+              @recent_activity<<"Profile last updated on #{ver.created_at.strftime("%d %B %Y")}"
+            #when "correct"
+            #  @recent_activity<<"User has answered correctly"
+            #when "incorrect"
+            #  @recent_activity<<"User has answered incorrectly"
           end
 
         when "Response"
           case ver.event
             when "create"
               @response=Response.find(ver.item_id)
-              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
-            when "update"
+              @recent_activity<<"Last played on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+            when "DD"
               @response=Response.find(ver.item_id)
-              @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
+              @recent_activity<<"Double Delight promotion used on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+            when "TT"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"Triple Treat promotion used on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+            when "hh"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"Happy Hours promotion used on #{@response.question.insertion_date.strftime("%d %B %Y")}"
           end
       end
     end
