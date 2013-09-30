@@ -206,7 +206,7 @@ def res
         @user.password = passwd
         @user.password_confirmation=passwd
         @user.save
-        render :text=>"Thank your for playing Win with ET. Following is your password to login on win.economictimes.com: "+passwd+". Play daily to win prizes!"
+        render :text=>"Thank your for playing Win with ET. Following is your password to login on www.winwithet.com: "+passwd+". Play daily to win prizes!"
         return
       end
 
@@ -234,7 +234,7 @@ def res
           when "D"
           	@option=@question.options[3]
           else
-          	render :text =>"Wrong Option Selected"
+          	render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Refer friends and increase your score on www.winwithet.com . Play Daily! Win Daily!"
           	return
           end
 
@@ -281,7 +281,7 @@ def res
           when "D"
           	@option=@question.options[3]
           else
-          	render :text =>"Wrong Option Selected"
+          	render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Refer friends and increase your score on www.winwithet.com . Play Daily! Win Daily!"
           	return
           end
           @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
@@ -326,7 +326,7 @@ def res
           when "D"
           	@option=@question.options[3]
           else
-          	render :text =>"Wrong Option Selected"
+          	render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Refer friends and increase your score on www.winwithet.com . Play Daily! Win Daily!"
           	return
           end
 
