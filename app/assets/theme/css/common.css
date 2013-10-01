@@ -18,8 +18,8 @@
 }
 
 .ch-grid li {
-	width: 30%;
-	height: 270px;
+	width: 33%;
+	height: 200px;
 	display: inline-block;
 }
 
@@ -33,15 +33,23 @@
 }
 
 #refer-white-card{
-    height:250px;
+    height:180px;
+}
+#refer-white-card img{
+    width:100%
 }
 
 #rules-white-card{
-    height:250px;
+    height:180px;
 }
 
+#rules-white-card img{
+    width:100%
+}
+
+
 .avatar-icon{
-    width:10%;
+    width:20%;
     display: inline-block;
     margin-right: 10px;
 }
@@ -49,4 +57,12 @@
 #register{
     width:25%;
     margin-left: -10%;
+}
+
+.btn {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.white-card p {
+    font-family: Arial, sans-serif;
 }
