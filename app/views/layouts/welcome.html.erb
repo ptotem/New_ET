@@ -16,49 +16,17 @@
 
 </head>
 <body>
-<!--<div id="fb-root"></div>-->
-
-<!--<script>-->
-<!--//    window.fbAsyncInit = function() {-->
-<!--//        // init the FB JS SDK-->
-<!--//        FB.init({-->
-<!--//            appId      : '648492791862773',                        // App ID from the app dashboard-->
-<!--////            channelUrl : '//localhost:3000/channel.html', // Channel file for x-domain comms-->
-<!--//            channelUrl : '//localhost:3000', // Channel file for x-domain comms-->
-<!--//            status     : true,                                 // Check Facebook Login status-->
-<!--//            xfbml      : true                                  // Look for social plugins on the page-->
-<!--//        });-->
-<!--//-->
-<!--//        // Additional initialization code such as adding Event Listeners goes here-->
-<!--//    };-->
-<!--//-->
-<!--//    // Load the SDK asynchronously-->
-<!--//    (function(d, s, id){-->
-<!--//        var js, fjs = d.getElementsByTagName(s)[0];-->
-<!--//        if (d.getElementById(id)) {return;}-->
-<!--//        js = d.createElement(s); js.id = id;-->
-<!--//        js.src = "//connect.facebook.net/en_US/all.js";-->
-<!--//        fjs.parentNode.insertBefore(js, fjs);-->
-<!--//    }(document, 'script', 'facebook-jssdk'));-->
-<!--</script>-->
-
 <header id='header'>
   <div class='navbar navbar-fixed-top'>
     <div class='navbar-inner'>
       <div class='container-fluid'>
         <a class="brand" href="/" style="margin-left: 10px"><%= image_tag "etlogo.png", style:"width:150px;" %></a>
         <div class="pull-right" style="margin-right: 5%">
+          <a class="btn btn-warning" href="#">Contact Us</a>
+          <a class="btn btn-info" href="#" id="faqcall">FAQ</a>
           <% if user_signed_in? %>
-              <a href="#" class="btn btn-success">Hi <%= current_user.name %></a>
               <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account btn btn success" %>
           <% end %>
-          <%#= feedback_tab(:position => 'right') %>
-
-          <a class="btn btn-danger" href="#">Know the Game</a>
-          <a class="btn btn-warning" href="#">Win the Game</a>
-          <a class="btn btn-success" href="#">Question Answer</a>
-          <a class="btn btn-warning" href="#">Contact Us</a>
-          <a class="btn btn-info" href="#">FAQ</a>
         </div>
       </div>
     </div>
@@ -67,7 +35,7 @@
 
 <%= yield %>
 
-<%= js extend_gritter :position => :bottom_right %>
+<%#= js extend_gritter :position => :bottom_right %>
 <%= js add_gritter(flash[:notice], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
 <%= js add_gritter(flash[:message], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
 <%= js add_gritter(flash[:alert], :image => :warning, :title => "Alert!", :sticky => false, :time => 2000) %>
@@ -173,7 +141,7 @@
 </div>
 
 <footer>
-  <div class="deep-footer">
+  <div class="deep-footer" style="margin-top: 10px;">
     <div class="container" style="padding-bottom: 10px;margin-top: 10px;">
       <div class="row">
         <div class="span6">

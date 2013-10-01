@@ -12,6 +12,7 @@ ETNew::Application.routes.draw do
   match "/archives"=>"quiz#archives_index"
   match "/leaderboards"=>"quiz#leaderboard"
   match "/profile"=>"quiz#profile"
+  match "/about_quiz"=>"quiz#about_quiz"
   match "/create_response", :to=> "response#create_response", :as=> "create_response"
   match "/add_bonus", :to=> "response#add_bonus", :as=> "add_bonus"
   match "/add_bonus_tt", :to=> "response#add_bonus_tt", :as=> "add_bonus_tt"

@@ -3,11 +3,8 @@
 
 
 <section class='section-wrapper'>
-<div class='container'>
-<div class='row'>
+<div class='row-fluid'>
   <div class='span9'>
-    <h3 class="section-header">
-      <span><!-- <img src="assets/img/recent.png" style="width:7%;">&nbsp; -->Question Trail</span></h3>
 
     <div class="white-card" id="white-card_archive">
       <div id="archives_content">
@@ -16,6 +13,10 @@
         <!--</h4>-->
            <div class="row-fluid">
              <div class="span12">
+               <h3 class="section-header">
+                 <span>Question Trail</span>
+               </h3>
+
                <span class="pull-right">
                 <button class="btn btn-success" onclick="view_score()">View Answer</button>
                 <!--<button class="btn btn-warning" onclick="view_stat()">View Statistics</button>-->
@@ -62,8 +63,6 @@
         </div>
       </div>
     </div>
-
-
 
     <div class="white-card" id="white-card_quest" style="display: none;">
       <div>
@@ -126,134 +125,71 @@
      </div>
     </div>
 
-    <!--<div class="row-fluid">-->
-      <!--<div class="span12">-->
-
-      <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="row-fluid">-->
-      <!--<div class="span12">-->
-        <!--<button class="btn btn-success" id="backing" style="display: none;width: 100%;">Back</button>-->
-      <!--</div>-->
-    <!--</div>-->
-
-
-    <!--<div class="row-fluid" style="margin-top:250px;" id="tag_area">-->
-      <!--<div class="span12">-->
-        <!--<input type="hidden" name="count" value="1"/>-->
-        <!--<div class="control-group" id="fields">-->
-          <!--<label class="control-label" for="field1">Tag Search</label>-->
-          <!--<div class="controls" id="profs">-->
-            <!--<div class="input-append">-->
-              <!--<input autocomplete="off" id="field1" name="prof1" type="text" placeholder="Search For Specific Questions" data-provide="typeahead" data-items="8" data-source='["Economic Times","Sensex","GDP","RBI","Finance"]'/>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="row-fluid">-->
-      <!--<div class="span12">-->
-        <!--<button class="btn btn-success" id="tag_search" style="width:82%;">Search</button>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
 
 </div>
 
-<!-- Row End -->
-
-<!-- Row Start -->
-
-<div class='row'>
-
-  <div class='span12'>
-
-    <ul class="ch-grid">
-      <li onclick='window.location="/";'>
-        <div class="ch-item ch-img-1">
-          <div class="ch-info-wrap">
-            <a href="#" style="text-decoration:none;">
-              <div class="ch-info">
-                <div class="ch-info-front ch-img-1"></div>
-                <div class="ch-info-back">
-                  <h3>Home</h3>
-                </div>
-              </div>
-            </a>
+  <div class='row-fluid' style="margin-top: 5%;">
+    <div class="span12">
+      <div class="row-fluid">
+        <div class='span3' data-toggle="modal" data-target="#cta_box">
+          <div class='white-card'>
+            <h5>
+              <span class=""><img src="/assets/img/trophy.png" style="width:15%;"/></span>
+              &nbsp;Daily Winners
+            </h5>
+            <p>Congratulations to <strong>Anuj, Gurpreet, Imran, John and Takimoto</strong> for winning the quiz on 13th October 2013.</p>
           </div>
         </div>
-      </li>
-      <li onclick='window.location="/quiz";'>
-        <div class="ch-item ch-img-2">
-          <div class="ch-info-wrap">
-            <a href="#" style="text-decoration:none;">
-              <div class="ch-info">
-                <div class="ch-info-front ch-img-1"></div>
-                <div class="ch-info-back">
-                  <h3>Quiz</h3>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li onclick='window.location="/archives";'>
-        <div class="ch-item ch-img-3">
-          <div class="ch-info-wrap">
-            <a href="#" style="text-decoration:none;">
-              <div class="ch-info">
-                <div class="ch-info-front ch-img-1"></div>
-                <div class="ch-info-back">
-                  <h3>Archives</h3>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </li>
+        <div class='span3' data-toggle="modal" data-target="#cta_box">
+          <div class='white-card'>
+            <h5>
+              <span class=""><img src="/assets/img/sms.png" style="width:15%;"/></span>
+              &nbsp;Play the Game
+            </h5>
 
-      <% if user_signed_in? %>
-          <li onclick='window.location="/leaderboards";'>
-            <div class="ch-item ch-img-4">
-              <div class="ch-info-wrap">
-                <a href="#" style="text-decoration:none;">
-                  <div class="ch-info">
-                    <div class="ch-info-front ch-img-1"></div>
-                    <div class="ch-info-back">
-                      <h3>Leader Board</h3>
-                    </div>
-                  </div>
-                </a>
-              </div>
+            <p> Find today's quiz column in The Economic Times and SMS KYET A, B, C or D as your answer to
+              <b>9834344343</b>.
+            </p>
+          </div>
+        </div>
+
+        <!--<div class='span3' data-toggle="modal" data-target="#rule_box">-->  <!--For rule modal -->
+        <div class='span3'>
+          <a href="/leaderboards" style="text-decoration: none;">
+            <div class='white-card' id="rules-white-card">
+              <h5>
+                <span class=""><img src="/assets/img/ruleicon.png" style="width:15%;"/></span>
+                &nbsp;The Leaderboard
+              </h5>
+
+              <p>Check out your rank in the overall campaign and see how you are placed in the race for the Grand Prize</p>
             </div>
-          </li>
-          <li onclick='window.location="/profile";'>
-            <div class="ch-item ch-img-5">
-              <div class="ch-info-wrap">
-                <a href="#" style="text-decoration:none;">
-                  <div class="ch-info">
-                    <div class="ch-info-front ch-img-1"></div>
-                    <div class="ch-info-back">
-                      <h3>Profile</h3>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </li>
-      <% end %>
+          </a>
+        </div>
 
-    </ul>
+
+        <!--<div class='span3' data-toggle="modal" data-target="#refer_box">-->  <!--For reference modal -->
+        <div class='span3'>
+          <div class='white-card' id="refer-white-card">
+            <h5>
+              <span class=""><img src="/assets/img/refericon.png" style="width:15%;"/></span>
+              &nbsp;Refer a friend
+            </h5>
+
+            <p>Spread the word amongst your friends. You may get an opportunity to earn bonus points for your referral!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
-</div>
-
-<!-- Row End -->
 
 </div>
-</div>
+
+
+
 </section>
 
 <div id="not_found_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -261,10 +197,9 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
       ×
     </button>
-    <h3>Question</h3>
   </div>
   <div class="modal-body">
-    <h2>Not Found</h2>
+    <h3>Sorry, we did not have a question on <span id="question_date"></span></h3>
   </div>
 </div>
 
@@ -394,6 +329,9 @@
             success:function (data) {
                 if (data == "Not Found") {
                     $('#not_found_modal').modal('show');
+                    $('#question_date').html("");
+                    var quiz_date=data.toString().split('|')[10];
+                    $('#question_date').html(this_obj);
                 } else {
                     $('#article').html("");
                     $('#archives_view_article').attr('href',"");

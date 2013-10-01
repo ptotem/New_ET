@@ -159,10 +159,10 @@ class WelcomeController < ApplicationController
     @user.password = passwd
     @user.password_confirmation=passwd
     @user.save
-    str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com using the following password to login: '+passwd+'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+@user.username)
+    str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Welcome to Win with ET. Thank you for playing. Join us on www.winwithet.com using the following password to login: '+passwd+'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+@user.username)
     @r =open(str)
 
-    render :text=>"Thank your for playing Win with ET. Following is your password to login on win.economictimes.com: "+passwd+". Play daily to win prizes!"
+    render :text=>"Thank your for playing Win with ET. Following is your password to login on www.winwithet.com: "+passwd+". Play daily to win prizes!"
     return
 
   end

@@ -3,7 +3,6 @@
   <div class="row-fluid">
 
     <div class="span8">
-
      <% if ((Time.now > @question.display_time) and (Time.now < @question.close_time)) %>
           <h4><%= @question.name %></h4>
 
@@ -36,7 +35,6 @@
           </div>
      <% else %>
           <h4><%= @question.name %></h4>
-
           <div class="blog-categories widget-tp">
             <ul>
               <li>
@@ -64,32 +62,23 @@
             </ul>
           </div>
           </div>
-
      <% end %>
-
-
-
-
 
     <div class="span4">
       <div class="form-side-info">
+        <h4 style="text-align: center;">Bonus</h4>
         <div class="row-fluid">
-          <h4>Bonus</h4>
-        </div>
 
-        <div class="row-fluid">
-          <div class="span3"><img src="assets/img/hh.png"></div>
-          <div class="span9">Send in your answers before 11am and get a 2x bonus</div>
+          <!--<div class="span3"><img src="assets/img/hh.png"></div>-->
+          <div class="span12">Send in your answers before 11am and get a 2x bonus</div>
         </div>
-        <br>
-
+          <br>
         <div class="row-fluid">
-          <div class="span3"><img src="assets/img/dt.png"></div>
-          <div class="span9">You can use the double trouble bonus option for this question</div>
+          <!--<div class="span3"><img src="assets/img/dt.png"></div>-->
+          <div class="span12">You can use the double trouble bonus option for this question</div>
         </div>
       </div>
     </div>
-
   </div>
 
 </div>

@@ -44,7 +44,7 @@ class ResponseController < ApplicationController
     #render :text => (params[:response][0])
     #return
     if @response.option.is_correct
-      @response.points=@response.points+@response.option.question.quiz.plus*2
+      @response.points=@response.points*2
     else
       @response.points=@response.points-@response.option.question.quiz.plus*2
     end
@@ -78,7 +78,8 @@ class ResponseController < ApplicationController
     @response=Response.find((params[:response][0]).to_i)
     @response.promotion=true
     if @response.option.is_correct
-      @response.points=@response.points+@response.option.question.quiz.plus*3
+      #@response.points=@response.points+@response.option.question.quiz.plus*3
+      @response.points=@response.points*3
     else
       @response.points=@response.points-@response.option.question.quiz.plus*3
     end
@@ -250,7 +251,7 @@ class ResponseController < ApplicationController
         @response.save
         @response.promotion=true
         if @response.option.is_correct
-          @response.points=@response.points+@response.option.question.quiz.plus*2
+          @response.points=@response.points*2
         else
           @response.points=@response.points-@response.option.question.quiz.plus*2
         end
@@ -296,7 +297,7 @@ class ResponseController < ApplicationController
         @response.save
         @response.promotion=true
         if @response.option.is_correct
-          @response.points=@response.points+@response.option.question.quiz.plus*3
+          @response.points=@response.points*3
         else
           @response.points=@response.points-@response.option.question.quiz.plus*3
         end
@@ -336,7 +337,7 @@ class ResponseController < ApplicationController
         @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
         if !@question.happy_hr.nil?
           if @response.created_at<@option.question.happy_hr and @option.is_correct
-            @response.points=@option.question.quiz.plus+(@option.question.quiz.plus*2)
+            @response.points=@option.question.quiz.plus*2
             @response.save
             @version = Version.last
             @version.event="hh"

@@ -1,26 +1,22 @@
   <link rel="stylesheet" type="text/css" href="assets/css/style8.css"/>
 
   <section class='section-wrapper'>
-    <div class='container'>
 
       <!-- Row Start -->
-      <div class='row'>
+      <div class='row-fluid'>
         <div class='span9'>
           <div>
             <h4 class="section-header">Leader Board</h4>
             <div class="tabbable tabs-left">
             <ul class="nav nav-tabs">
-              <li><a href="#daily" data-toggle="tab">Daily Winners</a></li>
+              <li><a href="#daily" data-toggle="tab">Yesterday's Winners</a></li>
               <li><a href="#weekly" data-toggle="tab">Weekly Leaders</a></li>
               <li><a href="#monthly" data-toggle="tab">Monthly Leaders</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="daily">
                 <div class="row-fluid">
-                  <div><h3>Today's Leaders</h3></div>
-                </div>
-                <div class="row-fluid">
-                  <table class="table table-striped">
+                  <table class="table table-striped table-condensed">
                     <% if @daily_leaderboard.blank? %>
                       <h5>No Winners for Today</h5>
                     <% else %>
@@ -35,7 +31,7 @@
                         <% @daily_leaderboard.sort_by {|hsh| hsh[:score]}.reverse![0..4].each_with_index do |user,index| %>
                             <tr>
                               <td><%= (index+1) %></td>
-                              <td><%= User.find(user[:user_id]).name %></td>
+                              <td><%= User.find(user[:user_id]).name rescue"" %></td>
                               <td><%= user[:score] %></td>
                             </tr>
                         <% end %>
@@ -47,10 +43,7 @@
               </div>
               <div class="tab-pane" id="weekly">
                 <div class="row-fluid">
-                  <div><h3>Weekly Leaders</h3></div>
-                </div>
-                <div class="row-fluid">
-                  <table class="table table-striped">
+                  <table class="table table-striped table-condensed">
                     <% if @week_leaderboard.blank? %>
                       <h5>No Winners for this week</h5>
                     <% else %>
@@ -62,10 +55,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <% @week_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4].each_with_index do |user,index|%>
+                        <% @week_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..2].each_with_index do |user,index|%>
                             <tr>
                               <td><%= (index+1) %></td>
-                              <td><%= User.find(user[:user_id]).name%></td>
+                              <td><%= User.find(user[:user_id]).name rescue ""%></td>
                               <td><%= user[:score]%></td>
                             </tr>
                         <%end%>
@@ -79,10 +72,7 @@
               </div>
               <div class="tab-pane" id="monthly">
                 <div class="row-fluid">
-                  <div><h3>Monthly Leaders</h3></div>
-                </div>
-                <div class="row-fluid">
-                  <table class="table table-striped">
+                  <table class="table table-striped table-condensed">
                     <% if @month_leaderboard.blank? %>
                      <h5>No Winners for this Month</h5>
                     <% else %>
@@ -97,7 +87,7 @@
                         <% @month_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4].each_with_index do |user,index|%>
                             <tr>
                               <td><%= (index+1) %></td>
-                              <td><%= User.find(user[:user_id]).name%></td>
+                              <td><%= User.find(user[:user_id]).name rescue "" %></td>
                               <td><%= user[:score]%></td>
                             </tr>
                         <%end%>
@@ -173,6 +163,7 @@
                       <li><strong>Location&nbsp;&nbsp;</strong> :  <%= current_user.location %></li>
                       <li><strong>Industry&nbsp;&nbsp;&nbsp;</strong> :  <%= current_user.industry %></li>
                       <li><button class="btn btn-info" id="profile_page" onclick='window.location="/profile"'>View Profile</button></li>
+                      <li><button class="btn btn-info btn-small"  id="change_pwd_btn" onclick="change_password();">Change Password</button></li>
                     </ul>
                   </div>
                 </div>
@@ -185,88 +176,70 @@
 
       <!-- Row Start -->
 
-      <div class='row'>
-        <div class='span12'>
-          <ul class="ch-grid">
-            <li onclick='window.location="/";'>
-              <div class="ch-item ch-img-1">
-                <div class="ch-info-wrap">
-                  <a href="#" style="text-decoration:none;">
-                    <div class="ch-info">
-                      <div class="ch-info-front ch-img-1"></div>
-                      <div class="ch-info-back">
-                        <h3>Home</h3>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </li>
-            <li onclick='window.location="/quiz";'>
-              <div class="ch-item ch-img-2">
-                <div class="ch-info-wrap">
-                  <a href="#" style="text-decoration:none;">
-                    <div class="ch-info">
-                      <div class="ch-info-front ch-img-1"></div>
-                      <div class="ch-info-back">
-                        <h3>Quiz</h3>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </li>
-            <li onclick='window.location="/archives";'>
-              <div class="ch-item ch-img-3">
-                <div class="ch-info-wrap">
-                  <a href="#" style="text-decoration:none;">
-                    <div class="ch-info">
-                      <div class="ch-info-front ch-img-1"></div>
-                      <div class="ch-info-back">
-                        <h3>Archives</h3>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </li>
-            <% if user_signed_in? %>
-            <li onclick='window.location="/leaderboards";'>
-              <div class="ch-item ch-img-4">
-                <div class="ch-info-wrap">
-                  <a href="#" style="text-decoration:none;">
-                    <div class="ch-info">
-                      <div class="ch-info-front ch-img-1"></div>
-                      <div class="ch-info-back">
-                        <h3>Leader Board</h3>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </li>
-            <li onclick='window.location="/profile";'>
-              <div class="ch-item ch-img-5">
-                <div class="ch-info-wrap">
-                  <a href="#" style="text-decoration:none;">
-                    <div class="ch-info">
-                      <div class="ch-info-front ch-img-1"></div>
-                      <div class="ch-info-back">
-                        <h3>Profile</h3>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
+
 
       <!-- Row End -->
     </div>
-   </div>
+
+      <div class='row-fluid' style="margin-top: 5%;">
+        <div class="span12">
+          <div class="row-fluid">
+            <div class='span3' data-toggle="modal" data-target="#cta_box">
+              <div class='white-card'>
+                <h5>
+                  <span class=""><img src="/assets/img/trophy.png" style="width:15%;"/></span>
+                  &nbsp;Daily Winners
+                </h5>
+                <p>Congratulations to <strong>Anuj, Gurpreet, Imran, John and Takimoto</strong> for winning the quiz on 13th October 2013.</p>
+              </div>
+            </div>
+            <div class='span3' data-toggle="modal" data-target="#cta_box">
+              <div class='white-card'>
+                <h5>
+                  <span class=""><img src="/assets/img/sms.png" style="width:15%;"/></span>
+                  &nbsp;Play the Game
+                </h5>
+
+                <p> Find today's quiz column in The Economic Times and SMS KYET A, B, C or D as your answer to
+                  <b>9834344343</b>.
+                </p>
+              </div>
+            </div>
+
+            <!--<div class='span3' data-toggle="modal" data-target="#rule_box">-->  <!--For rule modal -->
+            <div class='span3'>
+             <a href="/leaderboards" style="text-decoration: none;">
+              <div class='white-card' id="rules-white-card">
+                <h5>
+                  <span class=""><img src="/assets/img/ruleicon.png" style="width:15%;"/></span>
+                  &nbsp;The Leaderboard
+                </h5>
+
+                <p>Check out your rank in the overall campaign and see how you are placed in the race for the Grand Prize</p>
+              </div>
+             </a>
+            </div>
+
+
+            <!--<div class='span3' data-toggle="modal" data-target="#refer_box">-->  <!--For reference modal -->
+            <div class='span3'>
+              <div class='white-card' id="refer-white-card">
+                <h5>
+                  <span class=""><img src="/assets/img/refericon.png" style="width:15%;"/></span>
+                  &nbsp;Refer a friend
+                </h5>
+
+                <p>Spread the word amongst your friends. You may get an opportunity to earn bonus points for your referral!</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+  </section>
+
     <div id="refer_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -318,9 +291,38 @@
 
     </div>
 
-  </section>
+  <div id="change_pwd_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <%= form_tag :quiz_change_password do |f| %>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            ×
+          </button>
+          <h3>
+            Change Password
+          </h3>
+        </div>
+        <div class="modal-body">
+          <div class="row-fluid">
+            <div class="span9">
+              <p>
+                <label>Password</label>
+                <%= password_field_tag :password %>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <%= submit_tag "Change", :class => "btn btn-medium btn-primary pull-left" %>
+        </div>
+    <% end %>
+  </div>
 
   <script>
+
+      function change_password(){
+          $('#change_pwd_modal').modal('show');
+      }
+
     $(function(){
       <%if user_signed_in?%>
 

@@ -138,6 +138,7 @@ class QuizController < ApplicationController
       @user_res=@user_res.delete_if { |x| x==nil }
       @daily_leaderboard<<{:user_id => d, :score => @user_res.map { |i| i.points }.sum}
     end
+      render :layout => "application"
     end
 
 
@@ -150,7 +151,11 @@ class QuizController < ApplicationController
   def change_profile
     @profile=User.find(current_user.id)
     @profile.name=params[:name]
-    @profile.age=params[:age]
+    @dob_day = params["dob(3i)"]
+    @dob_month = params["dob(2i)"]
+    @dob_year = params["dob(1i)"]
+    @user_age = Time.now.year.to_i - params[:dob]["(1i)"].to_i
+    @profile.age=@user_age
     @profile.workx=params[:workx]
     @profile.location=params[:location]
     @profile.industry=params[:industry]
@@ -310,6 +315,28 @@ class QuizController < ApplicationController
     end
     render :text => @recent_activity.reverse!
   end
+
+
+  def quiz_change_password
+  @profile=User.find(current_user.id)
+  @profile.password=params[:password]
+  @profile.save
+  @version=Version.last
+  @version.event="profile_update"
+  @version.whodunnit=current_user.id
+  @version.save
+  sign_in(@profile, :bypass => true)
+  if params[:from_page]=="index"
+    redirect_to "/"
+  else
+    redirect_to "/profile"
+  end
+end
+
+
+ def about_quiz
+
+ end
 
 
 
