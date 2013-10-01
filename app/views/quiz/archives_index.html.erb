@@ -154,18 +154,34 @@
         </div>
 
         <!--<div class='span3' data-toggle="modal" data-target="#rule_box">-->  <!--For rule modal -->
-        <div class='span3'>
-          <a href="/leaderboards" style="text-decoration: none;">
-            <div class='white-card' id="rules-white-card">
-              <h5>
-                <span class=""><img src="/assets/img/ruleicon.png" style="width:15%;"/></span>
-                &nbsp;The Leaderboard
-              </h5>
+        <% if user_signed_in? %>
+            <div class='span3'>
+              <a href="/leaderboards" style="text-decoration: none;">
+                <div class='white-card'>
+                  <h5>
+                    <span class=""><img src="/assets/img/ruleicon.png" style="width:15%;"/></span>
+                    &nbsp;The Leaderboard
+                  </h5>
 
-              <p>Check out your rank in the overall campaign and see how you are placed in the race for the Grand Prize</p>
+                  <p>Check out your rank in the overall campaign and see how you are placed in the race for the Grand Prize</p>
+                </div>
+              </a>
             </div>
-          </a>
-        </div>
+        <% else %>
+            <div class='span3'>
+
+                <div class='white-card'>
+                  <h5>
+                    <span class=""><img src="/assets/img/ruleicon.png" style="width:15%;"/></span>
+                    &nbsp;The Leaderboard
+                  </h5>
+
+                  <p>Check out your rank in the overall campaign and see how you are placed in the race for the Grand Prize</p>
+                </div>
+
+            </div>
+        <% end %>
+
 
 
         <!--<div class='span3' data-toggle="modal" data-target="#refer_box">-->  <!--For reference modal -->
