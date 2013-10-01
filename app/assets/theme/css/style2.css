@@ -17,18 +17,22 @@
 
 .ch-img-1 { 
 	background-image: url(../img/quiz.jpg);
+    background-size: 100% 100%;
 }
 
 .ch-img-2 { 
 	background-image: url(../img/archives.jpg);
+    background-size: 100% 100%;
 }
 
 .ch-img-3 { 
 	background-image: url(../img/prizes.jpg);
+    background-size: 100% 100%;
 }
 
-.ch-img-4 { 
+.ch-img-4 {
 	background-image: url(../img/profile.jpg);
+    background-size: 100% 100%;
 }
 
 .ch-info {
@@ -61,8 +65,8 @@
 	color: #fff;
 	padding: 10px 5px;
 	margin: 0 20px;
+	font-family: "Arial";
 	font-size: 16px;
-	border-top: 1px solid rgba(255,255,255,0.5);
 }
 
 .ch-info p a {
@@ -83,9 +87,21 @@
 	color: rgba(255,242,34, 0.8);
 }
 
-.ch-item:hover {
+.ch-item.ch-img-1:hover {
 	box-shadow:
 		inset 0 0 0 110px rgba(124, 41, 28, 0.8),
+		inset 0 0 0 16px rgba(255,255,255,0.8),
+		0 1px 2px rgba(0,0,0,0.1);
+}
+.ch-item.ch-img-3:hover {
+	box-shadow:
+		inset 0 0 0 110px rgba(202, 158, 60, 0.90),
+		inset 0 0 0 16px rgba(255,255,255,0.8),
+		0 1px 2px rgba(0,0,0,0.1);
+}
+.ch-item.ch-img-2:hover {
+	box-shadow:
+		inset 0 0 0 110px rgba(106, 139, 60, 0.90),
 		inset 0 0 0 16px rgba(255,255,255,0.8),
 		0 1px 2px rgba(0,0,0,0.1);
 }
