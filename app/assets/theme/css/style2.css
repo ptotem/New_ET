@@ -132,3 +132,7 @@
 .ch-img-4:hover { 
 	background-image: none;
 }
+
+.error{
+    color:red;
+}

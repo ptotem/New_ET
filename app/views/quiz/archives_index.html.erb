@@ -1,12 +1,13 @@
 <link rel="stylesheet" type="text/css" href="assets/css/style8.css"/>
 <link rel="stylesheet" href="assets/css/default.css" type="text/css">
 
+
 <section class='section-wrapper'>
 <div class='container'>
 <div class='row'>
   <div class='span9'>
     <h3 class="section-header">
-      <span><!-- <img src="assets/img/recent.png" style="width:7%;">&nbsp; -->Archives</span></h3>
+      <span><!-- <img src="assets/img/recent.png" style="width:7%;">&nbsp; -->Question Trail</span></h3>
 
     <div class="white-card" id="white-card_archive">
       <div id="archives_content">
@@ -18,9 +19,10 @@
                <span class="pull-right">
                 <button class="btn btn-success" onclick="view_score()">View Answer</button>
                 <!--<button class="btn btn-warning" onclick="view_stat()">View Statistics</button>-->
-                <button class="btn btn-info" onclick="view_article()">View Article</button>
+                <a href="#" target="_blank" id="archives_view_article"><button class="btn btn-info" >View Article</button></a>
                 </span>
                 <span id="tag_list">
+                  <h5><%= @yesterday_question.insertion_date.strftime("%d %B %Y, %A") %></h5>
                 <%#= raw (@yesterday_question.tag_list.map { |t| link_to t, tag_path(t) }.join(', ')) %>
                </span>
              </div>
@@ -36,22 +38,22 @@
               <ul>
                 <li>
                   <div class="answeroptions shadow"><span class="badge badge-warning">A</span>
-                    <h4 class="option1" id="<%= @option[0].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[0].name %></h4>
+                    <h4 class="option1" id="<%= @option[0].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[0].name %>&nbsp;&nbsp;<span class="image_right"></span></h4>
                   </div>
                 </li>
                 <li>
                   <div class="answeroptions shadow"><span class="badge badge-success">B</span>
-                    <h4 class="option2" id="<%= @option[1].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[1].name %></h4>
+                    <h4 class="option2" id="<%= @option[1].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[1].name %>&nbsp;&nbsp;<span class="image_right"></span></h4>
                   </div>
                 </li>
                 <li>
                   <div class="answeroptions shadow"><span class="badge badge-important">C</span>
-                    <h4 class="option3" id="<%= @option[2].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[2].name %></h4>
+                    <h4 class="option3" id="<%= @option[2].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[2].name %>&nbsp;&nbsp;<span class="image_right"></span></h4>
                   </div>
                 </li>
                 <li>
                   <div class="answeroptions shadow"><span class="badge badge-info">D</span>
-                    <h4 class="option4" id="<%= @option[3].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[3].name %></h4>
+                    <h4 class="option4" id="<%= @option[3].id %>" style="display:inline;">&nbsp;&nbsp;<%= @option[3].name %>&nbsp;&nbsp;<span class="image_right"></span></h4>
                   </div>
                 </li>
               </ul>
@@ -61,6 +63,8 @@
       </div>
     </div>
 
+
+
     <div class="white-card" id="white-card_quest" style="display: none;">
       <div>
         <h4>
@@ -68,8 +72,9 @@
         <h6>
             <span class="pull-right">
                 <button class="btn btn-success" id="correct_option">View Answer</button>
-                <button class="btn btn-warning" id="stat_tag">View Statistics</button>
-                <button class="btn btn-info" id="tag_article">View Article</button>
+                <!--<button class="btn btn-warning" id="stat_tag">View Statistics</button>-->
+              <!--<a href="#" target="_blank" id="tag_article" onclick="view_tag_article();"><button class="btn btn-info" >View Article</button></a>-->
+              <a href="#" target="_blank" id="tag_article"><button class="btn btn-info" >View Article</button></a>
             </span>
         </h6>
         <br>
@@ -107,6 +112,7 @@
   <div class="span3">
     <div class="row-fluid">
      <div class="span12">
+       <p style="">Click to view the day’s quiz</p>
       <form action="javascript:void(0)" method="post">
         <div>
           <input id="datepicker-example13" type="text" style="display:none;">
@@ -120,33 +126,39 @@
      </div>
     </div>
 
-    <div class="row-fluid">
-      <div class="span12">
-        <button class="btn btn-success" id="backing" style="display: none;width: 100%;">Back</button>
-      </div>
-    </div>
+    <!--<div class="row-fluid">-->
+      <!--<div class="span12">-->
+
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row-fluid">-->
+      <!--<div class="span12">-->
+        <!--<button class="btn btn-success" id="backing" style="display: none;width: 100%;">Back</button>-->
+      <!--</div>-->
+    <!--</div>-->
 
 
-    <div class="row-fluid" style="margin-top:250px;" id="tag_area">
-      <div class="span12">
-        <input type="hidden" name="count" value="1"/>
-        <div class="control-group" id="fields">
-          <label class="control-label" for="field1">Tag Search</label>
-          <div class="controls" id="profs">
-            <div class="input-append">
-              <input autocomplete="off" id="field1" name="prof1" type="text" placeholder="Search For Specific Questions" data-provide="typeahead" data-items="8" data-source='["Economic Times","Sensex","GDP","RBI","Finance"]'/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--<div class="row-fluid" style="margin-top:250px;" id="tag_area">-->
+      <!--<div class="span12">-->
+        <!--<input type="hidden" name="count" value="1"/>-->
+        <!--<div class="control-group" id="fields">-->
+          <!--<label class="control-label" for="field1">Tag Search</label>-->
+          <!--<div class="controls" id="profs">-->
+            <!--<div class="input-append">-->
+              <!--<input autocomplete="off" id="field1" name="prof1" type="text" placeholder="Search For Specific Questions" data-provide="typeahead" data-items="8" data-source='["Economic Times","Sensex","GDP","RBI","Finance"]'/>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
 
-    <div class="row-fluid">
-      <div class="span12">
-        <button class="btn btn-success" id="tag_search" style="width:82%;">Search</button>
-      </div>
-    </div>
-  </div>
+    <!--<div class="row-fluid">-->
+      <!--<div class="span12">-->
+        <!--<button class="btn btn-success" id="tag_search" style="width:82%;">Search</button>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
 </div>
 
@@ -240,7 +252,7 @@
 
 <!-- Row End -->
 
-
+</div>
 </div>
 </section>
 
@@ -303,23 +315,60 @@
     var correct;
     var quest;
     var tag_quest;
+    var date = <%= @date.strftime("%d") %> ;
+    var correct_ans_append_count=0;
     $(document).ready(function () {
+
+        //alert(a);
 
         correct =<%= @correct  %>;
         quest=<%= @yesterday_question.id  %>;
         $('#datepicker-example13').Zebra_DatePicker({
             always_visible:$('#container'),
             onSelect:function (view, element) {
-                $("#" + correct).css("background", "none");
-                load_quest(element)
+//                $("#" + correct).html("");
+                load_quest(view, element)
+                correct_ans_append_count=0;
 
             }
         });
 
+        $('.Zebra_DatePicker').find('.dp_footer').css("display","none");
+        //$('td').removeClass('');
+        setTimeout(function(){
+            load_datepicker(date);
+        },1000)
+
+
     });
 
+    function load_datepicker(date){
+         a=getcurrent(date);
+         if (a.length===1){
+             $(a).addClass('dp_selected');
+         }
+         else{
+             var curr;
+             $(a).each(function(i,v){
+                  if(!$(v).hasClass('dp_not_in_month')){
+                       curr=$(v)
+                  }
+             })
+             curr.addClass('dp_selected');
+         }
+    }
+
+    function getcurrent(ar_date){
+        //$('.dp_daypicker>td').filter(function(){
+            return $('td:contains("'+ar_date+'")');
+        //});
+    }
+
     function view_score() {
-        $("#" + correct).css("background", "green");
+        if (correct_ans_append_count==0){
+            $("#" + correct).append('<img src="assets/img/right.png" style="margin-left: 2%;">');
+        }
+        correct_ans_append_count=correct_ans_append_count+1
     }
 
     function view_article() {
@@ -327,11 +376,14 @@
     }
 
 
+
+
     function view_stat() {
         window.location = "/view_question_stat/" + quest;
     }
 
-    function load_quest(this_obj) {
+    function load_quest(viewing,this_obj) {
+
         var data = {question:[]}
         data["question"].push(this_obj);
         $.ajax({
@@ -344,6 +396,10 @@
                     $('#not_found_modal').modal('show');
                 } else {
                     $('#article').html("");
+                    $('#archives_view_article').attr('href',"");
+
+                    $('#tag_article').attr('href',"");
+
                     $('#tag_list').html("");
 
                     var question = data.toString().split('|')[0];
@@ -356,6 +412,7 @@
                     var image = data.toString().split('|')[7];
                     var tags = data.toString().split('|')[8];
                     var insertion_date=data.toString().split('|')[9];
+                    var quiz_date=data.toString().split('|')[10];
                     $('.question').html(question);
 
 
@@ -372,8 +429,14 @@
                     $('.option4').html(a4.toString().split(';')[1]);
 
                     $('#article').append('<img  src=' + image + '>');
+                    $('#archives_view_article').attr('href',image);
 
-                    $('#tag_list').append('<h5>'+ insertion_date +'</h5>');
+                    $('#tag_article').attr('href',image);
+
+                    $('#tag_list').append('<h5>'+ quiz_date +'</h5>');
+                    load_datepicker(insertion_date);
+
+
                 }
             }
         });
@@ -409,6 +472,7 @@
                     });
 
                     $('.insert_li').on('click', function () {
+                        correct_ans_append_count=0;
                         $('#que_content').html('');
                         $('#bolg_ul_li').find("input[value='true']").parent().css("background","white");
                         $.ajax({
@@ -440,7 +504,11 @@
 
 
     $('#correct_option').on("click",function(){
-        $('#bolg_ul_li').find("input[value='true']").parent().css("background","red");
+        if (correct_ans_append_count==0){
+            $('#bolg_ul_li').find("input[value='true']").parent().append('<img src="assets/img/right.png" style="margin-left: 2%;">');
+        }
+        correct_ans_append_count=correct_ans_append_count+1
+
     });
 
     $('#backing').on("click",function(){
@@ -448,7 +516,7 @@
     });
 
     $('#tag_article').on("click",function(){
-          $('#view_article_tags').modal('show')
+//          $('#view_article_tags').modal('show')
     });
 
     $('#stat_tag').on("click",function(){

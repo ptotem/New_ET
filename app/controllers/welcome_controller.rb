@@ -79,7 +79,7 @@ class WelcomeController < ApplicationController
       @user = current_user
       @user_first_name=request.env["omniauth.auth"].extra.raw_info.first_name
       @user_last_name=request.env["omniauth.auth"].extra.raw_info.last_name
-      @user.name = @user_first_name + @user_last_name
+      @user.name = "#{@user_first_name} #{@user_last_name}"
       @user.location = request.env["omniauth.auth"]["extra"]["raw_info"]["location"]["name"]
       @user.uid = request.env["omniauth.auth"]["uid"]
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
@@ -90,6 +90,7 @@ class WelcomeController < ApplicationController
         @user.provider = request.env["omniauth.auth"]["provider"]
         @user.fb_sign_in_count = @user.fb_sign_in_count+1
         @user.fb_signed_in=true
+        @user.fb_sign_in_score = 20
         #render :text => "provider :- #{@user.provider}, fb_sign_in_count :- #{@user.fb_sign_in_count}, fb_sign_in_score :- #{@user.fb_sign_in_score}"
         #return
         #end
@@ -160,15 +161,27 @@ class WelcomeController < ApplicationController
     @user.save
     str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Welcome to Win with ET. Thank you for playing. Join us on kyet.ptotem.com using the following password to login: '+passwd+'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+@user.username)
     @r =open(str)
-    render :text=>"Thank your for playing Win with ET. As requested, the following is your password to login on kyet.ptotem.com:"+@user.password
+
+    render :text=>"Thank your for playing Win with ET. Following is your password to login on win.economictimes.com: "+passwd+". Play daily to win prizes!"
     return
 
   end
 
 
   def my_new_user
-    @user=User.create!(:email => params[:users][:email],:username => params[:users][:username],:name => params[:users][:name],:nickname => params[:users][:nickname],:age => params[:users][:age],:workx => params[:users][:workx],:location => params[:location],:industry => params[:users][:industry],:password => "password")
+    @dob_day = params[:users]["dob(3i)"]
+    @dob_month = params[:users]["dob(2i)"]
+    @dob_year = params[:users]["dob(1i)"]
+    @user_age = Time.now.year.to_i - params[:users]["dob(1i)"].to_i
+    @user=User.create!(:email => params[:users][:email],:username => params[:users][:username],:name => params[:users][:name],:nickname => params[:users][:nickname],:dob => "#{@dob_day}-#{@dob_month}-#{@dob_year}", :age=>@user_age, :workx => params[:users][:workx],:location => params[:location],:industry => params[:users][:industry],:password => "password")
     @user.save
+    if !params[:refere_id].nil?
+      @ruser=User.find(params[:refere_id].to_i)
+      @ruser.successful_reference=@ruser.successful_reference+1
+      @ruser.refer_points=@ruser.refer_points+5
+      @ruser.save
+    end
+    sign_in(:user, @user)
     redirect_to "/"
   end
 

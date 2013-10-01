@@ -8,6 +8,8 @@ class Question < ActiveRecord::Base
   has_and_belongs_to_many :promotions
   belongs_to :quiz
 
+  has_many :daily_winners
+
   has_attached_file :view_article, styles: {thumb: "100x100#"}
   #belongs_to :tag
   acts_as_taggable

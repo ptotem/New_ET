@@ -17,9 +17,9 @@
               <div class="span3">
 
                <% if current_user.picture.nil? %>
-                    <img src="assets/img/avatar-4.png">
+                    <img src="assets/img/fb-blank-face.jpeg" style="width: 100%;">
                <% else %>
-                    <%= image_tag current_user.picture %>
+                    <%= image_tag current_user.picture, :style =>"width:100%;" %>
               <% end %>
 
               </div>
@@ -32,7 +32,7 @@
                     <li><h4>Age: <%= current_user.age %></h4></li>
                     <li><h4>Work Experience: <%= current_user.workx %> Years</h4></li>
                     <li><h4>Industry: <%= current_user.industry %></h4></li>
-                    <li><h4>Location: <%= current_user.location %></h4></li>
+                    <li><h4>Location : <%= current_user.location %></h4></li>
                     <!--<li><h4>Facebook Linked: No</h4></li>-->
                   </ul>
                 </div>
@@ -43,11 +43,14 @@
                 <div class="row-fluid" style="text-align:center;">
                   <button class="btn btn-warning btn-large" style="margin-left:25px;" data-toggle="modal" data-target="#edit_profile">Edit Profile</button>
                 </div>
-                <div class="row-fluid">
-                  <h4 style="margin-left:85px; margin-top:30px;">OR</h4>
-                </div>
+                <br>
                 <div class="row-fluid" style="text-align:center;">
-                  <a href="/users/auth/facebook"><button class="btn btn-info btn-large" style="margin-left:25px;">Connect With Facebook</button></a>
+                  <!--<a href="/users/auth/facebook"><button class="btn btn-info btn-large" style="margin-left:25px;">Connect With Facebook</button></a>-->
+                  <a href="/users/auth/facebook"><img src="assets/img/facebook.jpeg" style="width: 75%;"></a>
+                </div>
+                <br>
+                <div class="row-fluid" style="text-align:center;">
+                  <button class="btn btn-info" style="margin-left:25px;" id="change_pwd_btn" onclick="change_password();">Change Password</button>
                 </div>
                 </br>
                 </br>
@@ -235,7 +238,7 @@
             </p>
 
             <p>
-              <label>Work Experience</label>
+              <label>Work Experience (in years)</label>
               <%#= text_field_tag :workx, @user.workx %>
               <% workx_array = (1..100).to_a.collect{|p| ["#{p}", p]} %>
               <%= select_tag(:workx, options_for_select(workx_array, :selected => @user.workx), :prompt => "Select work experience") %>
@@ -353,20 +356,75 @@
                                                          ], :selected => @user.industry), :prompt => "Select industry" %>
             </p>
 
-            <p>
-              <label>Password</label>
-              <%= password_field_tag :password %>
-            </p>
+            <!--<p>-->
+              <!--<label>Password</label>-->
+              <!--<%#= password_field_tag :password %>-->
+            <!--</p>-->
 
 
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <%= submit_tag "Update", :class => "btn btn-medium btn-primary" %>
+        <%= submit_tag "Update", :class => "btn btn-medium btn-primary pull-left" %>
       </div>
   <% end %>
 </div>
+
+<div id="change_pwd_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= form_tag :quiz_change_password do |f| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>
+          Change Password
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="row-fluid">
+          <div class="span9">
+            <p>
+              <label>Password</label>
+              <%= password_field_tag :password %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= submit_tag "Change", :class => "btn btn-medium btn-primary pull-left" %>
+      </div>
+  <% end %>
+</div>
+
+<div id="rec_act_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>
+      Recent Activity
+    </h3>
+  </div>
+  <div class="modal-body">
+    <div class="row-fluid">
+      <div class="span9">
+        <div class="blog-categories widget-tp">
+          <ul id="all_recent_activity">
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+
+  </div>
+
+</div>
+
 <script>
   $(function(){
       $('.dependent').dependentSelects();
@@ -383,12 +441,27 @@
               returning_data=returning_data.split(",");
               $('#recent_activity').html();
               $.each(returning_data,function(){
-                recent=this.replace("[","").replace("]","").replace('"','');
-                $("#recent_activity").append('<li><a href="#">'+recent+'</a></li>');
+                  recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
+                  $("#recent_activity").append('<li class="rec_act" onclick="show_rec_act();"><a href="#">' + recent + '</a></li>');
               });
             }
           }
         });
+
+      $.ajax({
+          url: "/all_recent_activities",
+          type: "get",
+          success: function (returning_data) {
+              if (returning_data != '') {
+                  returning_data = returning_data.split(",");
+                  $('#recent_activity').html();
+                  $.each(returning_data, function () {
+                      recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
+                      $("#all_recent_activity").append('<li><a href="#">' + recent + '</a></li>');
+                  });
+              }
+          }
+      });
 
       if ( fb_signed_in == true) {
 
@@ -412,12 +485,12 @@
                 var fb_sign_in_score = <%= current_user.fb_sign_in_score.to_i %>;
                 var ref_pts = <%= current_user.refer_points.to_i %>;
                 var fb_signed_in = <%= current_user.fb_signed_in %>;
-                console.log(fb_signed_in);
+                //console.log(fb_signed_in);
                 if ( fb_signed_in == true) {
                     $("#points").html(ref_pts + fb_sign_in_score + " Points");
                 }
                 else{
-                    $("#points").html(<%=current_user.refer_points%>+"Points");
+                    $("#points").html(<%=current_user.refer_points%>+" Points");
                 }
 
               $("#rank").html(<%=User.order(:refer_points).map{|i| i.refer_points}.reverse.index(current_user.refer_points)+1%>);
@@ -426,8 +499,18 @@
             }
           }
         });
+
         <%end%>
   });
+
+  function change_password(){
+      $('#change_pwd_modal').modal('show');
+  }
+
+  function show_rec_act(){
+      $("#rec_act_modal").modal('show');
+  }
+
     var _gaq=[['_setAccount','UA-34697555-1'],['_trackPageview']];
     (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';

@@ -1,7 +1,9 @@
 class QuizController < ApplicationController
-  #before_filter :authenticate_user!, :only => [:profile]
+  before_filter :authenticate_user!, :only => [:profile,:decide_daily_winner,:daily_winner,:dis_value_change]
   #before_filter :set_var
   #before_filter :set_var,:only =>[:profile]
+
+
 
   #private
   def set_var
@@ -70,6 +72,7 @@ class QuizController < ApplicationController
     @yesterday_question=Question.all.sort_by(&:insertion_date)
     @yesterday_question=@yesterday_question[@yesterday_question.count-2]
     @question = @yesterday_question.name
+    @date=@yesterday_question.insertion_date
     @option = Option.find_all_by_question_id(@yesterday_question.id)
     @correct=Option.find_by_question_id_and_is_correct(@yesterday_question.id, true).id
     @month_list=(Question.order('insertion_date DESC').last.insertion_date..Question.order('insertion_date DESC').first.insertion_date).map { |d| [d.year, d.month] }.uniq
@@ -104,9 +107,8 @@ class QuizController < ApplicationController
         @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
       end
       @user_res=@user_res.delete_if { |x| x==nil }
-      @week_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.sum}
+      @week_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
     end
-
     @month_users=Array.new
     @month_leaderboard=Array.new
     @month_questions=Question.show_sales_for_current_month(Date.today.year, Date.today.month)
@@ -120,12 +122,13 @@ class QuizController < ApplicationController
         @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
       end
       @user_res=@user_res.delete_if { |x| x==nil }
-      @month_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.sum}
+      @month_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.delete_if{|x| x==nil}.sum}
     end
 
 
     @daily_users=Array.new
     @daily_leaderboard=Array.new
+    if !Question.find_by_insertion_date(Date.today).nil?
     @daily_questions=Question.find_by_insertion_date(Date.today)
     @daily_users=Response.find_all_by_question_id(@daily_questions.id).map { |i| i.user_id }
     @daily_users=@daily_users.flatten.uniq
@@ -134,6 +137,7 @@ class QuizController < ApplicationController
       @user_res<<Response.find_all_by_question_id_and_user_id_and_is_correct(@daily_questions.id, d, true).last
       @user_res=@user_res.delete_if { |x| x==nil }
       @daily_leaderboard<<{:user_id => d, :score => @user_res.map { |i| i.points }.sum}
+    end
     end
 
 
@@ -164,6 +168,25 @@ class QuizController < ApplicationController
     end
   end
 
+  def admin_change_profile
+
+    @profile=User.find(params[:uid].to_i)
+
+    @profile.name=params[:name]
+    @profile.age=params[:age]
+    @profile.workx=params[:workx]
+    @profile.location=params[:location]
+    @profile.industry=params[:industry]
+    @profile.password=params[:password]
+    @profile.save
+    @version=Version.last
+    @version.event="profile_update"
+    @version.whodunnit=current_user.id
+    @version.save
+    sign_in(@profile, :bypass => true)
+    redirect_to "/daily_winner"
+  end
+
   def recent_activity
     @recent_activity=Array.new
     #Version.find_all_by_item_id_and_item_type(current_user.id, "User").each do |ver|
@@ -172,21 +195,27 @@ class QuizController < ApplicationController
         when "User"
           case ver.event
             when "profile_update"
-              @recent_activity<<"User updated his profile"
-            when "correct"
-              @recent_activity<<"User has answered correctly"
-            when "incorrect"
-              @recent_activity<<"User has answered incorrectly"
+              @recent_activity<<"Profile last updated on #{ver.created_at.strftime("%d %B %Y")}"
+            #when "correct"
+            #  @recent_activity<<"User has answered correctly"
+            #when "incorrect"
+            #  @recent_activity<<"User has answered incorrectly"
           end
 
         when "Response"
           case ver.event
             when "create"
               @response=Response.find(ver.item_id)
-              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
-            when "update"
+              @recent_activity<<"Last played on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+            when "DD"
               @response=Response.find(ver.item_id)
-              @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
+              @recent_activity<<"Double Delight promotion used on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+            when "TT"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"Triple Treat promotion used on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+            when "hh"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"Happy Hours promotion used on #{@response.question.insertion_date.strftime("%d %B %Y")}"
           end
       end
     end
@@ -227,6 +256,61 @@ class QuizController < ApplicationController
     render :text => "#{@user_score.count}|#{@answer_rate*100/@user_score.count}"
     return
   end
+
+  def decide_daily_winner
+    DailyWinner.destroy_all
+    @question=Question.find_by_insertion_date(Date.today)
+    @daily_winners=Response.find_all_by_question_id(@question.id).map{|i| i.user_id}.uniq
+    @daily_winners.shuffle[0..9].each do |dw|
+      DailyWinner.create(:question_id=>@question.id,:user_id=>dw,:is_display=>false)
+    end
+    render :text=>@daily_winners
+    return
+
+  end
+
+  def daily_winner
+    @daily_winners=DailyWinner.all
+  end
+
+  def dis_value_change
+    @daily_display=DailyWinner.find_by_user_id(params[:dis_val][0])
+    @daily_display.is_display=true
+    @daily_display.save
+    render :text => @daily_display
+    return
+  end
+
+
+  def all_recent_activities
+    @recent_activity=Array.new
+    #Version.find_all_by_item_id_and_item_type(current_user.id, "User").each do |ver|
+    Version.find_all_by_whodunnit(current_user.id).each do |ver|
+      case ver.item_type
+        when "User"
+          case ver.event
+            when "profile_update"
+              @recent_activity<<"User updated his profile"
+            when "correct"
+              @recent_activity<<"User has answered correctly"
+            when "incorrect"
+              @recent_activity<<"User has answered incorrectly"
+          end
+
+        when "Response"
+          case ver.event
+            when "create"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
+            when "update"
+              @response=Response.find(ver.item_id)
+              @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
+          end
+      end
+    end
+    render :text => @recent_activity.reverse!
+  end
+
 
 
 end

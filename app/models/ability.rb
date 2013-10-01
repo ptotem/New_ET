@@ -11,6 +11,8 @@ class Ability
          can :manage, :all
        else
          can :read, :all
+         cannot :manage, DailyWinner
+         cannot :read, DailyWinner
        end
 
     # The first argument to `can` is the action you are giving the user 

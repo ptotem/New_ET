@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/assets/css/style8.css" />
 <link rel="stylesheet" href="assets/css/default.css" type="text/css">
+<script src="assets/jquery.validate.min.js"></script>
 
 <style type="text/css">
     a { cursor: pointer; }
@@ -10,7 +11,13 @@
     <!-- Row Start -->
     <div class='row'>
       <div class='span9'>
-        <h4 class="section-header">Today's Quiz<span class="pull-right"><%= Date.today.strftime("%d-%b-%y") %></span></h4>
+        <%if !@question.nil?%>
+        <% if @question.question_type=="type4" %>
+            <h4 class="section-header">About The Quiz</h4>
+        <% else %>
+            <h4 class="section-header">Today's Quiz<span class="pull-right"><%= Date.today.strftime("%d-%b-%y") %></span></h4>
+        <% end %>
+        <% end %>
         <%if !@question.nil?%>
         <% if @question.question_type=="type1" %>
           <% if user_signed_in? %>
@@ -49,42 +56,77 @@
       <% if !user_signed_in? %>
           <div class="span3">
             <div class="white-card">
-              <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+              <h5>Registered Players</h5>
+              <%#= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+                  <!--<div class="row-fluid" style="padding-top: 5px;">-->
+                    <!--<div class="span12">-->
+                      <!--<%#= f.text_field :username, :autofocus => true, :placeholder => "Mobile Number", :style => "width:95%;", :class => "required",:"data-msg-required"=> "Please enter your mobile number"  %>-->
+                    <!--</div>-->
+                  <!--</div>-->
 
-                  <div class="row-fluid" style="padding-top: 10px;">
-                    <div class="span12">
-                      <%= f.text_field :username, :autofocus => true,:placeholder => "Mobile Number",:style => "width:95%;" %>
+                  <!--<div class="row-fluid">-->
+                    <!--<div class="span12">-->
+                      <!--<%#= f.password_field :password, :placeholder => "Password", :style => "width:95%;", :class => "required",:"data-msg-required"=> "Please enter your password"  %>-->
+                      <!--<%# flash.each do |name, msg| %>-->
+                          <!--<%# if name==:alert %>-->
+                              <!--<%# msg = "Invalid mobile number and password" %>-->
+                              <!--<%#= content_tag :label, msg, :id => "flash_#{name}", :class => "error" if msg.is_a?(String) %>-->
+                          <!--<%# end %>-->
+
+                      <!--<%# end %>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="row-fluid">-->
+                    <!--<div class="span12">-->
+                      <!--<%#= f.submit "Sign in", :class => "btn btn-primary", :style => "width:100%;margin-bottom:10px;" %>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="row-fluid" style="text-align: center;">-->
+                    <!--<div class="span12">-->
+
+                      <!--&lt;!&ndash;<a href="#" id="forgot_password_btn" onclick="forgot_password();">Forgot your Password</a>&ndash;&gt;-->
+
+                    <!--</div>-->
+                  <!--</div>-->
+              <%# end %>
+
+              <form method="post" id="new_user" class="new_user" action="/users/sign_in" accept-charset="UTF-8"><div style="margin:0;padding:0;display:inline"><input type="hidden" value="✓" name="utf8"><input type="hidden" value="ix5agpotFOZqY9iEmWESSCEnqZ2j/wCAbQp7w6N/oJs=" name="authenticity_token"></div>
+                <div style="padding-top: 5px;" class="row-fluid">
+                  <div class="span12">
+
+
+                    <div class="input-prepend">
+                      <span class="add-on">91</span>
+                      <input type="text" style="width:84%;" size="30" placeholder="Mobile Number" name="user[username]" id="user_username" data-msg-required="Please enter your mobile number" class="required" autofocus="autofocus">
                     </div>
+
                   </div>
+                </div>
 
-                  <div class="row-fluid">
-                    <div class="span12">
-                      <%= f.password_field :password,:placeholder => "Password",:style => "width:95%;" %>
-                    </div>
+                <div class="row-fluid">
+                  <div class="span12">
+                    <input type="password" style="width:95%;" size="30" placeholder="Password" name="user[password]" id="user_password" data-msg-required="Please enter your password" class="required">
                   </div>
-
-                  <div class="row-fluid">
-                    <div class="span12">
-                      <%= f.submit "Sign in",:class => "btn btn-info",:style => "width:100%;" %>
-                    </div>
+                </div>
+                <div class="row-fluid">
+                  <div class="span12">
+                    <input type="submit" value="Sign in" style="width:100%;margin-bottom:10px;" name="commit" id="new_usr_submit" class="btn btn-primary pull-left">
                   </div>
+                </div>
+                <div style="text-align: center;" class="row-fluid">
+                  <div class="span12">
 
-                  <div class="row-fluid" style="padding-top:5px;">
-                    <div class="span12" style="text-align: center;">
-                      <a href="#" onclick="view_register();">Need an account Register here</a>
-                    </div>
+                    <!--<a href="#" id="forgot_password_btn" onclick="forgot_password();">Forgot your Password</a>-->
+
                   </div>
+                </div>
+              </form>
 
-                  <div class="row-fluid" style="text-align: center;">
-                    <div class="span12">
-                      <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
-                          <%= link_to "Forgot your password?", new_password_path(resource_name) %><br />
-                      <% end -%>
-                    </div>
-                  </div>
-
-              <% end %>
-
+            </div>
+            <div class="row-fluid">
+              <div class="span12" style="text-align: center;">
+                <!--<a class="btn btn-danger" href="#" onclick="view_register();">Not Playing Yet? Register Here</a>-->
+              </div>
             </div>
           </div>
       <% else %>
@@ -93,7 +135,6 @@
               <div class="accordion-group">
                 <div class="accordion-heading">
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-
                     <strong><span>Your Score</span><span class="pull-right" id="points"><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></strong>
                   </a>
                 </div>
@@ -102,10 +143,12 @@
                     <div class="blog-categories widget-tp">
                       <ul>
                         <li>
-                          <a href="#">Your Current Rank is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
+                          <a href="#">Your Current Rank
+                            is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
                         </li>
                         <li>
-                          <a href="#">Your Correct Answer Rate is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
+                          <a href="#">Your Correct Answer Rate
+                            is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
 
                             <div class="progress progress-striped active">
                               <div class="bar bar-success"></div>
@@ -128,6 +171,25 @@
                     <div class="blog-categories widget-tp">
                       <ul id="recent_activity">
 
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                    <strong>Profile</strong>
+                  </a>
+                </div>
+                <div id="collapseThree" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <div class="blog-categories widget-tp">
+                      <ul id="user_profile">
+                        <li><strong>Nickname</strong> :  <%= current_user.name %></li>
+                        <li><strong>Location&nbsp;&nbsp;</strong> :  <%= current_user.location %></li>
+                        <li><strong>Industry&nbsp;&nbsp;&nbsp;</strong> :  <%= current_user.industry %></li>
+                        <li><button class="btn btn-info" id="profile_page" onclick='window.location="/profile"'>View Profile</button></li>
                       </ul>
                     </div>
                   </div>
@@ -253,6 +315,34 @@
       </div>
     </div>
 
+<div id="rec_act_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>
+      Recent Activity
+    </h3>
+  </div>
+  <div class="modal-body">
+    <div class="row-fluid">
+      <div class="span9">
+        <div class="blog-categories widget-tp">
+          <ul id="all_recent_activity">
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+
+  </div>
+
+</div>
+
 
     <script>
       $(function () {
@@ -260,6 +350,46 @@
         var question_id;
         var user_id;
         var response;
+
+          $('#new_user').validate({
+              onfocusout : function(element,event){
+                  if (element.id==="user_username") {
+                      this.element(element)
+                  }
+              }
+          });
+
+          $('#new_user').find('#new_usr_submit').on('click',function(evt) {
+              evt.preventDefault();
+////          $('#new_user').attr({
+////              action: '',
+////              method: ''
+////          });
+              var new_usr_uname = $('#new_user').find('#user_username').val();
+              var uname_first_char = new_usr_uname.charAt(0);
+              var uname_second_char = new_usr_uname.charAt(1);
+              console.log(new_usr_uname);
+              console.log(uname_first_char);
+              console.log(uname_second_char);
+
+              if ( (uname_first_char!="9") || (uname_second_char!="1") ) {
+                  console.log("You have entered username " + new_usr_uname);
+                  $('#new_user').find('#user_username').val("91"+new_usr_uname);
+                  console.log($('#new_user').find('#user_username').val());
+                  $('#new_user').attr({
+                      action: '/users/sign_in',
+                      method: 'post'
+                  });
+                  $('#new_user').submit();
+//          }
+////          else if ( (uname_first_char=="9") && (uname_second_char=="1") ) {
+////            $('#new_user').attr({
+////                action: ''
+////            });
+////            alert("yes");
+              }
+          });
+
         <%if user_signed_in?%>
 
           var curr_usr_fb_sign_in_count = "<%= current_user.fb_sign_in_count %>";
@@ -273,12 +403,27 @@
               returning_data=returning_data.split(",");
               $('#recent_activity').html();
               $.each(returning_data,function(){
-                recent=this.replace("[","").replace("]","").replace('"','');
-                $("#recent_activity").append('<li><a href="#">'+recent+'</a></li>');
+                  recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
+                  $("#recent_activity").append('<li class="rec_act" onclick="show_rec_act();"><a href="#">' + recent + '</a></li>');
               });
             }
           }
         });
+
+          $.ajax({
+              url: "/all_recent_activities",
+              type: "get",
+              success: function (returning_data) {
+                  if (returning_data != '') {
+                      returning_data = returning_data.split(",");
+                      $('#recent_activity').html();
+                      $.each(returning_data, function () {
+                          recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
+                          $("#all_recent_activity").append('<li><a href="#">' + recent + '</a></li>');
+                      });
+                  }
+              }
+          });
 
           if ( fb_signed_in == true) {
 
@@ -307,7 +452,7 @@
                     $("#points").html(ref_pts + fb_sign_in_score + " Points");
                 }
                 else{
-                    $("#points").html(<%=current_user.refer_points%>+"Points");
+                    $("#points").html(<%=current_user.refer_points%>+" Points");
                 }
 
 
@@ -414,6 +559,10 @@ $('.answeroptions').click(function(){
         <% end %>
         <%end%>
       });
+
+      function show_rec_act(){
+          $("#rec_act_modal").modal('show');
+      }
 
 var _gaq=[['_setAccount','UA-34697555-1'],['_trackPageview']];
 (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
