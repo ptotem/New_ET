@@ -193,20 +193,21 @@ def res
     	if User.find_by_username(params[:uname]).nil?
     		passwd=Random.new.rand(10000000..99999999).to_s
     		@user=User.create(:email => "abc#{Time.now.to_i}@gmail.com", :username => params[:uname], :password => passwd, :password_confirmation => passwd);
-    		str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Thanks for playing Win with ET. Refer friends and increase your score on www.winwithet.com. Username: mobile number Password '+passwd+'. Play Daily! Win Daily!&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+params[:uname])
+    		str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext= Thanks for playing Win with ET. Track your score and ranking on www.winwithet.com. Username: mobile number Password '+passwd+'. Play Daily! Win Daily!&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+params[:uname])
     		@r =open(str)
-    		sleep(2)
+
+        sleep(2)
     	else
     		@user=User.find_by_username(params[:uname])
     	end
     	@question = Question.find_by_insertion_date(Date.today)
 
-      if params[:message].include?("WINET PWD")
+      if params[:message].include?("WINETP")
         passwd=Random.new.rand(10000000..99999999).to_s
         @user.password = passwd
         @user.password_confirmation=passwd
         @user.save
-        render :text=>"Thank your for playing Win with ET. Following is your password to login on www.winwithet.com: "+passwd+". Play daily to win prizes!"
+        render :text=>"Thanks for playing Win with ET. Following is your password to log on to  www.winwithet.com: "+passwd+". Play daily to win prizes!"
         return
       end
 
@@ -214,12 +215,12 @@ def res
 
     	if params[:message].include?("WINETD")
         if @question.nil?
-          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
 
         if Time.zone.now> @question.close_time
-          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
     		@question = Question.find_by_insertion_date(Date.today)
@@ -256,16 +257,16 @@ def res
           @version.event="DD"
           @version.whodunnit=@user.id
           @version.save
-          render :text=>@a+"Thanks for playing Double Delight on Win with ET. Winners will be contacted daily.Refer friends & increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          render :text=>@a+"Thanks for playing Double Delight on Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
       elsif params[:message].include?("WINETT")
         if @question.nil?
-          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
 
         if Time.zone.now> @question.close_time
-          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
       	@question = Question.find_by_insertion_date(Date.today)
@@ -281,7 +282,7 @@ def res
           when "D"
           	@option=@question.options[3]
           else
-          	render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Refer friends and increase your score on www.winwithet.com . Play Daily! Win Daily!"
+          	render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           	return
           end
           @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
@@ -302,17 +303,17 @@ def res
           @version.event="TT"
           @version.whodunnit=@user.id
           @version.save
-          render :text=>@a+"Thanks for playing Triple Treat on Win with ET. Winners will be contacted daily.Refer friends & increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          render :text=>@a+"Thanks for playing Triple Treat on Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
 
       elsif params[:message].include?("WINET")
         if @question.nil?
-          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
 
         if Time.zone.now> @question.close_time
-          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
       	@selected_option=params[:message].split(' ')[1]
@@ -326,7 +327,7 @@ def res
           when "D"
           	@option=@question.options[3]
           else
-          	render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Refer friends and increase your score on www.winwithet.com . Play Daily! Win Daily!"
+            render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           	return
           end
 
@@ -374,10 +375,10 @@ def res
           	@version.whodunnit=@user.id
           	@version.save
           end
-          render :text=>@a+"Thanks for playing Win with ET. Winners will be contacted daily. Refer friends and increase your score on www.winwithet.com. Play Daily! Win Daily!"
+          render :text=>@a+"Thanks for playing Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
       else
-      	render :text=>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Refer friends and increase your score on www.winwithet.com . Play Daily! Win Daily!"
+        render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
       	return
       end
       #end
@@ -650,7 +651,7 @@ def send_response
     @responses.each_with_index do |u|
     	@valid_responses=Response.find_all_by_question_id_and_user_id(Question.find_by_insertion_date(Date.today),u).last
     	if @valid_responses.points>0
-    		str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Congratulations, your answer today was correct. Check your score and rank on kyet.ptotem.com. Come back tomorrow to win daily and weekly prizes.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
+    		str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Congratulations, your answer today was correct. Check your score and rank on www.winwithet.com. Come back morrow to win daily and weekly prizes.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
     		@r << open(str)
     		if !User.find(u).nil?
     			@user=User.find(u)
