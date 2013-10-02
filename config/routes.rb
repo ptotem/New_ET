@@ -25,6 +25,7 @@ ETNew::Application.routes.draw do
   match "/dis_value_change", :to=> "quiz#dis_value_change", :as=> "dis_value_change"
   match "/control_edit_profile_modal", :to=> "welcome#control_edit_profile_modal", :as=> "control_edit_profile_modal"
   match "/each_question_data/:id",:to=>"response#each_question_data",:as=>"each_question_data"
+  match "/calculate_score",:to=>"response#calculate_score",:as=>"calculate_score"
   match "/each_participant_data/:id",:to=>"response#each_participant_data",:as=>"each_question_data"
   match "/all_question_data",:to=>"response#all_question_data",:as=>"each_question_data"
   match "/all_participant_data",:to=>"response#all_participant_data",:as=>"each_question_data"

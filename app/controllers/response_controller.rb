@@ -93,7 +93,6 @@ class ResponseController < ApplicationController
   end
 
 
-
   def send_ref_mail
     @eaddresses=Array.new
     @eaddresses<< params[:email_and_location][0]
@@ -102,15 +101,15 @@ class ResponseController < ApplicationController
     @eaddresses<< params[:email_3_and_location_3][0]
     @eaddresses<< params[:email_4_and_location_4][0]
 
-    @eaddresses.each_with_index do |eaddr,index|
+    @eaddresses.each_with_index do |eaddr, index|
       unless eaddr.split('||')[0].nil? && eaddr.split('||')[1].nil?
         @loc= eaddr.split('||')[1]
         @email=eaddr.split('||')[0]
         unless @loc.nil? && @email.nil?
-          @referral=Referral.create(:user_id => current_user.id, :referred_mail => @email,:location => @loc)
+          @referral=Referral.create(:user_id => current_user.id, :referred_mail => @email, :location => @loc)
         end
         if @referral.location =="Bangalore,Karnataka"
-          NotificationMailer.welcome_email(@email,current_user).deliver
+          NotificationMailer.welcome_email(@email, current_user).deliver
         end
       end
     end
@@ -185,8 +184,6 @@ class ResponseController < ApplicationController
   end
 
 
-
-
   def res
     require 'open-uri'
     #render :text=>params
@@ -210,20 +207,19 @@ class ResponseController < ApplicationController
         @user.password = passwd
         @user.password_confirmation=passwd
         @user.save
-        render :text=>"Thanks for playing Win with ET. Following is your password to log on to  www.winwithet.com: "+ passwd +". Play daily to win prizes!"
+        render :text => "Thanks for playing Win with ET. Following is your password to log on to  www.winwithet.com: "+ passwd +". Play daily to win prizes!"
         return
       end
 
 
-
       if params[:message].include?("WINETD")
         if @question.nil?
-          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+          render :text => "Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
 
         if Time.zone.now> @question.close_time
-          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+          render :text => "Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
         @question = Question.find_by_insertion_date(Date.today)
@@ -238,7 +234,7 @@ class ResponseController < ApplicationController
           when "D"
             @option=@question.options[3]
           else
-            render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+            render :text => "Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
             return
         end
 
@@ -260,16 +256,16 @@ class ResponseController < ApplicationController
         @version.event="DD"
         @version.whodunnit=@user.id
         @version.save
-        render :text=>@a+"Thanks for playing Double Delight on Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+        render :text => @a+"Thanks for playing Double Delight on Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
         return
       elsif params[:message].include?("WINETT")
         if @question.nil?
-          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+          render :text => "Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
 
         if Time.zone.now> @question.close_time
-          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+          render :text => "Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
         @question = Question.find_by_insertion_date(Date.today)
@@ -285,7 +281,7 @@ class ResponseController < ApplicationController
           when "D"
             @option=@question.options[3]
           else
-            render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+            render :text => "Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
             return
         end
         @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
@@ -306,17 +302,17 @@ class ResponseController < ApplicationController
         @version.event="TT"
         @version.whodunnit=@user.id
         @version.save
-        render :text=>@a+"Thanks for playing Triple Treat on Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+        render :text => @a+"Thanks for playing Triple Treat on Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
         return
 
       elsif params[:message].include?("WINET")
         if @question.nil?
-          render :text=>"Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+          render :text => "Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
 
         if Time.zone.now> @question.close_time
-          render :text=>"Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+          render :text => "Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
         @selected_option=params[:message].split(' ')[1]
@@ -330,7 +326,7 @@ class ResponseController < ApplicationController
           when "D"
             @option=@question.options[3]
           else
-            render :text =>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+            render :text => "Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
             return
         end
 
@@ -378,15 +374,15 @@ class ResponseController < ApplicationController
           @version.whodunnit=@user.id
           @version.save
         end
-        render :text=>@a+"Thanks for playing Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+        render :text => @a+"Thanks for playing Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
         return
       else
-        render :text=>"Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+        render :text => "Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
         return
       end
       #end
     else
-      render :text=>"Un authorized auth key"
+      render :text => "Un authorized auth key"
     end
   end
 
@@ -646,13 +642,14 @@ class ResponseController < ApplicationController
 
 
   require 'open-uri'
+
   def send_response
-    @responses=Response.find_all_by_question_id(Question.find_by_insertion_date(Date.today)).map{|i| i.user_id}.uniq
+    @responses=Response.find_all_by_question_id(Question.find_by_insertion_date(Date.today)).map { |i| i.user_id }.uniq
     #render :text=>@responses
     #return
     @r=Array.new
     @responses.each_with_index do |u|
-      @valid_responses=Response.find_all_by_question_id_and_user_id(Question.find_by_insertion_date(Date.today),u).last
+      @valid_responses=Response.find_all_by_question_id_and_user_id(Question.find_by_insertion_date(Date.today), u).last
       if @valid_responses.points>0
         str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Congratulations, your answer today was correct. Check your score and rank on kyet.ptotem.com. Come back tomorrow to win daily and weekly prizes.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
         @r << open(str)
@@ -682,13 +679,26 @@ class ResponseController < ApplicationController
         end
       end
     end
-    render :text=>@r
+    render :text => @r
     return
   end
 
   def question_details
     @quest_name=Question.find(params[:date_id])
-    render :text =>"#{@quest_name.name}||#{Option.find_all_by_question_id(@quest_name.id).map{|o| o.name }.join("&&")}||#{Option.find_all_by_question_id(@quest_name.id).map{|o| o.id}.join("&&")}||#{Option.find_all_by_question_id(@quest_name.id).map{|o| o.is_correct}.join("&&")}||#{@quest_name.view_article}||#{@quest_name.id}"
+    render :text => "#{@quest_name.name}||#{Option.find_all_by_question_id(@quest_name.id).map { |o| o.name }.join("&&")}||#{Option.find_all_by_question_id(@quest_name.id).map { |o| o.id }.join("&&")}||#{Option.find_all_by_question_id(@quest_name.id).map { |o| o.is_correct }.join("&&")}||#{@quest_name.view_article}||#{@quest_name.id}"
+  end
+
+  def calculate_score
+    #@user= User.find(params[:user_id])
+    User.all.each do |user|
+      @responses=Array.new
+      Question.all.each do |q|
+        @responses<<Response.find_all_by_question_id_and_user_id(q.id, user.id).last.points rescue 0
+        @points=@responses.delete_if { |x| x===nil }.sum
+      end
+      user.refer_points=@points
+      user.save
+    end
   end
 
 
