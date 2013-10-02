@@ -309,9 +309,8 @@
                 <p>
                   <label>Age</label>
                   <%#= text_field_tag :age, @user.age %>
-                  <%#= text_field_tag :age, current_user.age %>
-                  <% age_array = (1..100).to_a.collect { |p| ["#{p}", p] } %>
-                  <%= select_tag(:age, options_for_select(age_array, :selected => current_user.age), :prompt => "Select age") %>
+                  <%#= select_tag :age, options_for_select(%w(1 2 3)) %>
+                  <%= date_select :dob,@user.dob,:start_year => 1950,:end_year => 2013 %>
                 </p>
 
                 <p>
