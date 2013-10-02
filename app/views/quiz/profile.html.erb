@@ -26,7 +26,7 @@
                 <div class="section-header"><%= current_user.name %></div>
                 <div>
                   <ul style="list-style:none;">
-                    <li><h4>Age: <%= current_user.age %></h4></li>
+                    <li><h4>Age: <%= Date.today.year - current_user.dob.year rescue '' %></h4></li>
                     <li><h4>Work Experience: <%= current_user.workx %> Years</h4></li>
                     <li><h4>Industry: <%= current_user.industry %></h4></li>
                     <li><h4>Location : <%= current_user.location %></h4></li>

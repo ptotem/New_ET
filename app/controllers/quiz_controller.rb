@@ -155,6 +155,7 @@ class QuizController < ApplicationController
     @dob_month = params["dob(2i)"]
     @dob_year = params["dob(1i)"]
     @user_age = Time.now.year.to_i - params[:dob]["(1i)"].to_i
+    @profile.dob=Date.strptime(params[:dob]["(3i)"]+"/"+params[:dob]["(2i)"]+"/"+params[:dob]["(1i)"],"%d/%m/%Y")
     @profile.age=@user_age
     @profile.workx=params[:workx]
     @profile.location=params[:location]
