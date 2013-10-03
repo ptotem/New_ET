@@ -337,7 +337,7 @@
               returning_data=returning_data.split(",");
               $('#recent_activity').html();
               $.each(returning_data,function(){
-                  recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
+                  recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '').replace('"', '');
                   $("#recent_activity").append('<li class="rec_act" onclick="show_rec_act();"><a href="#">' + recent + '</a></li>');
               });
             }

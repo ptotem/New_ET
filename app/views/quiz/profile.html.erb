@@ -177,6 +177,19 @@
     <!-- Row End -->
 
 </section>
+<style type="text/css">
+  #user_dob_1i{
+      width:100px;
+  }
+  #user_dob_2i{
+      width:100px;
+  }
+  #user_dob_3i{
+      width:100px;
+  }
+</style>
+
+
 <div id="edit_profile" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <%= form_tag :update_profile do |f| %>
       <div class="modal-header">
@@ -204,7 +217,8 @@
               <label>Age</label>
               <%#= text_field_tag :age, @user.age %>
               <%#= select_tag :age, options_for_select(%w(1 2 3)) %>
-              <%= date_select :dob,@user.dob,:start_year => 1950,:end_year => 2013 %>
+              <%#= date_select :dob,@user.dob,:start_year => 1950,:end_year => 2013 %>
+              <%= date_select("user", "dob", start_year: 1950, end_year: 1995 ) %>
             </p>
 
             <p>
@@ -411,7 +425,7 @@
               returning_data=returning_data.split(",");
               $('#recent_activity').html();
               $.each(returning_data,function(){
-                  recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
+                  recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '').replace('"', '');
                   $("#recent_activity").append('<li class="rec_act" onclick="show_rec_act();"><a href="#">' + recent + '</a></li>');
               });
             }

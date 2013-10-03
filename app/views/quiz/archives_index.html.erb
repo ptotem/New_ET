@@ -284,8 +284,15 @@
             }
         });
 
-        $('.Zebra_DatePicker').find('.dp_footer').css("display","none");
+       setInterval(function(){
+           $('.Zebra_DatePicker').find('.dp_footer').css("display","none");
+           $('.Zebra_DatePicker').find('.dp_clear').css("display","none");
+
+       },10);
+
         //$('td').removeClass('');
+
+
         setTimeout(function(){
             load_datepicker(date);
         },1000)
