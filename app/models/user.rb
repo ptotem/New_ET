@@ -50,7 +50,6 @@ class User < ActiveRecord::Base
   end
 
   def check_country_code_in_username
-    unless User.find(self.id).nil?
     @user = User.find(self.id)
     @username = @user.username
     @first_two_char = @username[0..1]
@@ -58,7 +57,6 @@ class User < ActiveRecord::Base
     if @first_two_char != "91"
       @user.username = "91#{@username}"
       @user.save!
-    end
    end
   end
 
