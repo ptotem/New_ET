@@ -1185,7 +1185,7 @@
 
                                 $('#password_submit').on("click", function () {
                                     var data = {mobile_no: []}
-                                    data["mobile_no"].push(mobile_no);
+                                    data["mobile_no"].push(prepended_mob_no);
                                     $.ajax({
                                         url: "<%= change_password_path %>",
                                         type: "POST",
