@@ -173,7 +173,7 @@ class WelcomeController < ApplicationController
     @dob_month = params[:users]["dob(2i)"]
     @dob_year = params[:users]["dob(1i)"]
     @user_age = Time.now.year.to_i - params[:users]["dob(1i)"].to_i
-    @user=User.create!(:email => params[:users][:email],:username => params[:users][:username],:name => params[:users][:name],:nickname => params[:users][:nickname],:dob => "#{@dob_day}-#{@dob_month}-#{@dob_year}", :age=>@user_age, :workx => params[:users][:workx],:location => params[:location],:industry => params[:users][:industry],:password => "password")
+    @user=User.create!(:email => params[:users][:email],:username => params[:users][:username],:name => params[:users][:name],:nickname => params[:users][:nickname],:dob => "#{@dob_day}-#{@dob_month}-#{@dob_year}", :age=>@user_age, :workx => params[:users][:workx],:location => params[:register_location],:industry => params[:users][:industry],:password => "password")
     @user.save
     if !params[:refere_id].nil?
       @ruser=User.find(params[:refere_id].to_i)

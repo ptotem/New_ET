@@ -183,7 +183,13 @@
             <span class=""><img src="/assets/img/trophy.png" style="width:15%;"/></span>
             &nbsp;Daily Winners
           </h5>
-         <p>Congratulations to <strong>Anuj, Gurpreet, Imran, John and Takimoto</strong> for winning the quiz on 13th October 2013.</p>
+         <p>
+           Congratulations to
+           <strong>
+            Anuj, Gurpreet, Imran, John and Takimoto
+           </strong>
+           for winning the quiz on 13th October 2013.
+         </p>
         </div>
       </div>
       <div class='span3' data-toggle="modal" data-target="#cta_box">
@@ -909,7 +915,11 @@
 
 
 
-
+<style type="text/css">
+  #users_dob_3i,#users_dob_2i,#users_dob_1i{
+      width:100px;
+  }
+</style>
 
 
 
@@ -970,7 +980,7 @@
           <div class="row-fluid">
             <div class="span12">
               <div>
-                <%= f.date_select :dob,:order => [:day,:month,:year],:start_year => Date.current.year,:end_year =>1995 %>
+                <%= f.date_select :dob,:order => [:day,:month,:year],:end_year =>1995,:start_year => 1950 %>
               </div>
             </div>
           </div>

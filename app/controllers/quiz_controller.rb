@@ -234,7 +234,8 @@ class QuizController < ApplicationController
     User.all.each do |u|
       @questions=Array.new
       Question.all.each do |q|
-        @questions<<(Response.find_all_by_question_id(q.id) & Response.find_all_by_user_id(u.id))
+        #@questions<<(Response.find_all_by_question_id(q.id) & Response.find_all_by_user_id(u.id))
+        @questions<<((Response.find_all_by_question_id(q.id) & Response.find_all_by_user_id(u.id))-Response.find_all_by_question_id(Question.find_by_insertion_date(Date.today)))
       end
       @questions=@questions.uniq.flatten!
       @score<<@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
@@ -272,7 +273,6 @@ class QuizController < ApplicationController
     end
     render :text=>@daily_winners
     return
-
   end
 
   def daily_winner
@@ -288,34 +288,43 @@ class QuizController < ApplicationController
   end
 
 
-  def all_recent_activities
-    @recent_activity=Array.new
-    #Version.find_all_by_item_id_and_item_type(current_user.id, "User").each do |ver|
-    Version.find_all_by_whodunnit(current_user.id).each do |ver|
-      case ver.item_type
-        when "User"
-          case ver.event
-            when "profile_update"
-              @recent_activity<<"User updated his profile"
-            when "correct"
-              @recent_activity<<"User has answered correctly"
-            when "incorrect"
-              @recent_activity<<"User has answered incorrectly"
-          end
+    def all_recent_activities
+      @recent_activity=Array.new
+      #Version.find_all_by_item_id_and_item_type(current_user.id, "User").each do |ver|
+      Version.find_all_by_whodunnit(current_user.id).each do |ver|
+        case ver.item_type
+          when "User"
+            case ver.event
+              when "profile_update"
+                @recent_activity<<"Profile last updated on #{ver.created_at.strftime("%d %B %Y")}"
+              #when "correct"
+              #  @recent_activity<<"User has answered correctly"
+              #when "incorrect"
+              #  @recent_activity<<"User has answered incorrectly"
+            end
 
-        when "Response"
-          case ver.event
-            when "create"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"User answer question dated "+@response.question.insertion_date.to_s
-            when "update"
-              @response=Response.find(ver.item_id)
-              @recent_activity<<"User applied for bonus for question dated "+@response.question.insertion_date.to_s
-          end
+          when "Response"
+            case ver.event
+              when "create"
+                @response=Response.find(ver.item_id)
+                @recent_activity<<"Last played on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+              when "DD"
+                @response=Response.find(ver.item_id)
+                @recent_activity<<"Double Delight promotion used on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+              when "TT"
+                @response=Response.find(ver.item_id)
+                @recent_activity<<"Triple Treat promotion used on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+              when "hh"
+                @response=Response.find(ver.item_id)
+                @recent_activity<<"Happy Hours promotion used on #{@response.question.insertion_date.strftime("%d %B %Y")}"
+            end
+        end
       end
+      render :text => @recent_activity.reverse!
     end
-    render :text => @recent_activity.reverse!
-  end
+
+
+
 
 
   def quiz_change_password
