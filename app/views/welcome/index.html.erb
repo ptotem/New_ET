@@ -284,7 +284,17 @@
 
 
 
-
+<style type="text/css">
+    #user_dob_1i{
+        width:100px;
+    }
+    #user_dob_2i{
+        width:100px;
+    }
+    #user_dob_3i{
+        width:100px;
+    }
+</style>
 
 
 
@@ -310,7 +320,7 @@
                   <label>Age</label>
                   <%#= text_field_tag :age, @user.age %>
                   <%#= select_tag :age, options_for_select(%w(1 2 3)) %>
-                  <%= date_select :dob,(@user.dob rescue ''),:start_year => 1950,:end_year => 2013 %>
+                  <%= date_select("user", "dob", start_year: 1950, end_year: 1995 ) %>
                 </p>
 
                 <p>
