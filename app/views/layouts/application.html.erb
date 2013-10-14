@@ -16,21 +16,24 @@
 
 </head>
 <body>
+
 <header id='header'>
-  <div class='navbar navbar-fixed-top'>
+
+  <div class='navbar navbar-fixed-top' style="margin-left: 175px;">
     <div class='navbar-inner'>
       <div class='container-fluid'>
-        <a class="brand" href="/" style="margin-left: 10px"><%= image_tag "etlogo.png", style:"width:150px;" %></a>
-        <div class="pull-right" style="margin-right: 5%">
+        <div style="margin-right: 5%">
           <%#= feedback_tab(:position => 'right') %>
-          <a class="btn btn-primary" href="/about_quiz">Know the Game</a>
-          <a class="btn btn-success" href="/quiz">Win the Game</a>
-          <a class="btn btn-alert" href="/archives">Question Answer</a>
-          <a class="btn btn-warning" href="#">Contact Us</a>
-          <a class="btn btn-info" href="#" id="faqcall">FAQ</a>
-          <% if user_signed_in? %>
-              <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account btn btn success" %>
-          <% end %>
+          <a class="btn pull-left" href="/quiz" style="background-color:transparent;background-image:none;box-shadow: none;border-radius: 0px;border-style:none;">Know the Game</a>
+          <a class="btn pull-left" href="/leaderboards" style="background-color:transparent;background-image:none;box-shadow: none;border-radius: 0px;border-style:none;">Leaderboard</a>
+          <a class="btn pull-left" href="/archives" style="background-color:transparent;background-image:none;box-shadow: none;border-radius: 0px;border-style:none;">Question Trail</a>
+          <div class="pull-right">
+            <a class="btn btn-warning" href="#">Contact Us</a>
+            <a class="btn btn-info" href="#" id="faqcall">FAQ</a>
+            <% if user_signed_in? %>
+                <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account btn btn success" %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
@@ -165,11 +168,11 @@
 </div>
 
 <footer>
-  <div class="deep-footer" style="margin-top: 10px;">
+  <div class="deep-footer" style="margin-top: 120px;">
     <div class="container" style="padding-bottom: 10px;margin-top: 10px;">
       <div class="row">
         <div class="span6">
-          <div class="copyright">&nbsp;Copyright © 2013 The Economic Times</div>
+          <div class="copyright">2013 Terms and Conditions<span style="float: right;">THE ECONOMIC TIMES|INDIATIMES</span></div>
         </div>
 
         <div class="span6">

@@ -7,50 +7,79 @@
 </style>
 
 <section class='section-wrapper'>
-    <div class='row-fluid'>
-      <div class='span9'>
-        <%if !@question.nil?%>
-        <% if @question.question_type=="type4" %>
-            <h4 class="section-header">About The Quiz</h4>
-        <% else %>
-            <h4 class="section-header">Today's Quiz<span class="pull-right"><%= Date.today.strftime("%d-%b-%y") %></span></h4>
-        <% end %>
-        <% end %>
-        <%if !@question.nil?%>
-        <% if @question.question_type=="type1" %>
-          <% if user_signed_in? %>
-            <%= render :partial => "type1" %>
-          <% else %>
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                ×
-              </button>
-              <h3></h3>
-            </div>
-            <div class="modal-body">
-              <h2>Please Login to answer the quiz</h2>
 
-              <div class="row-fluid">
-                <div class="span3"></div>
-                <div class="span9">
-                  <!--<input type="text" name="ref_email" id="referance_friend">-->
-                </div>
+
+
+
+
+    <div class='row-fluid'>
+      <div class="span9">
+        <div class="row-fluid">
+          <div class="span3"  style="margin-top: -75px;">
+            <div>
+              <div>
+                <a class="brand" href="/" style="margin-left: 10px"><%= image_tag "300px-Tokyoship_Home_icon.svg.png", style:"width:50px;" %></a>
+              </div>
+              <div>
+                <img src="/assets/img/logo.png" class="img_style" style="width:200px;">
               </div>
             </div>
-          <% end %>
-        <% elsif @question.question_type=="type2" %>
-          <%= render :partial => "type2" %>
-        <% elsif @question.question_type=="type3" %>
-          <%= render :partial => "type3" %>
-        <% elsif @question.question_type=="type4" %>
-          <%= render :partial => "type4" %>
-        <% else %>
-          <%= render :partial => "type1" %>
-        <% end %>
-        <%else%>
-          <p>Welcome to Winet, There is no question today, please see the newspaper to get updated.</p>
-        <%end%>
+          </div>
+
+          <div class="span9" style="margin-top: 45px;">
+            <h3>Know The Game
+              <div><small>Welcome <%= current_user.name %>, a daily reward for reading your favourite newspaper</small></div>
+            </h3>
+          </div>
         </div>
+
+        <div class="row-fluid">
+          <div class="span12">
+            <%if !@question.nil?%>
+                <% if @question.question_type=="type4" %>
+                    <h4 class="section-header">About The Quiz</h4>
+                <% else %>
+                    <h4 class="section-header">Today's Quiz<span class="pull-right"><%= Date.today.strftime("%d-%b-%y") %></span></h4>
+                <% end %>
+            <% end %>
+            <%if !@question.nil?%>
+                <% if @question.question_type=="type1" %>
+                    <% if user_signed_in? %>
+                        <%= render :partial => "type1" %>
+                    <% else %>
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            ×
+                          </button>
+                          <h3></h3>
+                        </div>
+                        <div class="modal-body">
+                          <h2>Please Login to answer the quiz</h2>
+
+                          <div class="row-fluid">
+                            <div class="span3"></div>
+                            <div class="span9">
+                              <!--<input type="text" name="ref_email" id="referance_friend">-->
+                            </div>
+                          </div>
+                        </div>
+                    <% end %>
+                <% elsif @question.question_type=="type2" %>
+                    <%= render :partial => "type2" %>
+                <% elsif @question.question_type=="type3" %>
+                    <%= render :partial => "type3" %>
+                <% elsif @question.question_type=="type4" %>
+                    <%= render :partial => "type4" %>
+                <% else %>
+                    <%= render :partial => "type1" %>
+                <% end %>
+            <%else%>
+                <p>Welcome to Winet, There is no question today, please see the newspaper to get updated.</p>
+            <%end%>
+          </div>
+        </div>
+      </div>
+
       <% if !user_signed_in? %>
           <div class="span3">
             <div class="white-card">
@@ -162,78 +191,11 @@
             </div>
           </div>
       <% end %>
+
+
     </div>
 
-    <div class='row-fluid' style="margin-top: 5%;">
-      <div class="span12">
-        <div class="row-fluid">
-          <div class='span3' data-toggle="modal" data-target="#cta_box">
-            <div class='white-card'>
-              <h5>
-                <span class=""><img src="/assets/img/trophy.png" style="width:15%;"/></span>
-                &nbsp;Daily Winners
-              </h5>
-              <p>Congratulations to <strong>Anuj, Gurpreet, Imran, John and Takimoto</strong> for winning the quiz on 13th October 2013.</p>
-            </div>
-          </div>
-          <div class='span3' data-toggle="modal" data-target="#cta_box">
-            <div class='white-card'>
-              <h5>
-                <span class=""><img src="/assets/img/sms.png" style="width:15%;"/></span>
-                &nbsp;Play the Game
-              </h5>
 
-              <p> Find today's quiz column in The Economic Times and SMS KYET A, B, C or D as your answer to
-                <b>9834344343</b>.
-              </p>
-            </div>
-          </div>
-
-
-
-          <% if user_signed_in? %>
-              <div class='span3'>
-                <a href="/leaderboards" style="text-decoration: none;">
-                  <div class='white-card'>
-                    <h5>
-                      <span class=""><img src="/assets/img/ruleicon.png" style="width:15%;"/></span>
-                      &nbsp;The Leaderboard
-                    </h5>
-
-                    <p>Check out your rank in the overall campaign and see how you are placed in the race for the Grand Prize</p>
-                  </div>
-                </a>
-              </div>
-          <% else %>
-              <div class='span3'>
-                <div class='white-card'>
-                  <h5>
-                    <span class=""><img src="/assets/img/ruleicon.png" style="width:15%;"/></span>
-                    &nbsp;The Leaderboard
-                  </h5>
-                  <p>Check out your rank in the overall campaign and see how you are placed in the race for the Grand Prize</p>
-                </div>
-              </div>
-
-          <% end %>
-
-
-          <!--<div class='span3' data-toggle="modal" data-target="#refer_box">-->
-          <div class='span3'>
-            <div class='white-card' id="refer-white-card">
-              <h5>
-                <span class=""><img src="/assets/img/refericon.png" style="width:15%;"/></span>
-                &nbsp;Refer a friend
-              </h5>
-
-              <p>Spread the word amongst your friends. You may get an opportunity to earn bonus points for your referral!</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
 
 </section>
 

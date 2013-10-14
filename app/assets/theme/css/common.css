@@ -5,6 +5,7 @@
 	display: block;
 	text-align: center;
 	width: 100%;
+
 }
 
 .ch-grid:after,
@@ -21,6 +22,7 @@
 	width: 33%;
 	height: 200px;
 	display: inline-block;
+
 }
 
 .hero-unit{
@@ -65,4 +67,47 @@
 
 .white-card p {
     font-family: Arial, sans-serif;
+}
+
+.img_style{
+    border-radius: 0% 25% 0% 25%;
+}
+
+.h4_style{
+    text-align: center;
+}
+
+.daily_winnerstyle1{
+    text-align: center;
+    background-color: grey;
+    padding:5px;
+    margin-top: 3px;
+}
+
+.daily_winnerstyle2{
+    text-align: center;
+    background-color: blue;
+    padding:5px;
+    margin-top: 3px;
+}
+
+.daily_winnerstyle3{
+    text-align: center;
+    background-color: red;
+    padding:5px;
+    margin-top: 3px;
+}
+
+.daily_winnerstyle4{
+    text-align: center;
+    background-color: green;
+    padding:5px;
+    margin-top: 3px;
+}
+
+.daily_winnerstyle5{
+    text-align: center;
+    background-color: yellow;
+    padding:5px;
+    margin-top: 3px;
 }
