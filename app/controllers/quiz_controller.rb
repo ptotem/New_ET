@@ -274,6 +274,8 @@ class QuizController < ApplicationController
     @daily_winners.shuffle[0..9].each do |dw|
       DailyWinner.create(:question_id=>@question.id,:user_id=>dw,:is_display=>false)
     end
+    render :text=>@daily_winners
+    return
   end
 
   def daily_winner
