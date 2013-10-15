@@ -140,9 +140,12 @@ class QuizController < ApplicationController
     end
       render :layout => "application"
     end
-
-
   end
+
+
+
+
+
 
   def profile
     @user=User.find(current_user.id)
@@ -283,7 +286,7 @@ class QuizController < ApplicationController
     @daily_display=DailyWinner.find_by_user_id(params[:dis_val][0])
     @daily_display.is_display=true
     @daily_display.save
-    render :text => @daily_display
+    render :text => @daily_display.is_display
     return
   end
 

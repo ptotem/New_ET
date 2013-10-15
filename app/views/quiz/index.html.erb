@@ -28,7 +28,9 @@
 
           <div class="span9" style="margin-top: 45px;">
             <h3>Know The Game
+              <% if user_signed_in? %>
               <div><small>Welcome <%= current_user.name %>, a daily reward for reading your favourite newspaper</small></div>
+             <% end %>
             </h3>
           </div>
         </div>

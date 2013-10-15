@@ -19,6 +19,8 @@ ETNew::Application.routes.draw do
   match "/send_ref_mail", :to=> "response#send_ref_mail", :as=> "ref_mail"
   match "/view_question_stat/:id", :to=> "response#view_question_stat"
   match "/load_question", :to=> "response#load_question", :as=> "load_question"
+  match "/load_winner", :to=> "response#load_winner", :as=> "load_winner"
+  match "/load_weekly_winner", :to=> "response#load_weekly_winner", :as=> "load_weekly_winner"
   match "/update_profile", :to=> "quiz#change_profile", :as=> "update_profile"
   match "/quiz_change_password", :to=> "quiz#quiz_change_password", :as=> "quiz_change_password"
   match "/admin_update_profile", :to=> "quiz#admin_change_profile", :as=> "admin_update_profile"

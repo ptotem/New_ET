@@ -702,4 +702,46 @@ class ResponseController < ApplicationController
   end
 
 
+  def load_winner
+    if Date.strptime(params[:question][0], "%Y-%m-%d")!=Date.today
+      @question = Question.where('insertion_date BETWEEN ? AND ?', Date.strptime(params[:question][0], "%Y-%m-%d").beginning_of_day, Date.strptime(params[:question][0], "%Y-%m-%d").end_of_day).first
+      @winners=Array.new
+      if @question.nil?
+        render :text => "Not Found"
+        return
+      else
+        @daily_winners=DailyWinner.find_all_by_question_id_and_is_display(@question.id,true)
+        @daily_winners.first(5).each do |e|
+          @winners<<User.find(e).name
+        end
+      end
+      render :text => @winners
+      return
+    end
+  end
+
+
+def load_weekly_winner
+    @week_winner_leaderboard=Array.new
+    @week_questions=Question.show_for_selected_week(params[:question][0])
+    #@week_questions.all.each do |q|
+    #  @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
+    #end
+    #@users=@users.flatten.uniq
+    #@users.each do |u|
+    #  @user_res=Array.new
+    #  @week_questions.all.each do |q|
+    #    @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
+    #  end
+    #  @user_res=@user_res.delete_if { |x| x==nil }
+    #  @week_winner_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
+    #end
+
+  render :text => @week_questions
+  return
+
+end
+
+
+
 end

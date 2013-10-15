@@ -31,4 +31,8 @@ class Question < ActiveRecord::Base
   def self.show_for_current_week
     where(':first_day <= insertion_date AND insertion_date <= :last_day',{:first_day=>Date.today.at_beginning_of_week,:last_day=>Date.today.at_end_of_week})
   end
+
+  def self.show_for_selected_week(selected_date)
+    where(':first_day <= insertion_date AND insertion_date <= :last_day',{:first_day=>selected_date.at_beginning_of_week,:last_day=>selected_date.at_end_of_week})
+  end
 end

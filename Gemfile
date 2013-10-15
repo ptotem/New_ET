@@ -32,6 +32,7 @@ gem 'yaml_db'
 gem 'mysql2'
 gem 'rufus-scheduler'
 gem 'gritter'
+#gem 'whenever', :require => false
 
 
 #gem "koala", "~> 1.7.0rc1"
