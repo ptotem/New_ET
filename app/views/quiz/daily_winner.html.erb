@@ -16,7 +16,7 @@
   </tr>
   <% @daily_winners.each do |dw| %>
       <tr>
-        <td><%= User.find(dw.user_id).username %></td>
+        <td><%= User.find(dw.user_id).username rescue"" %></td>
         <td><input type="hidden" value="<%= dw.user_id %>">
           <button class="btn btn-success" onclick="update_this_user($(this))">Edit</button>
         </td>

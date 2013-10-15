@@ -222,6 +222,8 @@ class ResponseController < ApplicationController
           render :text => "Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
+
+        if @question.promotions.map{|i| i.id}.include? 1
         @question = Question.find_by_insertion_date(Date.today)
         @selected_option=params[:message].split(' ')[1]
         case @selected_option
@@ -258,6 +260,13 @@ class ResponseController < ApplicationController
         @version.save
         render :text => @a+"Thanks for playing Double Delight on Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
         return
+      else
+        render :text => "Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+        return
+      end
+
+
+
       elsif params[:message].include?("WINETT")
         if @question.nil?
           render :text => "Thanks for playing Win with ET. Entries accepted till 6pm between Mon-Fri. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
@@ -268,42 +277,49 @@ class ResponseController < ApplicationController
           render :text => "Thanks for playing Win with ET. Entries close at 6pm. Please play morrow. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
           return
         end
-        @question = Question.find_by_insertion_date(Date.today)
 
-        @selected_option=params[:message].split(' ')[1]
-        case @selected_option
-          when "A" #compare to 1
-            @option=@question.options[0]
-          when "B" #compare to 2
-            @option=@question.options[1]
-          when "C"
-            @option=@question.options[2]
-          when "D"
-            @option=@question.options[3]
+        if @question.promotions.map{|i| i.id}.include? 2
+          @question = Question.find_by_insertion_date(Date.today)
+          @selected_option=params[:message].split(' ')[1]
+          case @selected_option
+            when "A" #compare to 1
+              @option=@question.options[0]
+            when "B" #compare to 2
+              @option=@question.options[1]
+            when "C"
+              @option=@question.options[2]
+            when "D"
+              @option=@question.options[3]
+            else
+              render :text => "Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+              return
+          end
+          @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
+          if @option.is_correct
+            @response.points=@option.question.quiz.plus
           else
-            render :text => "Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
-            return
-        end
-        @response=Response.create(:user_id => @user.id, :question_id => @question.id, :option_id => @option.id, :answer => @option.name)
-        if @option.is_correct
-          @response.points=@option.question.quiz.plus
+            @response.points= -(@option.question.quiz.minus)
+          end
+          @response.save
+          @response.promotion=true
+          if @response.option.is_correct
+            @response.points=@response.points*3
+          else
+            @response.points=@response.points-@response.option.question.quiz.plus*3
+          end
+          @response.save
+          @version = Version.last
+          @version.event="TT"
+          @version.whodunnit=@user.id
+          @version.save
+          render :text => @a+"Thanks for playing Triple Treat on Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+          return
         else
-          @response.points= -(@option.question.quiz.minus)
+          render :text => "Thanks for playing Win with ET. We received a wrong keyword. Please resend. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
+          return
         end
-        @response.save
-        @response.promotion=true
-        if @response.option.is_correct
-          @response.points=@response.points*3
-        else
-          @response.points=@response.points-@response.option.question.quiz.plus*3
-        end
-        @response.save
-        @version = Version.last
-        @version.event="TT"
-        @version.whodunnit=@user.id
-        @version.save
-        render :text => @a+"Thanks for playing Triple Treat on Win with ET. Winners will be contacted daily. Track your score and ranking on www.winwithet.com. Play Daily! Win Daily!"
-        return
+
+
 
       elsif params[:message].include?("WINET")
         if @question.nil?
@@ -723,23 +739,28 @@ class ResponseController < ApplicationController
 
 def load_weekly_winner
     @week_winner_leaderboard=Array.new
-    @week_questions=Question.show_for_selected_week(params[:question][0])
-    #@week_questions.all.each do |q|
-    #  @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
-    #end
-    #@users=@users.flatten.uniq
-    #@users.each do |u|
-    #  @user_res=Array.new
-    #  @week_questions.all.each do |q|
-    #    @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
-    #  end
-    #  @user_res=@user_res.delete_if { |x| x==nil }
-    #  @week_winner_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
-    #end
+    @users=Array.new
+    @week_questions=Question.show_for_selected_week(Date.strptime(params[:question][0]))
 
-  render :text => @week_questions
-  return
+    if @week_questions.nil?
+      render :text => "Not Found"
+    else
+      @week_questions.all.each do |q|
+        @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
+      end
+      @users=@users.flatten.uniq
+      @users.each do |u|
+        @user_res=Array.new
+        @week_questions.all.each do |q|
+          @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
+        end
+        @user_res=@user_res.delete_if { |x| x==nil }
+          @week_winner_leaderboard<<{:user_id => (User.find(u).name rescue"") , :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
+      end
 
+      render :json => @week_winner_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4]
+      return
+    end
 end
 
 

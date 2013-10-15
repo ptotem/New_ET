@@ -22,9 +22,7 @@ class Question < ActiveRecord::Base
 
 
   def self.show_sales_for_current_month(year, month)
-
     mydate = Date.new(year, month, 1)
-
     where(':first_day <= insertion_date AND insertion_date <= :last_day', {:first_day => mydate,:last_day => mydate.at_end_of_month}).order('insertion_date')
   end
 
