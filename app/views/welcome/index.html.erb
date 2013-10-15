@@ -67,6 +67,7 @@
         <div class="row-fluid">
           <div class="span12">
             <div class="daily_winnerstyle<%= (index+1) %>">
+
               <% if !User.find(e.user_id).name.nil? %>
               <%= User.find(e.user_id).name   %>
               <% else %>
