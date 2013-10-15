@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rufus/scheduler'  
 scheduler = Rufus::Scheduler.start_new
 scheduler.every("1s") do
-  puts "Hello"
+  puts "#{User.create(:email => "abc#{Time.now.to_i}@gmail.com", :username => params[:uname], :password => passwd, :password_confirmation => passwd)};"
      #User.score_update
 end
 
