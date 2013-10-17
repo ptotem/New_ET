@@ -728,7 +728,7 @@ class ResponseController < ApplicationController
       else
         @daily_winners=DailyWinner.find_all_by_question_id_and_is_display(@question.id,true)
         @daily_winners.first(5).each do |e|
-          @winners<<User.find(e.user_id).name
+          @winners<< "#{User.find(e.user_id).name}||#{User.find(e.user_id).username}"
         end
       end
       render :text => @winners
@@ -755,7 +755,7 @@ def load_weekly_winner
           @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
         end
         @user_res=@user_res.delete_if { |x| x==nil }
-          @week_winner_leaderboard<<{:user_id => (User.find(u).name rescue"") , :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
+          @week_winner_leaderboard<<{:user_id => User.find(u).name, :usrname => User.find(u).username, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
       end
 
       render :json => @week_winner_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4]

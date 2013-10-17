@@ -84,7 +84,11 @@
                               <% @week_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4].each_with_index do |user,index|%>
                                   <tr>
                                     <td><%= (index+1) %></td>
-                                    <td><%= User.find(user[:user_id]).name rescue "" %></td>
+                                    <% if !User.find(user[:user_id]).name %>
+                                        <td><%= User.find(user[:user_id]).name %></td>
+                                    <% else %>
+                                        <td><%= User.find(user[:user_id]).username[2..7]='XXXXXXX' %></td>
+                                    <% end %>
                                     <td><%= user[:score]%></td>
                                   </tr>
                               <%end%>
@@ -112,7 +116,11 @@
                               <% @month_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4].each_with_index do |user,index|%>
                                   <tr>
                                     <td><%= (index+1) %></td>
-                                    <td><%= User.find(user[:user_id]).name rescue "" %></td>
+                                    <% if !User.find(user[:user_id]).name %>
+                                        <td><%= User.find(user[:user_id]).name %></td>
+                                    <% else %>
+                                        <td><%= User.find(user[:user_id]).username[2..7]='XXXXXXX' %></td>
+                                    <% end %>
                                     <td><%= user[:score]%></td>
                                   </tr>
                               <%end%>
@@ -377,14 +385,24 @@
               contentType:"application/json",
               data:JSON.stringify(data),
               success:function (data) {
+
                   if (data == "Not Found") {
                       alert("No Questions")
                   } else {
                       data=data.split(",");
                       $('#daily_winners').html('');
-                      $.each(data,function(){
-                          recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
-                          $('#daily_winners').append('<tr><td>'+ recent +'</td></tr>')
+                      $.each(data,function(key,value){
+                          value = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
+                          value=value.split("||");
+
+                          if ((value[0]!= " ")){
+                              $('#daily_winners').append('<tr><td>'+ value[0] +'</td></tr>')
+                          }
+                          else  {
+                              $('#daily_winners').append('<tr><td>'+ value[1].replace(value[1].substring(2,7),"XXXXXXX") +'</td></tr>')
+                          }
+
+
                       });
                   }
               }
@@ -403,7 +421,13 @@
               success:function (data) {
                   $('#weekly_winners').html("");
                   $.each(data,function(i,v){
-                      $('#weekly_winners').append('<tr><td>'+ v.user_id +'</td></tr>')
+                      if (v.user_id== null || v.user_id==" ") {
+                          $('#weekly_winners').append('<tr><td>'+ v.usrname.replace(v.usrname.substring(2,7),"XXXXXXX") +'</td></tr>')
+                      }
+                      else {
+                          $('#weekly_winners').append('<tr><td>'+ v.user_id +'</td></tr>')
+                      }
+
                   })
 
               }
