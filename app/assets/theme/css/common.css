@@ -79,35 +79,35 @@
 
 .daily_winnerstyle1{
     text-align: center;
-    background-color: grey;
+    background-color: #abd490;
     padding:5px;
     margin-top: 3px;
 }
 
 .daily_winnerstyle2{
     text-align: center;
-    background-color: blue;
+    background-color: #f0cb70;
     padding:5px;
     margin-top: 3px;
 }
 
 .daily_winnerstyle3{
     text-align: center;
-    background-color: red;
+    background-color: #8ec6c8;
     padding:5px;
     margin-top: 3px;
 }
 
 .daily_winnerstyle4{
     text-align: center;
-    background-color: green;
+    background-color: #e46fb1;
     padding:5px;
     margin-top: 3px;
 }
 
 .daily_winnerstyle5{
     text-align: center;
-    background-color: yellow;
+    background-color: #ee8c79;
     padding:5px;
     margin-top: 3px;
 }
