@@ -268,7 +268,7 @@ class QuizController < ApplicationController
   end
 
   def decide_daily_winner
-    DailyWinner.destroy_all
+    #DailyWinner.destroy_all
     @question=Question.find_by_insertion_date(Date.today)
     @daily_winners=Response.find_all_by_question_id(@question.id).map{|i| i.user_id}.uniq
     @daily_winners.shuffle[0..9].each do |dw|
@@ -279,7 +279,8 @@ class QuizController < ApplicationController
   end
 
   def daily_winner
-    @daily_winners=DailyWinner.all
+    @question=Question.find_by_insertion_date(Date.today)
+    @daily_winners=DailyWinner.where(:question_id => @question.id)
   end
 
   def dis_value_change
