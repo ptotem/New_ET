@@ -53,12 +53,8 @@
                                 <th>Score</th>
                               </tr>
                               </thead>
-                              <tbody >
-                               <tr>
-                                 <td id="daily_winners_rank"></td>
-                                 <td id="daily_winners_name"></td>
-                                 <td id="daily_winners_score"></td>
-                               </tr>
+                              <tbody id="daily_win_tbody">
+
                               </tbody>
                         </table>
                       </div>
@@ -73,12 +69,8 @@
                             <th>Score</th>
                           </tr>
                           </thead>
-                          <tbody>
-                          <tr>
-                            <td id="weekly_winners_rank"></td>
-                            <td id="weekly_winners_name"></td>
-                            <td id="weekly_winners_score"></td>
-                          </tr>
+                          <tbody id="week_win_tbody">
+
                           </tbody>
                         </table>
                       </div>
@@ -321,7 +313,7 @@
           </div>
 
 
-             <p>Mobile numbers represent unregistered players. To view your name instead of your number, on the Leaderboard and to track your scores regularly, REGISTER NOW. </p>
+             <p></p>
 
       <% end %>
               </div>
@@ -428,9 +420,7 @@
               contentType:"application/json",
               data:JSON.stringify(data),
               success:function (data) {
-                  $('#daily_winners_rank').html("");
-                  $('#daily_winners_name').html("");
-                  $('#daily_winners_score').html("");
+                  $('#daily_win_tbody').html("");
 
                   if (data == "Not Found") {
                       alert("No Questions")
@@ -439,17 +429,20 @@
                       $.each(data,function(key,value){
                           value = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
                           value=value.split("||");
+                          var that_id="rec"+(key+1);
+                          $('#week_win_tbody').append('<tr id='+that_id+'></tr>');
+                          $('#'+that_id).append('<td>'+ (key+1) +'</td>');
+
                           if ((value[0]!= " ")){
-                              $('#daily_winners_name').append('<tr><td>'+ value[0] +'</td></tr>')
+                              $('#'+that_id).append('<tr><td>'+ value[0] +'</td></tr>')
 
 
                           }
                           else  {
-                              $('#daily_winners_name').append('<tr><td>'+ value[1].replace(value[1].substring(2,7),"XXXXXXX") +'</td></tr>')
+                              $('#'+that_id).append('<tr><td>'+ value[1].replace(value[1].substring(2,7),"XXXXXXX") +'</td></tr>')
                           }
 
-                          $('#daily_winners_score').append('<tr><td>'+ value[2] +'</td></tr>')
-                          $('#daily_winners_rank').append('<tr><td>'+ (key+1) +'</td></tr>')
+                          $('#'+that_id).append('<tr><td>'+ value[2] +'</td></tr>')
                       });
                   }
               }
@@ -466,18 +459,18 @@
               contentType:"application/json",
               data:JSON.stringify(data),
               success:function (data) {
-                  $('#weekly_winners_rank').html("");
-                  $('#weekly_winners_name').html("");
-                  $('#weekly_winners_score').html("");
+                  $('#week_win_tbody').html("");
                   $.each(data,function(i,v){
-                      $('#weekly_winners_rank').append('<tr><td>'+ (i+1) +'</td></tr>')
+                      var this_id="rec"+(i+1)
+                      $('#week_win_tbody').append('<tr id='+this_id+'></tr>')
+                      $('#'+this_id).append('<td>'+ (i+1) +'</td>')
                       if (v.user_id== null || v.user_id==" ") {
-                          $('#weekly_winners_name').append('<tr><td>'+ v.usrname.replace(v.usrname.substring(2,7),"XXXXXXX") +'</td></tr>')
+                          $('#'+this_id).append('<td>'+ v.usrname.replace(v.usrname.substring(2,7),"XXXXXXX") +'</td>')
                       }
                       else {
-                          $('#weekly_winners_name').append('<tr><td>'+ v.user_id +'</td></tr>')
+                          $('#'+this_id).append('<td>'+ v.user_id +'</td>')
                       }
-                      $('#weekly_winners_score').append('<tr><td>'+ v.score+'</td></tr>')
+                      $('#'+this_id).append('<td>'+ v.score+'</td>')
 
                   })
 
