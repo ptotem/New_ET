@@ -728,7 +728,7 @@ class ResponseController < ApplicationController
       else
         @daily_winners=DailyWinner.find_all_by_question_id_and_is_display(@question.id,true)
         @daily_winners.first(5).each do |e|
-          @winners<<User.find(e).name
+          @winners<<User.find(e.user_id).name
         end
       end
       render :text => @winners
