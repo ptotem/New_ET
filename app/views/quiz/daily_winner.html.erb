@@ -14,6 +14,7 @@
     <th></th>
     <th></th>
   </tr>
+  <% if !@daily_winners.nil? %>
   <% @daily_winners.each do |dw| %>
       <tr>
         <td><%= User.find(dw.user_id).username rescue"" %></td>
@@ -24,6 +25,7 @@
           <button class="btn btn-success display_daily ">Display</button>
         </td>
       </tr>
+  <% end %>
   <% end %>
   </tbody>
 </table>

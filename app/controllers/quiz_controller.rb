@@ -94,15 +94,14 @@ class QuizController < ApplicationController
 
 
   def leaderboard
-    @users=Array.new
-
+    @usrs=Array.new
     @week_leaderboard=Array.new
     @week_questions=Question.show_for_current_week
     @week_questions.all.each do |q|
-      @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
+      @usrs<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
     end
-    @users=@users.flatten.uniq
-    @users.each do |u|
+    @usrs=@usrs.flatten.uniq
+    @usrs.each do |u|
       @user_res=Array.new
       @week_questions.all.each do |q|
         @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
@@ -126,8 +125,8 @@ class QuizController < ApplicationController
       @user_res=@user_res.delete_if { |x| x==nil }
       @month_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.delete_if{|x| x==nil}.sum}
     end
-
-
+    #
+    #
     @daily_users=Array.new
     @daily_leaderboard=Array.new
     if !Question.find_by_insertion_date(Date.today).nil?
@@ -271,18 +270,28 @@ class QuizController < ApplicationController
 
   def decide_daily_winner
     #DailyWinner.destroy_all
+    if !Question.find_by_insertion_date(Date.today).nil?
     @question=Question.find_by_insertion_date(Date.today)
-    @daily_winners=Response.find_all_by_question_id(@question.id).map{|i| i.user_id}.uniq
+    @daily_winners=Response.find_all_by_question_id_and_is_correct(@question.id,true).map{|i| i.user_id}.uniq
     @daily_winners.shuffle[0..9].each do |dw|
       DailyWinner.create(:question_id=>@question.id,:user_id=>dw,:is_display=>false)
+    end
     end
     render :text=>@daily_winners
     return
   end
 
   def daily_winner
-    @question=Question.find_by_insertion_date(Date.today)
-    @daily_winners=DailyWinner.where(:question_id => @question.id)
+    if current_user.username != "1234567890"
+      if !Question.find_by_insertion_date(Date.today).nil?
+        @question=Question.find_by_insertion_date(Date.today)
+        @daily_winners=DailyWinner.where(:question_id => @question.id)
+      end
+    else
+      redirect_to "/"
+    end
+
+
   end
 
   def dis_value_change
@@ -353,6 +362,8 @@ end
  def about_quiz
 
  end
+
+
 
 
 
