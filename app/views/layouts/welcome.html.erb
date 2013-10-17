@@ -19,7 +19,6 @@
 <header id='header'>
   <div class='navbar navbar-fixed-top'>
     <div class='navbar-inner'>
-      <div class='container-fluid'>
         <a class="brand" href="/" style="margin-left: 10px"><%= image_tag "300px-Tokyoship_Home_icon.svg.png", style:"width:50px;" %></a>
         <div class="pull-right" style="margin-right: 5%">
           <a class="btn btn-warning" href="#" id="contact_us">Contact Us</a>
@@ -28,7 +27,6 @@
               <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account btn btn success" %>
           <% end %>
         </div>
-      </div>
     </div>
   </div>
 </header>
