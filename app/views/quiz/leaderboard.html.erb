@@ -434,15 +434,15 @@
                           $('#'+that_id).append('<td>'+ (key+1) +'</td>');
 
                           if ((value[0]!= " ")){
-                              $('#'+that_id).append('<tr><td>'+ value[0] +'</td></tr>')
+                              $('#'+that_id).append('<td>'+ value[0] +'</td>')
 
 
                           }
                           else  {
-                              $('#'+that_id).append('<tr><td>'+ value[1].replace(value[1].substring(2,7),"XXXXXXX") +'</td></tr>')
+                              $('#'+that_id).append('<td>'+ value[1].replace(value[1].substring(2,7),"XXXXXXX") +'</td>')
                           }
 
-                          $('#'+that_id).append('<tr><td>'+ value[2] +'</td></tr>')
+                          $('#'+that_id).append('<td>'+ value[2] +'</td>')
                       });
                   }
               }
