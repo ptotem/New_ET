@@ -155,6 +155,7 @@ class QuizController < ApplicationController
   def change_profile
     @profile=User.find(current_user.id)
     @profile.name=params[:name]
+    @profile.email=params[:email]
     @dob_day = params["user"]["dob(3i)"]
     @dob_month = params["user"]["dob(2i)"]
     @dob_year = params["user"]["dob(1i)"]

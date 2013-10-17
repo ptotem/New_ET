@@ -9,6 +9,7 @@ div#feedback {
 a {
   &#feedback_link {
     position: fixed;
+    display: none;
     z-index: 99999;
     //background-color: #CC0000;
     background-color: #D98873;
@@ -21,6 +22,7 @@ a {
     &:hover {
       background-color: #999; }
     &.left {
+
       left: 0;
       top: 25%;
       width: 26px;

@@ -111,3 +111,7 @@
     padding:5px;
     margin-top: 3px;
 }
+
+.error{
+    color:red;
+}

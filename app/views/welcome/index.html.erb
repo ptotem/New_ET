@@ -928,12 +928,6 @@
           </div>
 
 
-          <div class="row-fluid">
-            <div class="span12">
-              <div>
-                <%= f.text_field :nickname, placeholder: "Nickname" %></div>
-            </div>
-          </div>
 
           <div class="row-fluid">
             <div class="span12">
@@ -944,14 +938,7 @@
           </div>
 
 
-          <div class="row-fluid">
-            <div class="span12">
-              <div>
-                <% workx_array = (1..100).to_a.collect { |p| ["#{p}", p] } %>
-                <%= f.select(:workx, options_for_select(workx_array), :prompt => "Select work experience") %>
-              </div>
-            </div>
-          </div>
+
 
 
           <div class="row-fluid">
@@ -1064,6 +1051,17 @@
                                                              "Hospitality",
                                                              "Airlines/Aviation",
                                                             ]), :prompt => "Select industry" %></div>
+            </div>
+          </div>
+
+
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div>
+                <% workx_array = (1..100).to_a.collect { |p| ["#{p}", p] } %>
+                <%= f.select(:workx, options_for_select(workx_array), :prompt => "Select work experience") %>
+              </div>
             </div>
           </div>
           </div>

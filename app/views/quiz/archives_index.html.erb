@@ -514,4 +514,115 @@
        window.location=  "/view_question_stat/" + tag_quest;
     });
 
+
+    <%if user_signed_in?%>
+
+    var curr_usr_fb_sign_in_count = "<%= current_user.fb_sign_in_count %>";
+    var fb_signed_in = <%= current_user.fb_signed_in %>;
+
+    $.ajax({
+        url:"/recent_activity",
+        type:"get",
+        success:function (returning_data) {
+            if(returning_data!=''){
+                returning_data=returning_data.split(",");
+                $('#recent_activity').html();
+                $.each(returning_data,function(){
+                    recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '').replace('"', '');
+                    $("#recent_activity").append('<li class="rec_act" onclick="show_rec_act();"><a href="#">' + recent + '</a></li>');
+                });
+            }
+        }
+    });
+
+    $.ajax({
+        url: "/all_recent_activities",
+        type: "get",
+        success: function (returning_data) {
+            if (returning_data != '') {
+                returning_data = returning_data.split(",");
+                $('#recent_activity').html();
+                $.each(returning_data, function () {
+                    recent = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
+                    $("#all_recent_activity").append('<li><a href="#">' + recent + '</a></li>');
+                });
+            }
+        }
+    });
+
+    if ( fb_signed_in == true) {
+
+        $.ajax({
+            url:"/update_fb_sign_in_score",
+            type:"get",
+            success:function (returning_data) {
+
+            }
+        });
+
+    }
+
+    $.ajax({
+        url:"/get_score",
+        type:"get",
+        success:function (returning_data) {
+            if(returning_data!=''){
+                returning_data=returning_data.split("|");
+
+                var fb_sign_in_score = <%= current_user.fb_sign_in_score.to_i %>;
+                var ref_pts = <%= current_user.refer_points.to_i %>;
+                var fb_signed_in = <%= current_user.fb_signed_in %>;
+
+                if ( fb_signed_in == true) {
+                    $("#points").html(ref_pts + fb_sign_in_score + " Points");
+                }
+                else{
+                    $("#points").html(<%=current_user.refer_points%>+" Points");
+                }
+
+
+
+                $("#rank").html(<%=User.order(:refer_points).map{|i| i.refer_points}.reverse.index(current_user.refer_points)+1%>);
+                $("#percentage").html(returning_data[2]+"%");
+                $(".bar").width(parseInt(returning_data[2])+"%");
+            }
+        }
+    });
+    <%end%>
+
+
+    function show_rec_act(){
+        $("#rec_act_modal").modal('show');
+    }
+
+
 </script>
+
+
+
+<div id="rec_act_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>
+      Recent Activity
+    </h3>
+  </div>
+  <div class="modal-body">
+    <div class="row-fluid">
+      <div class="span9">
+        <div class="blog-categories widget-tp">
+          <ul id="all_recent_activity">
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+
+  </div>
+</div>
