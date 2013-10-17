@@ -95,6 +95,7 @@ class QuizController < ApplicationController
 
   def leaderboard
     @users=Array.new
+
     @week_leaderboard=Array.new
     @week_questions=Question.show_for_current_week
     @week_questions.all.each do |q|
@@ -109,6 +110,7 @@ class QuizController < ApplicationController
       @user_res=@user_res.delete_if { |x| x==nil }
       @week_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
     end
+
     @month_users=Array.new
     @month_leaderboard=Array.new
     @month_questions=Question.show_sales_for_current_month(Date.today.year, Date.today.month)
