@@ -270,7 +270,6 @@ class QuizController < ApplicationController
   end
 
   def decide_daily_winner
-    #DailyWinner.destroy_all
     if !Question.find_by_insertion_date(Date.today).nil?
     @question=Question.find_by_insertion_date(Date.today)
     @daily_winners=Response.find_all_by_question_id_and_is_correct(@question.id,true).map{|i| i.user_id}.uniq
@@ -283,16 +282,10 @@ class QuizController < ApplicationController
   end
 
   def daily_winner
-    if current_user.username != "1234567890"
       if !Question.find_by_insertion_date(Date.today).nil?
         @question=Question.find_by_insertion_date(Date.today)
         @daily_winners=DailyWinner.where(:question_id => @question.id)
       end
-    else
-      redirect_to "/"
-    end
-
-
   end
 
   def dis_value_change

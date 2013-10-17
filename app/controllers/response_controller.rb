@@ -719,21 +719,19 @@ class ResponseController < ApplicationController
 
 
   def load_winner
-    if Date.strptime(params[:question][0], "%Y-%m-%d")!=Date.today
       @question = Question.where('insertion_date BETWEEN ? AND ?', Date.strptime(params[:question][0], "%Y-%m-%d").beginning_of_day, Date.strptime(params[:question][0], "%Y-%m-%d").end_of_day).first
       @winners=Array.new
       if @question.nil?
         render :text => "Not Found"
         return
       else
-        @daily_winners=DailyWinner.find_all_by_question_id_and_is_display(@question.id,true)
+        @daily_winners=DailyWinner.find_all_by_question_id(@question.id)
         @daily_winners.first(5).each do |e|
           @winners << "#{User.find(e.user_id).name}||#{User.find(e.user_id).username}||#{User.find(e.user_id).refer_points}"
         end
       end
       render :text => @winners
       return
-    end
   end
 
 
