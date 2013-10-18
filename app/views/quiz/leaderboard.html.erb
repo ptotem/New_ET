@@ -435,12 +435,14 @@
                           var that_id="rec"+(key+1);
                           $('#daily_win_tbody').append('<tr id='+that_id+'></tr>');
                           $('#'+that_id).append('<td>'+ (key+1) +'</td>');
-                          console.log(value[0].length);
-                          if ((value[0].length > 0)){
-                              $('#'+that_id).append('<td>'+ value[0] +'</td>')
+//                          if ((value[0].length > 0)){
+
+                          if ((value[0]==" ") || value[0]==""){
+
+                              $('#'+that_id).append('<td>'+ value[1].replace(value[1].substring(2,7),"XXXXXXX") +'</td>')
                           }
                           else  {
-                              $('#'+that_id).append('<td>'+ value[1].replace(value[1].substring(2,7),"XXXXXXX") +'</td>')
+                              $('#'+that_id).append('<td>'+ value[0] +'</td>')
                           }
 
                           $('#'+that_id).append('<td>'+ value[2] +'</td>')
@@ -464,9 +466,10 @@
                   $('#week_win_tbody').html("");
                   $('#date_display').html("");
                   $.each(data,function(i,v){
-                      var this_id="rec"+(i+1)
+                      var this_id="rec"+(i+1);
                       $('#week_win_tbody').append('<tr id='+this_id+'></tr>')
                       $('#'+this_id).append('<td>'+ (i+1) +'</td>')
+
                       if (v.user_id== "" || v.user_id==" ") {
                           $('#'+this_id).append('<td>'+ v.usrname.replace(v.usrname.substring(2,7),"XXXXXXX") +'</td>')
                       }
@@ -475,8 +478,8 @@
                       }
                       $('#'+this_id).append('<td>'+ v.score+'</td>')
 
-                  })
-                  $('#date_display').html(data[0].week_info)
+                  });
+                    $('#date_display').html(data[0].week_info)
 
               }
           });
@@ -621,11 +624,13 @@
        $('#container').show();
        $('#container1').hide();
        $('#date_display').html("");
+       $('#week_win_tbody').html("");
     });
 
     $('#week').click(function(){
         $('#container').hide();
         $('#container1').show();
+        $('#daily_win_tbody').html("");
     });
 
    $('#weekly_leaders').click(function(){
@@ -633,7 +638,6 @@
        $('#container').hide();
        $('#container1').hide();
        $('#date_display').html('<%= Date.today.at_beginning_of_week.strftime("%d %B %Y, %A") %> to  <%= (Date.today.at_end_of_week-2).strftime("%d %B %Y, %A") %>' )
-
    });
 
       $('#grand_prize_leaders').click(function(){
