@@ -21,8 +21,10 @@
 
       <div class="span9" style="margin-top: 45px;">
         <h3>Question Trail
-          <div><small>Welcome <%= current_user.name %>! Click on any of the dates to viewthe day's question</small></div>
-        </h3>
+          <% if user_signed_in? %>
+          <div><small>Welcome <%= current_user.name %>! Click on any of the dates to view the day's question</small></div>
+          <% end %>
+          </h3>
       </div>
     </div>
 
@@ -39,7 +41,7 @@
                 <span class="pull-right">
                 <button class="btn btn-success" onclick="view_score()">View Answer</button>
                 <!--<button class="btn btn-warning" onclick="view_stat()">View Statistics</button>-->
-                <a href="#" target="_blank" id="archives_view_article"><button class="btn btn-info" >View Article</button></a>
+                <a href="#" target="_blank" id="archives_view_article"><button class="btn btn-info" >View news story</button></a>
                 </span>
                 <span id="tag_list">
                   <h5><%= @yesterday_question.insertion_date.strftime("%d %B %Y, %A") %></h5>
@@ -167,11 +169,10 @@
                 <div class="blog-categories widget-tp">
                   <ul>
                     <li>
-                      <a href="#">Your Current Rank
-                        is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
+                      <a href="#">Your Rank:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
                     </li>
                     <li>
-                      <a href="#">Your Correct Answer Rate
+                      <a href="#">Your correct answer rate
                         is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
 
                         <div class="progress progress-striped active">
@@ -214,7 +215,7 @@
               <div class="accordion-inner">
                 <div class="blog-categories widget-tp">
                   <ul id="user_profile">
-                    <li><strong>Nickname</strong> :  <%= current_user.name %></li>
+                    <li><strong>Name</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:  <%= current_user.name %></li>
                     <li><strong>Location&nbsp;&nbsp;</strong> :  <%= current_user.location %></li>
                     <li><strong>Industry&nbsp;&nbsp;&nbsp;</strong> :  <%= current_user.industry %></li>
                     <li><button class="btn btn-info" id="profile_page" onclick='window.location="/profile"'>View Profile</button></li>
@@ -245,7 +246,9 @@
     </button>
   </div>
   <div class="modal-body">
-    <h3>Sorry, we did not have a question on <span id="question_date"></span></h3>
+    <h3>Please select a date between yesterday and 21 October 2013. Game questions feature on weekdays only.
+      <!--<span id="question_date"></span>-->
+    </h3>
   </div>
 </div>
 
@@ -286,18 +289,75 @@
   </div>
 </div>
 
+<div id="change_pwd_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= form_tag :quiz_change_password do |f| %>
+      <%#= form_tag :html => {:id => "chng_passd"} do |f| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h3>
+          Enter the new password
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="row-fluid">
 
+          <div class="span9">
+
+            <p>
+              <label>Password</label>
+              <%= password_field_tag :password %>
+            </p>
+            <div id="pass_text" style="display: none;color: red;">Minimum 8 Characters Required</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class = "btn btn-medium btn-primary pull-left" id ="chng_pwd_btn">Change</div>
+        <%= submit_tag "Change", :class => "btn btn-medium btn-primary pull-left",:style=>"display:none;",:id=>"submit_change" %>
+      </div>
+  <% end %>
+
+</div>
 
 
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 <script type="text/javascript" src="assets/js/zebra_datepicker.js"></script>
 
 <script>
+
+
+
+
     var correct;
     var quest;
     var tag_quest;
     var date = <%= @date.strftime("%d") %> ;
     var correct_ans_append_count=0;
+
+    function change_password(){
+        $('#change_pwd_modal').modal('show');
+        $("#pass_text").hide();
+        $("#password").val("")
+    }
+
+    $("#chng_pwd_btn").click(function(){
+        if($("#password").val().length >= 8){
+            $("#submit_change").trigger("click");
+            $("#pass_text").hide();
+        }
+        else{
+            $("#pass_text").show();
+        }
+    });
+
+
+
+
+
     $(document).ready(function () {
 
         //alert(a);
@@ -626,3 +686,25 @@
 
   </div>
 </div>
+
+
+
+<script>
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+
+
+    ga('create', 'UA-44964472-1', 'winwithet.com');
+
+    ga('send', 'pageview');
+
+
+
+</script>

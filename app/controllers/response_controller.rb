@@ -742,6 +742,7 @@ def load_weekly_winner
 
     if @week_questions.nil?
       render :text => "Not Found"
+      return
     else
       @week_questions.all.each do |q|
         @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
@@ -753,12 +754,11 @@ def load_weekly_winner
           @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
         end
         @user_res=@user_res.delete_if { |x| x==nil }
-          @week_winner_leaderboard<<{:user_id => User.find(u).name, :usrname => User.find(u).username, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
+        @week_winner_leaderboard<<{:user_id => User.find(u).name, :usrname => User.find(u).username, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
       end
-
+    end
       render :json => @week_winner_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4]
       return
-    end
 end
 
 

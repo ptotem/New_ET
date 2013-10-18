@@ -1,6 +1,6 @@
-<h1>Feedback</h1>
+<h1>Contact Us</h1>
 
-<p>Please leave us feedback, it's really appreciated.</p>
+<p>In case we haven't been able to answer your queries through our FAQs section, please get in touch with us by filling the form below. </p>
 
 <%= form_for @feedback, :as => :feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| %>
   <%= f.hidden_field 'page' %>
@@ -10,14 +10,16 @@
     </p>
   <% end %>
 
+    <p>
+      <%= f.label 'Your e-mail id' %>
+      <%= f.text_field 'email' %>
+    </p>
+
   <p>
-    <%= f.label 'subject' %>
-    <%= f.select 'subject', ['Problem', 'Suggestion', 'Question', 'Other'] %>
+    <%= f.label 'Subject' %>
+    <%= f.select 'subject', ['Technical Problems', 'Scoring Issues', 'Others'] %>
   </p>
-  <p>
-    <%= f.label 'email' %>
-    <%= f.text_field 'email' %>
-  </p>
+
   <p>
     <%= f.label 'comment' %><br />
     <%= f.text_area 'comment', :rows => 5, :cols => 30 %>

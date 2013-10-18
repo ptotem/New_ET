@@ -29,7 +29,7 @@
           <div class="span9" style="margin-top: 45px;">
             <h3>Know The Game
               <% if user_signed_in? %>
-              <div><small>Welcome <%= current_user.name %>, a daily reward for reading your favourite newspaper</small></div>
+              <div><small>Welcome <%= current_user.name %>! Play Win with ET & win daily!</small></div>
              <% end %>
             </h3>
           </div>
@@ -137,11 +137,10 @@
                     <div class="blog-categories widget-tp">
                       <ul>
                         <li>
-                          <a href="#">Your Current Rank
-                            is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
+                          <a href="#">Your Rank:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
                         </li>
                         <li>
-                          <a href="#">Your Correct Answer Rate
+                          <a href="#">Your correct answer rate
                             is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
 
                             <div class="progress progress-striped active">
@@ -180,7 +179,7 @@
                   <div class="accordion-inner">
                     <div class="blog-categories widget-tp">
                       <ul id="user_profile">
-                        <li><strong>Nickname</strong> :  <%= current_user.name %></li>
+                        <li><strong>Name</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:  <%= current_user.name %></li>
                         <li><strong>Location&nbsp;&nbsp;</strong> :  <%= current_user.location %></li>
                         <li><strong>Industry&nbsp;&nbsp;&nbsp;</strong> :  <%= current_user.industry %></li>
                         <li><button class="btn btn-info" id="profile_page" onclick='window.location="/profile"'>View Profile</button></li>
@@ -292,28 +291,36 @@
 
 <div id="change_pwd_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <%= form_tag :quiz_change_password do |f| %>
+      <%#= form_tag :html => {:id => "chng_passd"} do |f| %>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           ×
         </button>
         <h3>
-          Change Password
+          Enter the new password
         </h3>
       </div>
       <div class="modal-body">
         <div class="row-fluid">
+
           <div class="span9">
+
             <p>
               <label>Password</label>
               <%= password_field_tag :password %>
             </p>
+            <div id="pass_text" style="display: none;color: red;">Minimum 8 Characters Required</div>
           </div>
+
         </div>
       </div>
+
       <div class="modal-footer">
-        <%= submit_tag "Change", :class => "btn btn-medium btn-primary pull-left" %>
+        <div class = "btn btn-medium btn-primary pull-left" id ="chng_pwd_btn">Change</div>
+        <%= submit_tag "Change", :class => "btn btn-medium btn-primary pull-left",:style=>"display:none;",:id=>"submit_change" %>
       </div>
   <% end %>
+
 </div>
 
 
@@ -740,7 +747,19 @@ var _gaq=[['_setAccount','UA-34697555-1'],['_trackPageview']];
 
     function change_password(){
         $('#change_pwd_modal').modal('show');
+        $("#pass_text").hide();
+        $("#password").val("")
     }
+
+    $("#chng_pwd_btn").click(function(){
+        if($("#password").val().length >= 8){
+            $("#submit_change").trigger("click");
+            $("#pass_text").hide();
+        }
+        else{
+            $("#pass_text").show();
+        }
+    });
 
 
     function view_register() {
@@ -963,4 +982,25 @@ var _gaq=[['_setAccount','UA-34697555-1'],['_trackPageview']];
             }
         }
     });
+</script>
+
+
+<script>
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+
+
+    ga('create', 'UA-44964472-1', 'winwithet.com');
+
+    ga('send', 'pageview');
+
+
+
 </script>

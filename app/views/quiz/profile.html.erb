@@ -19,7 +19,14 @@
 
           <div class="span9" style="margin-top: 45px;">
             <h3>Profile
-              <div><small>Edit your Profile here</small></div>
+              <% if user_signed_in? %>
+                 <% if current_user.name.nil? %>
+                      <div><small>Welcome!</small></div>
+                 <% else %>
+                    <div><small>Welcome <%= current_user.name %>!</small></div>
+                 <% end %>
+              <% end %>
+
             </h3>
           </div>
         </div>
@@ -109,11 +116,11 @@
                 <div class="blog-categories widget-tp">
                   <ul>
                     <li>
-                      <a href="#">Your Current Rank
-                        is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
+                          <a href="#">Your Rank
+                            is:<span id="rank" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span></a>
                     </li>
                     <li>
-                      <a href="#">Your Correct Answer Rate
+                      <a href="#">Your correct answer rate
                         is:<span id="percentage" class='pull-right'><img src="/assets/loading.gif" style="height:24px;width:24px;"></span>
 
                         <div class="progress progress-striped active">
@@ -177,15 +184,18 @@
       <div class="modal-body">
         <div class="row-fluid">
           <div class="span9">
+
             <p>
-              <label>Name</label>
-              <%= text_field_tag :name, @user.name %>
+              <label>e-mail</label>
+              <%= email_field_tag :email, @user.email %>
             </p>
 
             <p>
-              <label>Email</label>
-              <%= email_field_tag :email, @user.email %>
+              <label>Full Name</label>
+              <%= text_field_tag :name, @user.name %>
             </p>
+
+
 
             <p>
               <label>Date Of Birth</label>
@@ -199,7 +209,7 @@
               <label>Work Experience (in years)</label>
               <%#= text_field_tag :workx, @user.workx %>
               <% workx_array = (1..100).to_a.collect{|p| ["#{p}", p]} %>
-              <%= select_tag(:workx, options_for_select(workx_array, :selected => @user.workx), :prompt => "Select work experience") %>
+              <%= select_tag(:workx, options_for_select(workx_array, :selected => @user.workx), :prompt => "Work Experience") %>
             </p>
 
             <p>
@@ -337,7 +347,7 @@
           ×
         </button>
         <h3>
-          Change Password
+          Enter the new password
         </h3>
       </div>
       <div class="modal-body">
@@ -395,9 +405,9 @@
   $(function(){
 
       $("#chng_pwd_btn").click(function(){
-         //alert("hello");
-        if($("#password").val().length>8){
+        if($("#password").val().length >= 8){
            $("#submit_change").trigger("click");
+           $("#pass_text").hide();
         }
         else{
             $("#pass_text").show();
@@ -522,6 +532,8 @@
 
   function change_password(){
       $('#change_pwd_modal').modal('show');
+      $("#password").val("");
+      $('#pass_text').hide();
   }
 
   function show_rec_act(){
@@ -532,4 +544,27 @@
     (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
         s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+
+
+
+
+<script>
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+
+
+    ga('create', 'UA-44964472-1', 'winwithet.com');
+
+    ga('send', 'pageview');
+
+
+
 </script>
