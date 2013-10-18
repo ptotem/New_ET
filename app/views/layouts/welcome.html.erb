@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
   <title>Win with ET</title>
 
@@ -13,15 +13,24 @@
   <script src="/assets/js/theme_venera.js" type="text/javascript"></script>
   <%= csrf_meta_tags %>
   <%= feedback_includes %>
+  <style>
+    .btn-custom-danger{
+        /*background: linear-gradient(to bottom, #EA362C 0%, #DD5C00 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);*/
+        background: #f13f20;
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+        color: #FFFFFF;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    }
 
+  </style>
 </head>
 <body>
 <header id='header'>
   <div class='navbar navbar-fixed-top'>
     <div class='navbar-inner'>
         <a class="brand" href="/" style="margin-left: 10px"><%= image_tag "300px-Tokyoship_Home_icon.svg.png", style:"width:50px;" %></a>
-        <div class="pull-right" style="margin-right: 5%">
-          <a class="btn btn-warning" href="#" id="contact_us">Contact Us</a>
+        <div class="pull-right" style="margin-right: 32px">
+          <a class="btn btn-custom-danger" href="#" id="contact_us">Contact Us</a>
           <a class="btn btn-info" href="#" id="faqcall">FAQ</a>
           <% if user_signed_in? %>
               <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account btn btn success" %>
@@ -47,17 +56,37 @@
   </div>
   <div class="modal-body">
 
-    <h4> 1. What is Win With ET? </h4>
+    <a href="#q_01"> <h4 id="first_q">1. What is Win With ET? </h4> </a>
+    <a href="#q_02"> <h4>2. What is the eligibility criterion to participate in the quiz?</h4> </a>
+    <a href="#q_03"> <h4>3. How do I register on the website?</h4> </a>
+    <a href="#q_04"> <h4>4. What is the scoring system of this quiz? (ptotem to confirm)</h4> </a>
+    <a href="#q_05"> <h4>5. Can I answer the question on the website?</h4> </a>
+    <a href="#q_06"> <h4>6. How will I be informed if I have won a prize?</h4> </a>
+    <a href="#q_07"> <h4>7. Can I change my answer once I have sent the SMS?</h4> </a>
+    <a href="#q_08"> <h4>8. Can I continue to play and win if I have already won a prize?</h4> </a>
+    <a href="#q_09"> <h4>9. What are Promotions?</h4> </a>
+    <a href="#q_10"> <h4>10. How does the referral system work?</h4> </a>
+    <a href="#q_11"> <h4>11. What if I refer a friend and he does not register on the website, do I still get points?</h4> </a>
+    <a href="#q_12"> <h4>12. What if the friend I referred refers another friend, will I get extra points?</h4> </a>
+
+
+    <hr>
+
+    <h4 id="q_01"> 1. What is Win With ET? </h4>
 
     <p>Win With ET is a quiz contest which features in The Economic Times every day from Monday to Friday, based on the
       content of the newspaper. It is a quiz that will make newspaper reading a fun and rewarding experience and enable
       you to win attractive prizes.</p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>2. What is the eligibility criterion to participate in the quiz?</h4>
+    <h4 id="q_02">2. What is the eligibility criterion to participate in the quiz?</h4>
 
     <p>Any Resident Indian citizen can participate in the Win With ET quiz.</p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>3. How do I register on the website?</h4>
+    <h4 id="q_03">3. How do I register on the website?</h4>
 
     <p>
       To register: <br>
@@ -69,35 +98,46 @@
       You can continue playing even without registering. However, to be eligible to win prizes, you will have to
       register
     </p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-
-    <h4>4. What is the scoring system of this quiz? (ptotem to confirm)</h4>
+    <h4 id="q_04">4. What is the scoring system of this quiz? (ptotem to confirm)</h4>
 
     <p>
       You will get 2 points for each correct answer.If you attempt all questions in a week, right or wrong, you will be
       rewarded 3 points.If you answer all questions in a week correctly, you will be rewarded 8 points.However, these
       points will not be used while tabulating the scores for Weekly Winners.<br>
     </p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>5. Can I answer the question on the website?</h4>
+    <h4 id="q_05">5. Can I answer the question on the website?</h4>
 
     <p>You can answer the question only by sending an SMS WINET< space >< answer > to +91 9818505252. You will not be
       able to answer the question on the website.</p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>6. How will I be informed if I have won a prize?</h4>
+    <h4 id="q_06">6. How will I be informed if I have won a prize?</h4>
 
     <p>The Leaderboard tab on the website www.WWET.ptotem.com will display the scores as well as winners.</p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>7. Can I change my answer once I have sent the SMS?</h4>
+    <h4 id="q_07">7. Can I change my answer once I have sent the SMS?</h4>
 
     <p>You can change your answer by sending another SMS. However, the last answer sent by you in the day will be
       counted as the final answer and will be used to tabulate your score.</p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>8. Can I continue to play and win if I have already won a prize?</h4>
+    <h4 id="q_08">8. Can I continue to play and win if I have already won a prize?</h4>
 
     <p>You can continue to play if you have won a prize.</p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>9. What are Promotions?</h4>
+    <h4 id="q_09">9. What are Promotions?</h4>
 
     <p>On certain days, Promotions will be introduced which will enable players to earn extra points. Players have the
       option to choose or ignore promotions for that particular day.
@@ -116,22 +156,29 @@
     A Triple Threat question is for 3 points (instead of 2)
     If the question is attempted with Triple Threat, player wins 9 points if correct and loses 9 points if wrong
     If this promotion not selected, the question will remain at 3 points</p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>10. How does the referral system work?</h4>
+    <h4 id="q_10">10. How does the referral system work?</h4>
 
     <p>You can refer your friends to play the quiz by simply providing their email addresses or inviting them through
       Facebook. If the referred friend registers on the website www.WWET.ptotem.com, and sends the answer via an SMS,
       you will be awarded points.
       Converted referrals on specific days will give bonus points.</p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>11. What if I refer a friend and he does not register on the website, do I still get points?</h4>
+    <h4 id="q_11">11. What if I refer a friend and he does not register on the website, do I still get points?</h4>
 
     <p>You will get bonus points only if your friend registers on the website and plays the quiz by sending his/her
       answer via an SMS. Points will not be awarded for referrals that do not get converted.</p>
+    <a href="#first_q" style="float: right;">Back to Top</a>
+    <br>
 
-    <h4>12. What if the friend I referred refers another friend, will I get extra points?</h4>
+      <h4 id="q_12">12. What if the friend I referred refers another friend, will I get extra points?</h4>
 
-    <p>You will get bonus points only for the first friend/s you refer.</p>
+      <p>You will get bonus points only for the first friend/s you refer.</p>
+      <a href="#first_q" style="float: right;">Back to Top</a>
 
   </div>
   <div class="modal-footer">
@@ -145,8 +192,8 @@
   <div class="deep-footer" style="margin-top: 120px;">
     <div class="container" style="padding-bottom: 10px;margin-top: 10px;">
       <div class="row">
-        <div class="span6">
-          <div class="copyright">2013 Terms and Conditions<span style="float: right;">THE ECONOMIC TIMES|INDIATIMES</span></div>
+        <div class="span12">
+          <div class="copyright">2013 Terms and Conditions<span style="float: right;">THE ECONOMIC TIMES <span style="font-size: 32px; vertical-align: text-top;">|</span> INDIATIMES</span></div>
         </div>
 
         <div class="span6">

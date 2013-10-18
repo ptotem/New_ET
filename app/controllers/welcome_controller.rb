@@ -55,6 +55,37 @@ class WelcomeController < ApplicationController
     end
   end
 
+  def welcome_update_profile
+    #render :text => params
+    #return
+    @profile=User.find(current_user.id)
+    @profile.name=params[:name]
+    #render :text => @profile.name
+    #return
+    @profile.email=current_user.email
+    @dob_day = params["user"]["dob(3i)"]
+    @dob_month = params["user"]["dob(2i)"]
+    @dob_year = params["user"]["dob(1i)"]
+    @user_age = Time.now.year.to_i - params["user"]["dob(1i)"].to_i
+    @profile.dob=Date.strptime(params["user"]["dob(3i)"]+"/"+params["user"]["dob(2i)"]+"/"+params["user"]["dob(1i)"],"%d/%m/%Y")
+    @profile.age=@user_age
+    @profile.workx=params[:workx]
+    @profile.location=params[:location]
+    @profile.industry=params[:industry]
+    @profile.password=params[:password]
+    @profile.save!
+    @version=Version.last
+    @version.event="profile_update"
+    @version.whodunnit=current_user.id
+    @version.save
+    #sign_in(@profile, :bypass => true)
+    if params[:from_page]=="index"
+      redirect_to "/"
+    else
+      redirect_to "/profile"
+    end
+  end
+
   def control_edit_profile_modal
     @usr = User.find(current_user.id)
     @usr.display_modal = true

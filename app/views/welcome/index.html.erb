@@ -2,7 +2,16 @@
 <link rel="stylesheet" type="text/css" href="/assets/css/common.css"/>
 <script src="assets/jquery.dependent-selects.js"></script>
 <script src="assets/jquery.validate.min.js"></script>
-
+<script src="assets/jquery.numeric.js"></script>
+<style>
+    .btn-custom-info{
+        /*background: linear-gradient(to bottom, #B3DCED 0%, #29B8E5 50%, #BCE0EE 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);*/
+        background: #00b6bc;
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+        color: #111111;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    }
+</style>
 <section class='section-wrapper'>
 <div class='row-fluid'>
 
@@ -21,7 +30,7 @@
 
         <div class="row-fluid" style="margin-top: 16px;text-align: center;">
           <div class="span12">
-            <button class="btn btn-info btn-small h4_style" onclick="window.location='/quiz'">Click for Details</button>
+            <button class="btn btn-custom-info btn-small h4_style" onclick="window.location='/quiz'">Click for Details</button>
           </div>
         </div>
 
@@ -42,7 +51,7 @@
 
         <div class="row-fluid" style="margin-top: 15px;text-align: center;">
           <div class="span12">
-            <button class="btn btn-info btn-small" onclick="window.location='/archives'">View prior question</button>
+            <button class="btn btn-custom-info btn-small" onclick="window.location='/archives'">View prior question</button>
           </div>
         </div>
       </div>
@@ -82,7 +91,7 @@
 
         <div class="row-fluid" style="margin-top: 22px;text-align: center;">
           <div class="span12">
-            <button class="btn btn-info btn-small" onclick="window.location='/leaderboards'">View Leaderboard</button>
+            <button class="btn btn-custom-info btn-small" onclick="window.location='/leaderboards'">View Leaderboard</button>
           </div>
         </div>
 
@@ -265,7 +274,7 @@
 
 <% if user_signed_in? %>
     <div id="edit_profile" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <%= form_tag :update_profile do |f| %>
+      <%= form_tag :welcome_update_profile do |f| %>
           <div class="modal-header">
             <h3>New Profile</h3>
           </div>
@@ -621,6 +630,12 @@
             }
         });
 
+        $("#users_username").numeric({
+            min: 10,
+            max: 10,
+            alpha: false,
+            decimal: false
+        });
 
         $('#new_user').find('#new_usr_submit').on('click',function(evt) {
             evt.preventDefault();
@@ -649,8 +664,11 @@
         $('.dependent').dependentSelects();
         var curr_usr_sign_in_count = "<%= current_user.sign_in_count %>";
         var display_modal = <%= current_user.display_modal %>;
+        var usr_name = "<%= current_user.name %>";
+        console.log(usr_name);
 
-        if ((curr_usr_sign_in_count <= 1) && (display_modal == false)) {
+
+        if ( ((curr_usr_sign_in_count <= 1) && (display_modal == false)) && (usr_name == "") ) {
             $('#edit_profile').modal('show');
 
             $.ajax({
@@ -901,7 +919,7 @@
         <div class="row-fluid">
           <div class="span12">
             <div>
-              <%= f.text_field :username, placeholder: "Mobile Number" %>
+              <%= f.text_field :username, placeholder: "Mobile Number", :maxlength=>:"10" %>
               <img src="/assets/loading.gif" style="height:24px;width:24px; display: none;" id="register_loading">
               &nbsp;&nbsp;
               <div id="password_submit_text">Your number is already present in our records. If you would like us to send across your password via SMS please click “Send”</div>
@@ -931,6 +949,7 @@
 
           <div class="row-fluid">
             <div class="span12">
+              <lable>Date Of Birth</lable>
               <div>
                 <%= f.date_select :dob,:order => [:day,:month,:year],:end_year =>1995,:start_year => 1950 %>
               </div>
@@ -943,6 +962,7 @@
 
           <div class="row-fluid">
             <div class="span12">
+              <lable>Location</lable>
               <div>
                 <select name="register_location" class="dependent" id="register_location">
                   <option></option>

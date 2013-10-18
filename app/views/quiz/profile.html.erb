@@ -188,7 +188,7 @@
             </p>
 
             <p>
-              <label>Age</label>
+              <label>Date Of Birth</label>
               <%#= text_field_tag :age, @user.age %>
               <%#= select_tag :age, options_for_select(%w(1 2 3)) %>
               <%#= date_select :dob,@user.dob,:start_year => 1950,:end_year => 2013 %>
@@ -459,6 +459,40 @@
         });
 
         <%end%>
+
+      //console.log($(".dependent").attr('class'));
+      var curr_usr_loc = "<%= current_user.location %>";
+      var replaced_loc = curr_usr_loc.replace(","," >");
+      var state_loc = curr_usr_loc.split(",")[0];
+      //console.log(curr_usr_loc);
+      //console.log(replaced_loc);
+      //console.log(state_loc);
+
+      //<option value="Tamil Nadu, Chennai">Tamil Nadu > Chennai</option>
+
+      //$('.dependent option:contains("+replaced_loc+")').prop('selected', true);
+      //$(".dependent option[text=" + curr_usr_loc +"]").attr("selected","selected") ;
+      $(".dependent option").filter(function() {
+          //may want to use $.trim in here
+          //console.log($(this).text());
+          return $(this).text() == state_loc;
+      }).attr('selected', true);
+
+
+
+      $(".dependent-sub option").filter(function() {
+          //may want to use $.trim in here
+          return $(this).val() == curr_usr_loc;
+//          if ( $(this).val() == curr_usr_loc){
+//              $(this).show();
+//          }
+      }).attr('selected', true).addClass("hi");
+
+      $(".hi").parent().show()
+
+
+
+
   });
 
   function change_password(){

@@ -23,6 +23,7 @@ ETNew::Application.routes.draw do
   match "/load_weekly_winner", :to=> "response#load_weekly_winner", :as=> "load_weekly_winner"
   match "/update_profile", :to=> "quiz#change_profile", :as=> "update_profile"
   match "/upload_photo", :to=> "quiz#upload_photo", :as=> "upload_photo"
+  match "/welcome_update_profile", :to=> "welcome#welcome_update_profile", :as=> "welcome_update_profile"
   match "/quiz_change_password", :to=> "quiz#quiz_change_password", :as=> "quiz_change_password"
   match "/admin_update_profile", :to=> "quiz#admin_change_profile", :as=> "admin_update_profile"
   match "/dis_value_change", :to=> "quiz#dis_value_change", :as=> "dis_value_change"
