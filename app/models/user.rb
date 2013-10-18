@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture, :dob, :successful_reference
-  attr_accessor :user_photo
+  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture, :dob, :successful_reference,:user_picture
+  attr_accessor :avatar
 
   has_attached_file :user_photo
   # attr_accessible :title, :body
@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   has_many :referrals, :dependent => :destroy
   has_one :profile, :dependent => :destroy
   has_many :feedbacks
+  has_attached_file :user_picture
+
 
   has_paper_trail
   after_create  :check_country_code_in_username

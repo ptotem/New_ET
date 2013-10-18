@@ -84,6 +84,10 @@ class WelcomeController < ApplicationController
       @user.uid = request.env["omniauth.auth"]["uid"]
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
       @user.picture = request.env["omniauth.auth"].info.image
+      @user.user_picture_content_type=""
+      @user.user_picture_file_name=""
+      @user.user_picture_file_size=""
+      @user.user_picture_updated_at=""
 
       if (!@user.fb_signed_in)
         #if request.env["omniauth.auth"]["provider"]=="facebook"
@@ -128,6 +132,11 @@ class WelcomeController < ApplicationController
       @user.uid = request.env["omniauth.auth"]["uid"]
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
       @user.user_photo = request.env["omniauth.auth"].info.image
+      @user.picture = request.env["omniauth.auth"].info.image
+      @user.user_picture_content_type=""
+      @user.user_picture_file_name=""
+      @user.user_picture_file_size=""
+      @user.user_picture_updated_at=""
       @user.save
       redirect_to "/profile" and return
     end
@@ -159,7 +168,7 @@ class WelcomeController < ApplicationController
     @user.password = passwd
     @user.password_confirmation=passwd
     @user.save
-    str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Welcome to Win with ET. Thank you for playing. Join us on www.winwithet.com using the following password to login: '+passwd+'. Play daily to win exciting daily and weekly prizes and one month-end Grand Prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+@user.username)
+    str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Thanks for playing Win with ET. Following is your password to log on to  www.winwithet.com: '+ passwd +'. Play daily to win prizes!&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+@user.username)
     @r =open(str)
 
     render :text=>"Thank your for playing Win with ET. Following is your password to login on www.winwithet.com: "+passwd+". Play daily to win prizes!"

@@ -26,6 +26,9 @@
             <h3>Leader Board
               <% if user_signed_in? %>
               <div><small>Welcom <%= current_user.name %>,Click on any date to view that day's winner</small></div>
+              <h6 id="date_display"></h6>
+
+
               <% end %>
             </h3>
           </div>
@@ -39,8 +42,8 @@
                   <ul class="nav nav-tabs">
                     <li><a id="win"  href="#daily" data-toggle="tab">Daily Winners</a></li>
                     <li><a id="week" href="#weekly" data-toggle="tab">Weekly Winners</a></li>
-                    <li><a href="#monthly" data-toggle="tab">Weekly Leaders</a></li>
-                    <li><a href="#grand_prize" data-toggle="tab">Grand Prize Leaders</a></li>
+                    <li><a href="#monthly" data-toggle="tab" id="weekly_leaders">Weekly Leaders</a></li>
+                    <li><a href="#grand_prize" data-toggle="tab" id="grand_prize_leaders">Grand Prize Leaders</a></li>
                   </ul>
                   <div class="tab-content">
                     <div class="tab-pane active" id="daily">
@@ -92,11 +95,11 @@
                               <% @week_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4].each_with_index do |user,index|%>
                                   <tr>
                                     <td><%= (index+1) %></td>
-                                    <% if !User.find(user[:user_id]).name %>
+                                    <% if !User.find(user[:user_id]).name.blank? %>
                                         <td><%= User.find(user[:user_id]).name %></td>
                                     <% else %>
                                         <td>
-                                          <% @name= User.find(user[:user_id]).username %>
+                                          <% @name = User.find(user[:user_id]).username %>
                                           <% @name[2..7]='XXXXXXX'%>
                                           <%= @name %>
                                         </td>
@@ -128,7 +131,7 @@
                               <% @month_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4].each_with_index do |user,index|%>
                                   <tr>
                                     <td><%= (index+1) %></td>
-                                        <% if !User.find(user[:user_id]).name %>
+                                        <% if !User.find(user[:user_id]).name.blank? %>
                                             <td><%= User.find(user[:user_id]).name %></td>
                                         <% else %>
                                             <td>
@@ -432,11 +435,9 @@
                           var that_id="rec"+(key+1);
                           $('#daily_win_tbody').append('<tr id='+that_id+'></tr>');
                           $('#'+that_id).append('<td>'+ (key+1) +'</td>');
-
-                          if ((value[0]!= " ")){
+                          console.log(value[0].length);
+                          if ((value[0].length > 0)){
                               $('#'+that_id).append('<td>'+ value[0] +'</td>')
-
-
                           }
                           else  {
                               $('#'+that_id).append('<td>'+ value[1].replace(value[1].substring(2,7),"XXXXXXX") +'</td>')
@@ -445,6 +446,7 @@
                           $('#'+that_id).append('<td>'+ value[2] +'</td>')
                       });
                   }
+
               }
           });
       }
@@ -460,11 +462,12 @@
               data:JSON.stringify(data),
               success:function (data) {
                   $('#week_win_tbody').html("");
+                  $('#date_display').html("");
                   $.each(data,function(i,v){
                       var this_id="rec"+(i+1)
                       $('#week_win_tbody').append('<tr id='+this_id+'></tr>')
                       $('#'+this_id).append('<td>'+ (i+1) +'</td>')
-                      if (v.user_id== null || v.user_id==" ") {
+                      if (v.user_id== "" || v.user_id==" ") {
                           $('#'+this_id).append('<td>'+ v.usrname.replace(v.usrname.substring(2,7),"XXXXXXX") +'</td>')
                       }
                       else {
@@ -473,6 +476,7 @@
                       $('#'+this_id).append('<td>'+ v.score+'</td>')
 
                   })
+                  $('#date_display').html(data[0].week_info)
 
               }
           });
@@ -616,12 +620,29 @@
     $('#win').click(function(){
        $('#container').show();
        $('#container1').hide();
+       $('#date_display').html("");
     });
 
     $('#week').click(function(){
         $('#container').hide();
         $('#container1').show();
     });
+
+   $('#weekly_leaders').click(function(){
+       $('#date_display').html("");
+       $('#container').hide();
+       $('#container1').hide();
+       $('#date_display').html('<%= Date.today.at_beginning_of_week.strftime("%d %B %Y, %A") %> to  <%= (Date.today.at_end_of_week-2).strftime("%d %B %Y, %A") %>' )
+
+   });
+
+      $('#grand_prize_leaders').click(function(){
+          $('#date_display').html("");
+          $('#container').hide();
+          $('#container1').hide();
+          $('#date_display').html('<%= Question.first.insertion_date.strftime("%d %B %Y, %A") %> to  <%= Question.last.insertion_date.strftime("%d %B %Y, %A") %>' )
+   });
+
 
 
 

@@ -4,7 +4,6 @@
 
 
     <div class='row-fluid'>
-
       <div class="span9">
         <div class="row-fluid">
           <div class="span3"  style="margin-top: -75px;">
@@ -36,12 +35,28 @@
                   <div class="row-fluid" style="margin-top:15px;">
 
                     <div class="span4">
-                      <% if current_user.picture.nil? %>
-                          <img src="assets/img/fb-blank-face.jpeg" style="width: 100%;">
-                      <% else %>
-                          <%= image_tag current_user.picture, :style =>"width:100%;" %>
-                      <% end %>
+                      <div class="row-fluid">
+
+
+                        <% if !current_user.user_picture.nil? %>
+                            <%= image_tag current_user.user_picture.url,:style => "width:100%;" %>
+                        <% elsif !current_user.picture.nil? %>
+                            <%= image_tag current_user.picture.url, :style =>"width:100%;" %>
+                        <% else %>
+                            <img src="assets/img/fb-blank-face.jpeg" style="width: 100%;">
+                        <% end %>
+
+
+                      </div>
+                       <br>
+                       <br>
+                       <br>
+                      <%= form_for @user,:url => upload_photo_path, :html => { :multipart => true } do |e| %>
+                          <%= e.file_field :user_picture,:style => "min-width:40px;" %>
+                          <%= e.submit "Submit" %>
+                    <% end %>
                     </div>
+
 
                     <div class="span5">
                       <div class="section-header"><%= current_user.name %></div>

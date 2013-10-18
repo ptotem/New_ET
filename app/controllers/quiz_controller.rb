@@ -143,14 +143,55 @@ class QuizController < ApplicationController
     end
   end
 
+  def calculate_correct_score_for_all_user
+    User.all.each do |uu|
+      uu.refer_points=0
+      uu.save
+    end
+    @users=Array.new
+    @questions=Question.all
+    @questions.each do |q|
+      @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
+    end
+    @users=@users.flatten.uniq
+    @users.each do |u|
+      begin
+        @user=User.find(u)
+      rescue ActiveRecord::RecordNotFound => e
+        @user=nil
+      end
+     #   @user=User.find(u)
+      if !@user.nil?
 
+      @user_res=Array.new
+      @questions.each do |q|
+        @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
+        @user.refer_points=@user.refer_points+(Response.find_all_by_question_id_and_user_id(q.id, u).last.points rescue 0)
+        @user.save
+      end
+     end
+    end
+    render :text => "All the score updated successfully....."
+    return
+  end
 
 
 
 
   def profile
     @user=User.find(current_user.id)
+    @user_fb_sign_in_count = @user.fb_sign_in_count
+
   end
+
+  def upload_photo
+    @user=User.find(current_user.id)
+    @user.user_picture=params[:user][:user_picture]
+    @user.picture=""
+    @user.save
+    redirect_to "/profile"
+  end
+
 
   def change_profile
     @profile=User.find(current_user.id)

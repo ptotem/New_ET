@@ -5,7 +5,7 @@ scheduler = Rufus::Scheduler.start_new
 #     User.score_update
 # end
 
-scheduler.cron '38 1 * * *' do
+scheduler.cron '50 18 * * *' do
     puts 'Cron Started'
     Response.decide_daily_winner
     User.send_response

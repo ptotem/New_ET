@@ -22,6 +22,7 @@ ETNew::Application.routes.draw do
   match "/load_winner", :to=> "response#load_winner", :as=> "load_winner"
   match "/load_weekly_winner", :to=> "response#load_weekly_winner", :as=> "load_weekly_winner"
   match "/update_profile", :to=> "quiz#change_profile", :as=> "update_profile"
+  match "/upload_photo", :to=> "quiz#upload_photo", :as=> "upload_photo"
   match "/quiz_change_password", :to=> "quiz#quiz_change_password", :as=> "quiz_change_password"
   match "/admin_update_profile", :to=> "quiz#admin_change_profile", :as=> "admin_update_profile"
   match "/dis_value_change", :to=> "quiz#dis_value_change", :as=> "dis_value_change"
@@ -32,6 +33,7 @@ ETNew::Application.routes.draw do
   match "/all_question_data",:to=>"response#all_question_data",:as=>"each_question_data"
   match "/all_participant_data",:to=>"response#all_participant_data",:as=>"each_question_data"
   match "/recent_activity", :to=>"quiz#recent_activity"
+  match "/calculate_correct_score_for_all_user", :to=>"quiz#calculate_correct_score_for_all_user"
 
   match "/all_recent_activities", :to=>"quiz#all_recent_activities"
 
