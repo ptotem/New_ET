@@ -37,25 +37,24 @@
                     <div class="span4">
                       <div class="row-fluid">
 
-
-                        <% if !current_user.user_picture.nil? %>
-                            <%= image_tag current_user.user_picture.url,:style => "width:100%;" %>
-                        <% elsif !current_user.picture.nil? %>
-                            <%= image_tag current_user.picture.url, :style =>"width:100%;" %>
+                        <%# if !current_user.user_picture.nil? %>
+                            <%#= image_tag current_user.user_picture.url,:style => "width:100%;" %>
+                        <% if !current_user.picture.nil? %>
+                            <%= image_tag current_user.picture, :style =>"width:100%;" %>
                         <% else %>
                             <img src="assets/img/fb-blank-face.jpeg" style="width: 100%;">
                         <% end %>
 
-
                       </div>
-                       <br>
-                       <br>
-                       <br>
-                      <%= form_for @user,:url => upload_photo_path, :html => { :multipart => true } do |e| %>
-                          <%= e.file_field :user_picture,:style => "min-width:40px;" %>
-                          <%= e.submit "Submit" %>
-                    <% end %>
+
+                        <%#= form_for @user,:url => upload_photo_path, :html => { :multipart => true } do |e| %>
+                            <%#= e.file_field :user_picture,:style => "min-width:40px;" %>
+                            <%#= e.submit "Submit" %>
+                        <%# end %>
+
                     </div>
+
+
 
 
                     <div class="span5">

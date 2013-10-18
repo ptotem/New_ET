@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture, :dob, :successful_reference,:user_picture
   attr_accessor :avatar
 
+
   has_attached_file :user_photo
   # attr_accessible :title, :body
 

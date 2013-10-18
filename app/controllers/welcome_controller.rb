@@ -84,10 +84,10 @@ class WelcomeController < ApplicationController
       @user.uid = request.env["omniauth.auth"]["uid"]
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
       @user.picture = request.env["omniauth.auth"].info.image
-      @user.user_picture_content_type=""
-      @user.user_picture_file_name=""
-      @user.user_picture_file_size=""
-      @user.user_picture_updated_at=""
+      #@user.user_picture_content_type=""
+      #@user.user_picture_file_name=""
+      #@user.user_picture_file_size=""
+      #@user.user_picture_updated_at=""
 
       if (!@user.fb_signed_in)
         #if request.env["omniauth.auth"]["provider"]=="facebook"
@@ -133,10 +133,10 @@ class WelcomeController < ApplicationController
       @user.user_fb_access_token = request.env["omniauth.auth"].credentials.token
       @user.user_photo = request.env["omniauth.auth"].info.image
       @user.picture = request.env["omniauth.auth"].info.image
-      @user.user_picture_content_type=""
-      @user.user_picture_file_name=""
-      @user.user_picture_file_size=""
-      @user.user_picture_updated_at=""
+      #@user.user_picture_content_type=""
+      #@user.user_picture_file_name=""
+      #@user.user_picture_file_size=""
+      #@user.user_picture_updated_at=""
       @user.save
       redirect_to "/profile" and return
     end

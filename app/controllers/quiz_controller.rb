@@ -186,8 +186,7 @@ class QuizController < ApplicationController
 
   def upload_photo
     @user=User.find(current_user.id)
-    @user.user_picture=params[:user][:user_picture]
-    @user.picture=""
+    @user.avatar=params[:user][:avatar]
     @user.save
     redirect_to "/profile"
   end
