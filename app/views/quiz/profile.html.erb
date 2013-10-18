@@ -331,6 +331,7 @@
 
 <div id="change_pwd_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <%= form_tag :quiz_change_password do |f| %>
+  <%#= form_tag :html => {:id => "chng_passd"} do |f| %>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           ×
@@ -341,18 +342,25 @@
       </div>
       <div class="modal-body">
         <div class="row-fluid">
+
           <div class="span9">
+
             <p>
               <label>Password</label>
               <%= password_field_tag :password %>
             </p>
+            <div id="pass_text" style="display: none;color: red;">Minimum 8 Characters Required</div>
           </div>
+
         </div>
       </div>
+
       <div class="modal-footer">
-        <%= submit_tag "Change", :class => "btn btn-medium btn-primary pull-left" %>
+        <div class = "btn btn-medium btn-primary pull-left" id ="chng_pwd_btn">Change</div>
+        <%= submit_tag "Change", :class => "btn btn-medium btn-primary pull-left",:style=>"display:none;",:id=>"submit_change" %>
       </div>
   <% end %>
+
 </div>
 
 <div id="rec_act_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -385,8 +393,25 @@
 
 <script>
   $(function(){
+
+      $("#chng_pwd_btn").click(function(){
+         //alert("hello");
+        if($("#password").val().length>8){
+           $("#submit_change").trigger("click");
+        }
+        else{
+            $("#pass_text").show();
+        }
+      });
+
+
       $('.dependent').dependentSelects();
     <%if user_signed_in?%>
+
+
+
+
+
 
       var curr_usr_fb_sign_in_count = "<%= current_user.fb_sign_in_count %>";
       var fb_signed_in = <%= current_user.fb_signed_in %>;
