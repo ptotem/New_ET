@@ -1,4 +1,4 @@
-<h1>Contact Us</h1>
+<h2>Contact Us</h2>
 
 <p>In case we haven't been able to answer your queries through our FAQs section, please get in touch with us by filling the form below. </p>
 
@@ -21,10 +21,24 @@
   </p>
 
   <p>
-    <%= f.label 'comment' %><br />
+    <%= f.label 'comment' %>
     <%= f.text_area 'comment', :rows => 5, :cols => 30 %>
   </p>
-  <p><%= f.submit 'Send' %></p>
+  <p>
+    <%= f.submit 'Send',:id=>"send_feedback", :style=>"display:none;" %>
+    <div class="btn btn-small btn-primary" id="send_feed">Send</div>
+  </p>
 <% end %>
 
+<script type="text/javascript">
+  $('#send_feed').click(function(){
+    if($('#feedback_email').val().length<=0){
+      $('#feedback_email').parent().append('<label for="user_username" class="error">Please enter your username</label>');
+    }
+    else{
+      $('#send_feedback').trigger('click');
+    }
+  });
+  
+</script>
 

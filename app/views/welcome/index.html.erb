@@ -84,12 +84,13 @@
 
   <div class="row-fluid">
     <div class="span12">
-      <h5 class="h4_style"></h5>
+      <h5 class="h4_style"><%= Date.yesterday%></h5>
     </div>
   </div>
 
-
-  <% DailyWinner.where(:is_display => true).shuffle[0..4].each_with_index do |e, index| %>
+  <%@daily_winners=DailyWinner.where('DATE(created_at) = ? and is_display = ?', Date.yesterday, true)%>
+  
+  <% @daily_winners.shuffle[0..4].each_with_index do |e, index| %>
       <% @name = User.find(e.user_id).name rescue "" %>
       <% @moblie_no = User.find(e.user_id).username rescue "" %>
       <div class="row-fluid">

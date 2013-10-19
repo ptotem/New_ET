@@ -87,7 +87,7 @@
       url: url,
       data: data,
       success: function(msg, status) {
-        $(settings.modalContent).html(msg);
+        //$(settings.modalContent).html(msg);
         $(settings.modalWindow).fadeOut(2000, function() {
           hideFeedback();
         });

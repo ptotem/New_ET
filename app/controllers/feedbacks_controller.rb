@@ -10,7 +10,7 @@ class FeedbacksController < ApplicationController
     @feedback.user_id=current_user.id
     if @feedback.valid?
         @feedback.save
-        render :status => :created, :text => '<h3>Thank you for your feedback!</h3>'
+        render :status => :created, :text => ''
     else
       @error_message = "Please enter your #{@feedback.subject.to_s.downcase}"
 

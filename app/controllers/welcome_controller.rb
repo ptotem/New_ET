@@ -125,7 +125,7 @@ class WelcomeController < ApplicationController
         @user.provider = request.env["omniauth.auth"]["provider"]
         @user.fb_sign_in_count = @user.fb_sign_in_count+1
         @user.fb_signed_in=true
-        @user.fb_sign_in_score = 20
+        @user.fb_sign_in_score = 0
         #render :text => "provider :- #{@user.provider}, fb_sign_in_count :- #{@user.fb_sign_in_count}, fb_sign_in_score :- #{@user.fb_sign_in_score}"
         #return
         #end
@@ -175,7 +175,7 @@ class WelcomeController < ApplicationController
 
   def update_fb_sign_in_score
     @user = User.find(current_user.id)
-    @user.fb_sign_in_score = 20
+    @user.fb_sign_in_score = 0
     @user.save!
     render :text => @user.fb_sign_in_score
   end

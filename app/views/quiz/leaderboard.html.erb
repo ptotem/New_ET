@@ -32,7 +32,7 @@
       <h3 style="line-height:1.2em;">Leaderboard
         <% if user_signed_in? %>
             <div>
-              <small>Welcome <%= current_user.name %>! Click on any date to view that day's winner</small>
+              <small id="wel_msg">Welcome <%= current_user.name %>! Click on any date to view that day's winner</small>
             </div>
         <% end %>
         <h6 id="date_display"></h6>
@@ -57,7 +57,7 @@
                   <table class="table table-striped table-condensed">
                     <thead>
                     <tr>
-                      <th class="colored-table-header">Sr.no</th>
+                      <th class="colored-table-header">Sr.No</th>
                       <th class="colored-table-header">Name</th>
                       <th class="colored-table-header">Score</th>
                     </tr>
@@ -482,8 +482,11 @@
                             $('#' + that_id).append('<td>' + value[0] + '</td>')
                         }
 
-                        $('#' + that_id).append('<td>' + value[2] + '</td>')
+                        $('#' + that_id).append('<td>' + value[2] + '</td>');
+
+
                     });
+                    $('#date_display').html("Scores are updated by 9pm Mon-Fri");
                 }
 
             }
@@ -504,6 +507,9 @@
                 $('#date_display').html("");
                 if (data == "") {
                     $('#not_found_modal').modal('show');
+                }
+                else if(data =="Current Week"){
+                  //alert(data)
                 }
                 else {
                     $.each(data, function (i, v) {
@@ -673,6 +679,7 @@
         $('#container1').hide();
         $('#date_display').html("");
         $('#week_win_tbody').html("");
+        $('#wel_msg').html("Welcome <%= current_user.name %>!Click on any date to view that day's winner")
         $('#collapseOne').find(".accordion-inner").css("height", "260px");
     });
 
@@ -680,6 +687,7 @@
         $('#container').hide();
         $('#container1').show();
         $('#daily_win_tbody').html("");
+        $('#wel_msg').html("Welcome <%= current_user.name %>!Click on any date to view that day's winner")
         $('#collapseOne').find(".accordion-inner").css("height", "260px");
     });
 
@@ -688,7 +696,7 @@
         $('#container').hide();
         $('#container1').hide();
         $('#date_display').html('Scores are updated by 9pm Mon-Fri<h6>Leaders for the period ' + '<%= Date.today.at_beginning_of_week.strftime("%d %B %Y") %> to  <%= (Date.today.at_end_of_week-2).strftime("%d %B %Y") %></h6>')
-        $('#calendar').trigger("click");
+        $('#wel_msg').html("Welcome <%= current_user.name %> Click on any date to view that day's winner")
         $('#collapseOne').find(".accordion-inner").css("height", "0px");
     });
 
@@ -697,6 +705,7 @@
         $('#container').hide();
         $('#container1').hide();
         $('#date_display').html('Scores are updated by 9pm Mon-Fri<h6>Leaders for the period ' + '<%= Question.first.insertion_date.strftime("%d %B %Y") %> to  <%= Question.last.insertion_date.strftime("%d %B %Y") %></h6>')
+        $('#wel_msg').html("Welcome <%= current_user.name %>!")
 //          $('#date_display').prepend("Scores are updated by 9pm Mon-Fri\n")
         $('#collapseOne').find(".accordion-inner").css("height", "0px");
     });
