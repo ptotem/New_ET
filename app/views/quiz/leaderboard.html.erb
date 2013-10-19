@@ -719,7 +719,12 @@
         $('#date_display').html("");
         $('#container').hide();
         $('#container1').hide();
+        <% if !Question.first.nil? %>
         $('#date_display').html('Scores are updated daily at 9:00pm from Monday to Friday<h6>Leaders for the period ' + '<%= Date.today.at_beginning_of_week.strftime("%d %B %Y") %> to  <%= (Date.today.at_end_of_week-2).strftime("%d %B %Y") %></h6>')
+        <% else %>
+        $('#date_display').html('Scores are updated daily at 9:00pm from Monday to Friday');
+        <% end %>
+
         <% if user_signed_in?  %>
         $('#wel_msg').html("Welcome <%= current_user.name %>! ")
         <% else %>
@@ -732,7 +737,12 @@
         $('#date_display').html("");
         $('#container').hide();
         $('#container1').hide();
+        <% if !Question.first.nil? %>
         $('#date_display').html('Scores are updated daily at 9:00pm from Monday to Friday<h6>Leaders for the period ' + '<%= Question.first.insertion_date.strftime("%d %B %Y") %> to  <%= Question.last.insertion_date.strftime("%d %B %Y") %></h6>')
+        <% else %>
+        $('#date_display').html('Scores are updated daily at 9:00pm from Monday to Friday<h6>Leaders for the period will be available from 21 October </h6>')
+        <% end %>
+
         <% if user_signed_in?  %>
         $('#wel_msg').html("Welcome <%= current_user.name %>! ")
         <% else %>
