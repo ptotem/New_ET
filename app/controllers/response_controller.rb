@@ -762,7 +762,7 @@ def load_weekly_winner
         return
     else
       render :text=>"Current Week"
-    end  
+    end
 end
 
 
