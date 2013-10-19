@@ -584,7 +584,7 @@
 
         <%if user_signed_in?%>
 
-          var curr_usr_fb_sign_in_count = "<%= current_user.fb_sign_in_count %>";
+          var curr_usr_fb_sign_in_count = "<%= current_user.fb_sign_in_count rescue 0 %>";
           var fb_signed_in = <%= current_user.fb_signed_in %>;
 
         $.ajax({
