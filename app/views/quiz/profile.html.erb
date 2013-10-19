@@ -51,21 +51,23 @@
                   <div class="span4">
                     <div class="row-fluid">
 
-                      <%# if !current_user.user_picture.nil? %>
-                      <%#= image_tag current_user.user_picture.url,:style => "width:100%;" %>
-                      <% if !current_user.picture.nil? %>
-                          <%= image_tag current_user.picture, :style => "width:100%;" %>
+
+                      <% if current_user.user_pic.blank? and current_user.picture.blank? %>
+                          <img src="/assets/img/fb-blank-face.jpeg" style="width: 100%;">
+                      <% elsif !current_user.user_pic.blank? %>
+                          <%= image_tag current_user.user_pic, :style => "width:100%;" %>
                       <% else %>
-                          <img src="assets/img/fb-blank-face.jpeg" style="width: 100%;">
+                         <%= image_tag current_user.picture,:style => "width:100%" %>
                       <% end %>
 
+
                     </div>
-
-                    <%#= form_for @user,:url => upload_photo_path, :html => { :multipart => true } do |e| %>
-                    <%#= e.file_field :user_picture,:style => "min-width:40px;" %>
-                    <%#= e.submit "Submit" %>
-                    <%# end %>
-
+                    <br>
+                    <button class="btn btn-info" id="upload_user_pic" onclick="upload_pic();">Upload Photo</button>
+                    <%= form_for @user,:url => upload_photo_path,:html => {:multipart => true, :style=>"display:none;"} do |f| %>
+                        <%= f.file_field :user_pic %>
+                        <%= f.submit "Submit", :id=>"pic_submit" %>
+                    <% end %>
                   </div>
 
 
@@ -446,6 +448,7 @@
             $(".custom-navbar").css("width","105%");
         }
 
+
         $("#chng_pwd_btn").click(function () {
             if ($("#password").val().length >= 8) {
                 $("#submit_change").trigger("click");
@@ -553,6 +556,15 @@
         $("#password").val("");
         $('#pass_text').hide();
     }
+
+    function upload_pic() {
+        $(".edit_user").find("#user_user_pic").click();
+    }
+
+    $(".edit_user").find("#user_user_pic").change(function(){
+        $("#pic_submit").click();
+    });
+
 
     function show_rec_act() {
         $("#rec_act_modal").modal('show');

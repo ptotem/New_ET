@@ -96,7 +96,7 @@
         <div class="span12">
           <div class="daily_winnerstyle<%= (index+1) %>">
 
-            <% if !User.find(e.user_id).name.nil? %>
+            <% if !User.find(e.user_id).name.blank? %>
                 <%= User.find(e.user_id).name %>
             <% else %>
                 <% @name= User.find(e.user_id).username %>
@@ -723,10 +723,10 @@
         var curr_usr_sign_in_count = "<%= current_user.sign_in_count %>";
         var display_modal = <%= current_user.display_modal %>;
         var usr_name = "<%= current_user.name %>";
-        console.log(usr_name);
+        //console.log(usr_name);
 
 
-        if (((curr_usr_sign_in_count <= 1) && (display_modal == false)) || (usr_name == "")) {
+        if ( (usr_name == "")) {
             $('#edit_profile').modal('show');
 
             $.ajax({

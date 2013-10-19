@@ -5,8 +5,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture, :dob, :successful_reference,:user_picture
+  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture, :dob, :successful_reference,:user_picture,:user_pic
   attr_accessor :avatar
+  attr_accessor :user_pic
+  attr_accessor :user_picture_file_name,:user_picture,:user_picture_content_type,:user_picture_file_size,:user_picture_updated_at
 
 
   has_attached_file :user_photo
@@ -18,6 +20,7 @@ class User < ActiveRecord::Base
   has_one :profile, :dependent => :destroy
   has_many :feedbacks
   has_attached_file :user_picture
+  has_attached_file :user_pic
 
 
   has_paper_trail

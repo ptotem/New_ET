@@ -225,7 +225,6 @@ class WelcomeController < ApplicationController
       @ruser.refer_points=@ruser.refer_points+5
       @ruser.save
     end
-    delay(5)
     sign_in(:user, @user)
     redirect_to "/"
   end
