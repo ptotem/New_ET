@@ -928,7 +928,7 @@
             success: function (returning_data) {
                 if (returning_data != '') {
                     returning_data = returning_data.split("|");
-                    var fb_sign_in_score = <%= current_user.fb_sign_in_score.to_i %>;
+                    var fb_sign_in_score = <%= current_user.fb_sign_in_score.to_i rescue 0 %>;
                     var ref_pts = <%= current_user.refer_points.to_i %>;
                     var fb_signed_in = <%= current_user.fb_signed_in %>;
 
