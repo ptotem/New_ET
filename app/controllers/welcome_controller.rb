@@ -226,7 +226,7 @@ class WelcomeController < ApplicationController
       @ruser.save
     end
     sign_in(:user, @user)
-    redirect_to "/"
+    redirect_to "/?=first_time"
   end
 
 

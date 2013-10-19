@@ -636,13 +636,13 @@
       ×
     </button>
     <h3>
-      Successfully Registered
+      Registration
     </h3>
   </div>
   <div class="modal-body">
     <div class="row-fluid">
       <div class="span9">
-          <div id="register_mssg">You are successfully registered,password is sent to your registered mobile number</div>
+          <div id="register_mssg">Please update your profile in the fields mentioned below.</div>
       </div>
     </div>
   </div>
@@ -651,6 +651,31 @@
 
   </div>
 </div>
+
+
+<div id="reg_msg_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>
+      Registration Success
+    </h3>
+  </div>
+  <div class="modal-body">
+    <div class="row-fluid">
+      <div class="span9">
+        <div id="reg_mssg">Thank you for registering with Win with ET. A password has been sent to your mobile phone. Use your mobile number and this password to sign in on this website.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+
+  </div>
+</div>
+
 
 
 <div id="forgot_pwd_mssg" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -816,8 +841,18 @@
 
 
         if (curr_usr_sign_in_count == 1) {
-            $('#register_msg_modal').modal('show');
+
+          if (window.location.toString().indexOf("first_time")!= -1) {
+              $('#reg_msg_modal').modal('show');
+          }
+          else {
+              $('#register_msg_modal').modal('show');
+          }
+
+
         }
+
+
         <% end %>
 
         $(function () {
