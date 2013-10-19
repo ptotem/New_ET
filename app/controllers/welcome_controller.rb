@@ -209,18 +209,23 @@ class WelcomeController < ApplicationController
 
 
   def my_new_user
+    require 'open-uri'
     @dob_day = params[:users]["dob(3i)"]
     @dob_month = params[:users]["dob(2i)"]
     @dob_year = params[:users]["dob(1i)"]
     @user_age = Time.now.year.to_i - params[:users]["dob(1i)"].to_i
-    @user=User.create!(:email => params[:users][:email],:username => params[:users][:username],:name => params[:users][:name],:dob => "#{@dob_day}-#{@dob_month}-#{@dob_year}", :age=>@user_age, :workx => params[:users][:workx],:location => params[:register_location],:industry => params[:users][:industry],:password => "password")
+    passwd=Random.new.rand(10000000..99999999).to_s
+    @user=User.create!(:email => params[:users][:email],:username => params[:users][:username],:name => params[:users][:name],:dob => "#{@dob_day}-#{@dob_month}-#{@dob_year}", :age=>@user_age, :workx => params[:users][:workx],:location => params[:register_location],:industry => params[:users][:industry],:password => passwd, :password_confirmation=>passwd)
     @user.save
+    str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Thanks for playing Win with ET. Following is your password to log on to  www.winwithet.com: '+ passwd +'. Play daily to win prizes!&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+@user.username)
+    @r =open(str)
     if !params[:refere_id].nil?
       @ruser=User.find(params[:refere_id].to_i)
       @ruser.successful_reference=@ruser.successful_reference+1
       @ruser.refer_points=@ruser.refer_points+5
       @ruser.save
     end
+    delay(5)
     sign_in(:user, @user)
     redirect_to "/"
   end

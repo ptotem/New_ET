@@ -80,8 +80,8 @@
               <% if !User.find(e.user_id).name.nil? %>
               <%= User.find(e.user_id).name   %>
               <% else %>
-                  <%@name= User.find(e.user_id).username %>
-                  <%@name[2..7]='XXXXXXX'%>
+                  <% @name= User.find(e.user_id).username %>
+                  <% @name[2..7]='XXXXXXX'%>
                   <%= @name %>
               <% end %>
                </div>
@@ -641,12 +641,14 @@
     }
 
     $(document).ready(function () {
-
+        var pass_click=false
         $('#new_user').validate({
-            onfocusout : function(element,event){
-                if (element.id==="user_username") {
-                    this.element(element)
-                }
+        });
+
+        $("#user_password").click(function(){
+            //pass_click=true
+            if($('#user_username').val().length<=0){
+                $('#user_username').parent().append('<label for="user_username" class="error">Please enter your username</label>');
             }
         });
 
@@ -688,7 +690,7 @@
         console.log(usr_name);
 
 
-        if ( ((curr_usr_sign_in_count <= 1) && (display_modal == false)) && (usr_name == "") ) {
+        if ( ((curr_usr_sign_in_count <= 1) && (display_modal == false)) || (usr_name == "") ) {
             $('#edit_profile').modal('show');
 
             $.ajax({

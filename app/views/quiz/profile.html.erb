@@ -216,7 +216,7 @@
               <label> Location (State, City)</label>
               <%#= text_field_tag :location, @user.location %>
               <%#= select_tag "state", options_for_select(["Maharashtra", "Gujarat", "Karnataka", "Andhra Pradesh", "West Bengal"], :selected => @user.state), :prompt => "Select state" %>
-              <select name="location" class="dependent">
+              <select id="loc12" name="location" class="dependent">
                 <option></option>
                 <option value="Andhra Pradesh, Hyderabad">Andhra Pradesh > Hyderabad</option>
                 <option value="Andhra Pradesh, Visakhapatnam">Andhra Pradesh > Visakhapatnam</option>
@@ -495,36 +495,17 @@
 
         <%end%>
 
-      //console.log($(".dependent").attr('class'));
       var curr_usr_loc = "<%= current_user.location %>";
-      var replaced_loc = curr_usr_loc.replace(","," >");
       var state_loc = curr_usr_loc.split(",")[0];
-      //console.log(curr_usr_loc);
-      //console.log(replaced_loc);
-      //console.log(state_loc);
-
-      //<option value="Tamil Nadu, Chennai">Tamil Nadu > Chennai</option>
-
-      //$('.dependent option:contains("+replaced_loc+")').prop('selected', true);
-      //$(".dependent option[text=" + curr_usr_loc +"]").attr("selected","selected") ;
       $(".dependent option").filter(function() {
-          //may want to use $.trim in here
-          //console.log($(this).text());
           return $(this).text() == state_loc;
-      }).attr('selected', true);
+      }).prop('selected', 'selected');
 
-
-
-      $(".dependent-sub option").filter(function() {
-          //may want to use $.trim in here
-          return $(this).val() == curr_usr_loc;
-//          if ( $(this).val() == curr_usr_loc){
-//              $(this).show();
-//          }
-      }).attr('selected', true).addClass("hi");
-
-      $(".hi").parent().show()
-
+      $("select.dependent-sub").filter(function() {
+          return $(this).attr('data-dependent-parent') == state_loc
+      }).show();
+      $("select.dependent-sub").val(curr_usr_loc)
+      $(".dependent option").val(curr_usr_loc)
 
 
 
