@@ -601,6 +601,31 @@
 </div>
 
 
+
+<div id="register_msg_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>
+      Successfully Registered
+    </h3>
+  </div>
+  <div class="modal-body">
+    <div class="row-fluid">
+      <div class="span9">
+          <div id="register_mssg">You are successfully registered,password is sent to your registered mobile number</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+
+  </div>
+</div>
+
+
 <div id="forgot_pwd_mssg" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
   <div class="modal-header">
@@ -760,6 +785,11 @@
 
                 }
             });
+        }
+
+
+        if (curr_usr_sign_in_count == 1) {
+            $('#register_msg_modal').modal('show');
         }
         <% end %>
 
