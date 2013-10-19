@@ -102,7 +102,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <% @week_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4].each_with_index do |user, index| %>
+                        <% @week_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..9].each_with_index do |user, index| %>
                             <tr>
                               <td><%= (index+1) %></td>
                               <% if !User.find(user[:user_id]).name.blank? %>
@@ -138,7 +138,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <% @month_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..4].each_with_index do |user, index| %>
+                        <% @month_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..9].each_with_index do |user, index| %>
                             <tr>
                               <td><%= (index+1) %></td>
                               <% if !User.find(user[:user_id]).name.blank? %>
@@ -271,20 +271,21 @@
           </div>
         </div>
         </div>
+        <p> To view your name instead of your mobile number, on the leaderboard, update your profile now. </p>
 
     <% else %>
 
         <div class="accordion-group">
           <div class="accordion-heading">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThreee">
-              <strong>Sign in</strong>
+              <strong>Sign Up</strong>
             </a>
           </div>
           <div id="collapseThreee" class="accordion-body collapse">
             <div class="accordion-inner">
               <div class="blog-categories widget-tp">
                 <div class="white-card">
-                  <h5>Sign in to know your score</h5>
+                  <h5 style="font-size: 16px;">Sign in to know your score</h5>
 
                   <form method="post" id="new_user" class="new_user" action="/users/sign_in" accept-charset="UTF-8">
                     <input type="hidden" value="✓" name="utf8"><input type="hidden" value="ix5agpotFOZqY9iEmWESSCEnqZ2j/wCAbQp7w6N/oJs=" name="authenticity_token">
@@ -292,7 +293,7 @@
                     <div class="row-fluid">
                       <div class="span12">
                         <div class="input-prepend">
-                          <input type="text" placeholder="Mobile Number" name="user[username]" id="user_username" data-msg-required="Please enter your mobile number" class="required" style="width:102%;">
+                          <input type="text" placeholder="Mobile Number" name="user[username]" id="user_username" data-msg-required="Please enter your mobile number" class="required" style="width:95%;">
                         </div>
                       </div>
                     </div>
@@ -311,14 +312,14 @@
 
                     <div class="row-fluid">
                       <div class="span12">
-                        <input type="submit" value="Sign in" style="width:100%;margin-bottom:10px;" name="commit" id="new_usr_submit" class="btn btn-success">
+                        <input type="submit" value="Sign in" style="width:100%;margin-bottom:10px;font-size: 14px;" name="commit" id="new_usr_submit" class="btn btn-success">
                       </div>
                     </div>
 
                     <div style="text-align: center;" class="row-fluid">
                       <div class="span12">
-                        <a class="btn btn-danger" href="#" onclick="view_register();" style="width:88%;margin-bottom:10px;">Not
-                          playing yet? Sign up</a>
+                        <a class="btn btn-danger" href="#" onclick="view_register();" style="width:88%;margin-bottom:10px;font-size: 14px;">Not
+                          Registered? Sign up</a>
                       </div>
                     </div>
 
@@ -336,7 +337,7 @@
         </div>
 
 
-        <p></p>
+        <p>To view your name instead of your mobile number, on the leaderboard and to track your scores reqularly, Sign up now </p>
 
     <% end %>
     </div>

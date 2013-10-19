@@ -338,7 +338,7 @@
     <div id="edit_profile" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <%= form_tag :welcome_update_profile do |f| %>
           <div class="modal-header">
-            <h3>New Profile</h3>
+            <h3>Profile</h3>
           </div>
           <div class="modal-body">
             <div class="row-fluid">
@@ -349,14 +349,14 @@
                 </p>
 
                 <p>
-                  <label>Age</label>
+                  <label>Date of Birth</label>
                   <%#= text_field_tag :age, @user.age %>
                   <%#= select_tag :age, options_for_select(%w(1 2 3)) %>
                   <%= date_select("user", "dob", start_year: 1950, end_year: 1995) %>
                 </p>
 
                 <p>
-                  <label>Work Experience</label>
+                  <label>Work Experience (in years)</label>
                   <%#= text_field_tag :workx, @user.workx %>
                   <%#= text_field_tag :workx, current_user.workx %>
                   <% workx_array = (1..100).to_a.collect { |p| ["#{p}", p] } %>
@@ -478,7 +478,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <%= submit_tag "Register", :class => "btn btn-medium btn-primary" %>
+            <%= submit_tag "Update", :class => "btn btn-medium btn-primary" %>
           </div>
       <% end %>
     </div>
