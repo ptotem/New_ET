@@ -70,6 +70,7 @@ class QuizController < ApplicationController
     @previous_date = @date.strftime('%d %B %Y')
     #@yesterday_question =Question.find_all_by_insertion_date(Date.yesterday).first
     @yesterday_question=Question.all.sort_by(&:insertion_date)
+    if !@yesterday_question.blank?
     @yesterday_question=@yesterday_question[@yesterday_question.count-2]
     @question = @yesterday_question.name
     @date=@yesterday_question.insertion_date
@@ -79,6 +80,7 @@ class QuizController < ApplicationController
     @questions=Array.new
     @month_list.each_with_index do |i, index|
       @questions<<Question.show_sales_for_current_month(i[0].to_i, i[1])
+    end
     end
     #render :layout => false
   end
