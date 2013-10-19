@@ -17,17 +17,21 @@
         <div class="row-fluid">
           <div class="span3"  style="margin-top: -75px;">
             <div>
+              <!-- <div>
+                <a class="brand" href="/" style="margin-left: 10px">
+                  <%#= image_tag "300px-Tokyoship_Home_icon.svg.png", style:"width:50px;" %>
+                </a>
+              </div> -->
               <div>
-                <a class="brand" href="/" style="margin-left: 10px"><%= image_tag "300px-Tokyoship_Home_icon.svg.png", style:"width:50px;" %></a>
-              </div>
-              <div>
-                <img src="/assets/img/logo.png" class="img_style" style="width:200px;">
+                <a href="/">
+                  <img src="/assets/img/logo_n_button.png" class="img_style" style="width:200px;">
+                </a>  
               </div>
             </div>
           </div>
 
           <div class="span9" style="margin-top: 45px;">
-            <h3>Know The Game
+            <h3 style="line-height:1.2em;">Know The Game
               <% if user_signed_in? %>
               <div><small>Welcome <%= current_user.name %>! Play Win with ET & win daily!</small></div>
              <% end %>
@@ -527,6 +531,25 @@
         var question_id;
         var user_id;
         var response;
+
+          var browser;
+
+          function get_browser(){
+              var N=navigator.appName, ua=navigator.userAgent, tem;
+              var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+              if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+              M=M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+              return M[0];
+          }
+
+          browser=get_browser();
+
+          //console.log("Browser :- " + browser);
+          //console.log("Window width :- " + $(window).width());
+
+          if ( (browser=="Firefox") && ($(window).width() >= 1353) ) {
+              $(".custom-navbar").css("width","105%");
+          }
 
           $('#new_user').validate({
               onfocusout : function(element,event){

@@ -4,6 +4,13 @@
 <script src="assets/jquery.dependent-selects.js"></script>
 <!--<link rel="stylesheet" type="text/css" href="assets/css/style8.css"/>-->
 
+<style>
+    .colored-table-header {
+        background-color: #00b6bd;
+        color: black;
+        border-right: 1px solid white;
+    }
+</style>
 <section class='section-wrapper'>
 
 <div class='row-fluid'>
@@ -13,20 +20,19 @@
     <div class="span3" style="margin-top: -75px;">
       <div>
         <div>
-          <a class="brand" href="/" style="margin-left: 10px"><%= image_tag "300px-Tokyoship_Home_icon.svg.png", style: "width:50px;" %></a>
-        </div>
-        <div>
-          <img src="/assets/img/logo.png" class="img_style" style="width:200px;">
+          <a href="/">
+            <img src="/assets/img/logo_n_button.png" class="img_style" style="width:200px;">
+          </a>
         </div>
       </div>
     </div>
 
 
     <div class="span9" style="margin-top: 45px;">
-      <h3>Leaderboard
+      <h3 style="line-height:1.2em;">Leaderboard
         <% if user_signed_in? %>
             <div>
-              <small>Welcom <%= current_user.name %>,Click on any date to view that day's winner</small>
+              <small>Welcome <%= current_user.name %>! Click on any date to view that day's winner</small>
             </div>
         <% end %>
         <h6 id="date_display"></h6>
@@ -51,9 +57,9 @@
                   <table class="table table-striped table-condensed">
                     <thead>
                     <tr>
-                      <th>Sr.no</th>
-                      <th>Name</th>
-                      <th>Score</th>
+                      <th class="colored-table-header">Sr.no</th>
+                      <th class="colored-table-header">Name</th>
+                      <th class="colored-table-header">Score</th>
                     </tr>
                     </thead>
                     <tbody id="daily_win_tbody">
@@ -67,9 +73,9 @@
                   <table class="table table-striped table-condensed">
                     <thead>
                     <tr>
-                      <th>Rank</th>
-                      <th>Name</th>
-                      <th>Score</th>
+                      <th class="colored-table-header">Rank</th>
+                      <th class="colored-table-header">Name</th>
+                      <th class="colored-table-header">Score</th>
                     </tr>
                     </thead>
                     <tbody id="week_win_tbody">
@@ -86,9 +92,9 @@
                     <% else %>
                         <thead>
                         <tr>
-                          <th>Rank</th>
-                          <th>Name</th>
-                          <th>Score</th>
+                          <th class="colored-table-header">Rank</th>
+                          <th class="colored-table-header">Name</th>
+                          <th class="colored-table-header">Score</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -122,9 +128,9 @@
                     <% else %>
                         <thead>
                         <tr>
-                          <th>Rank</th>
-                          <th>Name</th>
-                          <th>Score</th>
+                          <th class="colored-table-header">Rank</th>
+                          <th class="colored-table-header">Name</th>
+                          <th class="colored-table-header">Score</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -162,7 +168,6 @@
 
 <div class='span3' style="margin-top: 0px;">
   <div class="accordion" id="accordion2">
-
     <div class="accordion-group">
       <div class="accordion-heading">
         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
@@ -183,8 +188,8 @@
     </div>
 
 
-    <% if user_signed_in? %>
 
+    <% if user_signed_in? %>
         <div class="accordion-group">
           <div class="accordion-heading">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
@@ -447,14 +452,14 @@
 <script>
 
     function load_winners(viewing, this_obj) {
-        var data = {question:[]}
+        var data = {question: []}
         data["question"].push(this_obj);
         $.ajax({
-            url:"<%= load_winner_path %>",
-            type:"POST",
-            contentType:"application/json",
-            data:JSON.stringify(data),
-            success:function (data) {
+            url: "<%= load_winner_path %>",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data) {
                 $('#daily_win_tbody').html("");
 
                 if (data == "Not Found") {
@@ -487,14 +492,14 @@
 
 
     function load_weekly_winners(viewing, this_obj) {
-        var data = {question:[]}
+        var data = {question: []}
         data["question"].push(this_obj);
         $.ajax({
-            url:"<%= load_weekly_winner_path %>",
-            type:"POST",
-            contentType:"application/json",
-            data:JSON.stringify(data),
-            success:function (data) {
+            url: "<%= load_weekly_winner_path %>",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data) {
                 $('#week_win_tbody').html("");
                 $('#date_display').html("");
                 if (data == "") {
@@ -544,16 +549,16 @@
 
 
         $('#datepicker-example13').Zebra_DatePicker({
-            always_visible:$('#container'),
-            onSelect:function (view, element) {
+            always_visible: $('#container'),
+            onSelect: function (view, element) {
                 load_winners(view, element)
 
             }
         });
 
         $('#datepicker-example7').Zebra_DatePicker({
-            always_visible:$('#container1'),
-            onSelect:function (view, element) {
+            always_visible: $('#container1'),
+            onSelect: function (view, element) {
                 load_weekly_winners(view, element)
             }
         });
@@ -573,9 +578,9 @@
         var fb_signed_in = <%= current_user.fb_signed_in %>;
 
         $.ajax({
-            url:"/recent_activity",
-            type:"get",
-            success:function (returning_data) {
+            url: "/recent_activity",
+            type: "get",
+            success: function (returning_data) {
                 if (returning_data != '') {
                     returning_data = returning_data.split(",");
                     $('#recent_activity').html();
@@ -588,9 +593,9 @@
         });
 
         $.ajax({
-            url:"/all_recent_activities",
-            type:"get",
-            success:function (returning_data) {
+            url: "/all_recent_activities",
+            type: "get",
+            success: function (returning_data) {
                 if (returning_data != '') {
                     returning_data = returning_data.split(",");
                     $('#recent_activity').html();
@@ -605,9 +610,9 @@
         if (fb_signed_in == true) {
 
             $.ajax({
-                url:"/update_fb_sign_in_score",
-                type:"get",
-                success:function (returning_data) {
+                url: "/update_fb_sign_in_score",
+                type: "get",
+                success: function (returning_data) {
 
                 }
             });
@@ -615,9 +620,9 @@
         }
 
         $.ajax({
-            url:"/get_score",
-            type:"get",
-            success:function (returning_data) {
+            url: "/get_score",
+            type: "get",
+            success: function (returning_data) {
                 if (returning_data != '') {
                     returning_data = returning_data.split("|");
 
@@ -946,6 +951,25 @@
 
 
 <script type="text/javascript">
+    var browser;
+
+    function get_browser(){
+        var N=navigator.appName, ua=navigator.userAgent, tem;
+        var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+        if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+        M=M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+        return M[0];
+    }
+
+    browser=get_browser();
+
+    //console.log("Browser :- " + browser);
+    //console.log("Window width :- " + $(window).width());
+
+    if ( (browser=="Firefox") && ($(window).width() >= 1353) ) {
+        $(".custom-navbar").css("width","105%");
+    }
+
 
     function view_register() {
         $('#register').modal('show');
@@ -990,14 +1014,14 @@
             if (mobile_no.length > 9) {
                 if ((uname_first_char != "9") || (uname_second_char != "1")) {
                     var prepended_mob_no = "91" + ($("#register_form").find('input[name="users[username]"]').val());
-                    var data = {username:[]}
+                    var data = {username: []}
                     data["username"].push(prepended_mob_no);
                     $.ajax({
-                        url:"<%= mobile_no_checking_path %>",
-                        type:"POST",
-                        contentType:"application/json",
-                        data:JSON.stringify(data),
-                        success:function (data) {
+                        url: "<%= mobile_no_checking_path %>",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(data),
+                        success: function (data) {
                             if (data == "Nothing") {
                                 $('#not_register_message').show();
                                 $('#after_register').show();
@@ -1015,14 +1039,14 @@
                                 }, 2000);
 
                                 $('#password_submit').on("click", function () {
-                                    var data = {mobile_no:[]}
+                                    var data = {mobile_no: []}
                                     data["mobile_no"].push(prepended_mob_no);
                                     $.ajax({
-                                        url:"<%= change_password_path %>",
-                                        type:"POST",
-                                        contentType:"application/json",
-                                        data:JSON.stringify(data),
-                                        success:function (data) {
+                                        url: "<%= change_password_path %>",
+                                        type: "POST",
+                                        contentType: "application/json",
+                                        data: JSON.stringify(data),
+                                        success: function (data) {
                                             $('#register').modal('hide');
                                         }
                                     });
@@ -1071,8 +1095,8 @@
 
         else {
             $('#register_form').attr({
-                action:'my_new_user',
-                method:'post'
+                action: 'my_new_user',
+                method: 'post'
             });
 
 
@@ -1113,16 +1137,16 @@
                 var prepended_mob_no = "91" + $('#forgot_password').find('input[name="username"]').val();
 
                 console.log(prepended_mob_no);
-                var data = {username:[]}
+                var data = {username: []}
                 //data["username"].push(mobile_no);
                 data["username"].push(prepended_mob_no);
                 console.log(data["username"]);
                 $.ajax({
-                    url:"<%= mobile_no_checking_path %>",
-                    type:"POST",
-                    contentType:"application/json",
-                    data:JSON.stringify(data),
-                    success:function (data) {
+                    url: "<%= mobile_no_checking_path %>",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (data) {
                         $('#not_register_message').hide();
                         if (data == "Nothing") {
                             console.log(data);
@@ -1139,15 +1163,15 @@
 
                         $('#forgot_submit').on("click", function () {
 
-                            var data = {mobile_no:[]}
+                            var data = {mobile_no: []}
                             //data["mobile_no"].push(mobile_no);
                             data["mobile_no"].push(prepended_mob_no);
                             $.ajax({
-                                url:"<%= change_password_path %>",
-                                type:"POST",
-                                contentType:"application/json",
-                                data:JSON.stringify(data),
-                                success:function (data) {
+                                url: "<%= change_password_path %>",
+                                type: "POST",
+                                contentType: "application/json",
+                                data: JSON.stringify(data),
+                                success: function (data) {
                                     $('#forgot_password').modal('hide');
                                 }
 
@@ -1163,7 +1187,7 @@
     });
 
     $('#new_user').validate({
-        onfocusout:function (element, event) {
+        onfocusout: function (element, event) {
             if (element.id === "user_username") {
                 this.element(element)
             }
@@ -1186,8 +1210,8 @@
             $('#new_user').find('#user_username').val("91" + new_usr_uname);
             console.log($('#new_user').find('#user_username').val());
             $('#new_user').attr({
-                action:'/users/sign_in',
-                method:'post'
+                action: '/users/sign_in',
+                method: 'post'
             });
             $('#new_user').submit();
         }
@@ -1203,9 +1227,9 @@
         $('#edit_profile').modal('show');
 
         $.ajax({
-            url:"/control_edit_profile_modal",
-            type:"post",
-            success:function (data) {
+            url: "/control_edit_profile_modal",
+            type: "post",
+            success: function (data) {
 
             }
         });
