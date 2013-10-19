@@ -182,7 +182,7 @@ class QuizController < ApplicationController
 
   def profile
     @user=User.find(current_user.id)
-    @user_fb_sign_in_count = @user.fb_sign_in_count
+    @user_fb_sign_in_count = @user.fb_sign_in_count rescue 0
 
   end
 

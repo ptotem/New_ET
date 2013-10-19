@@ -593,7 +593,7 @@
 
         <%if user_signed_in?%>
 
-        var curr_usr_fb_sign_in_count = "<%= current_user.fb_sign_in_count %>";
+        var curr_usr_fb_sign_in_count = "<%= current_user.fb_sign_in_count rescue 0 %>";
         var fb_signed_in = <%= current_user.fb_signed_in %>;
 
         $.ajax({
@@ -645,7 +645,7 @@
                 if (returning_data != '') {
                     returning_data = returning_data.split("|");
 
-                    var fb_sign_in_score = <%= current_user.fb_sign_in_score.to_i %>;
+                    var fb_sign_in_score = <%= current_user.fb_sign_in_score.to_i rescue 0%>;
                     var ref_pts = <%= current_user.refer_points.to_i %>;
                     var fb_signed_in = <%= current_user.fb_signed_in %>;
 
