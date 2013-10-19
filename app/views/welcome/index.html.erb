@@ -637,6 +637,7 @@
     </button>
     <h3>
       Registration
+
     </h3>
   </div>
   <div class="modal-body">
@@ -846,7 +847,17 @@
               $('#reg_msg_modal').modal('show');
           }
           else {
-              $('#register_msg_modal').modal('show');
+              if (display_modal==false){
+                  $('#register_msg_modal').modal('show');
+                  $.ajax({
+                      url: "/control_edit_profile_modal",
+                      type: "post",
+                      success: function (data) {
+
+                      }
+                  });
+              }
+
           }
 
 
