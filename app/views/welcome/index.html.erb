@@ -601,6 +601,30 @@
 </div>
 
 
+<div id="forgot_pwd_mssg" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>
+      Successfully Changes
+    </h3>
+  </div>
+  <div class="modal-body">
+    <div class="row-fluid">
+      <div class="span9">
+        <div id="forgot_pwd_text" style="padding: 5px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+
+  </div>
+</div>
+
+
 <div id="prize_box" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -926,7 +950,11 @@
                                 contentType: "application/json",
                                 data: JSON.stringify(data),
                                 success: function (data) {
+                                    $('#forgot_pwd_text').html("");
                                     $('#forgot_password').modal('hide');
+                                    $('#forgot_pwd_mssg').modal('show');
+                                    $('#forgot_pwd_text').html(data);
+
                                 }
 
                             });
