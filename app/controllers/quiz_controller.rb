@@ -68,8 +68,8 @@ class QuizController < ApplicationController
   def archives_index
     @date = DateTime.now.to_date-1
     @previous_date = @date.strftime('%d %B %Y')
-    #@yesterday_question =Question.find_all_by_insertion_date(Date.yesterday).first
-    @yesterday_question=Question.all.sort_by(&:insertion_date)
+    @yesterday_question =Question.find_all_by_insertion_date(Date.yesterday).first
+    #@yesterday_question=Question.all.sort_by(&:insertion_date)
     if !@yesterday_question.blank?
     @yesterday_question=@yesterday_question[@yesterday_question.count-2]
     @question = @yesterday_question.name
@@ -112,6 +112,8 @@ class QuizController < ApplicationController
       @week_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
     end
 
+    @week_leaderboard= []
+
     @month_users=Array.new
     @month_leaderboard=Array.new
     @month_questions=Question.show_sales_for_current_month(Date.today.year, Date.today.month)
@@ -128,6 +130,7 @@ class QuizController < ApplicationController
       @month_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.delete_if{|x| x==nil}.sum}
     end
     #
+    @month_leaderboard=[]
     #
     @daily_users=Array.new
     @daily_leaderboard=Array.new
