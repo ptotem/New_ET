@@ -779,20 +779,21 @@
     }
 
     $(document).ready(function () {
-        var pass_click = false
+        var pass_click = false;
         $('#new_user').validate({
         });
 
         $("#user_password").click(function () {
             //pass_click=true
-            if ($('#user_username').val().length <= 0) {
+            if (($('#user_username').val().length <= 0)&&(!pass_click)) {
+            	pass_click=true
                 $('#user_username').parent().append('<label for="user_username" class="error">Please enter your username</label>');
             }
         });
 
         $("#users_username").numeric({
             min: 10,
-            max: 10,
+            max: 12,
             alpha: false,
             decimal: false
         });
@@ -807,7 +808,7 @@
             console.log(uname_first_char);
             console.log(uname_second_char);
 
-            if ((uname_first_char != "9") || (uname_second_char != "1")) {
+            if ((new_usr_uname.length<=10)&&((uname_first_char != "9") || (uname_second_char != "1"))) {
                 console.log("You have entered username " + new_usr_uname);
                 $('#new_user').find('#user_username').val("91" + new_usr_uname);
                 console.log($('#new_user').find('#user_username').val());
@@ -816,6 +817,15 @@
                     method: 'post'
                 });
                 $('#new_user').submit();
+            }
+            else{
+            	$('#new_user').find('#user_username').val(new_usr_uname);
+                console.log($('#new_user').find('#user_username').val());
+                $('#new_user').attr({
+                    action: '/users/sign_in',
+                    method: 'post'
+                });
+                $('#new_user').submit();	
             }
         });
 
@@ -1057,7 +1067,7 @@
                                     $('#forgot_pwd_text').html("");
                                     $('#forgot_password').modal('hide');
                                     $('#forgot_pwd_mssg').modal('show');
-                                    $('#forgot_pwd_text').html(data);
+                                    $('#forgot_pwd_text').html('A new password has been sent to your mobile phone');
 
                                 }
 
