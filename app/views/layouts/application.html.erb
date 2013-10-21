@@ -60,6 +60,12 @@
           if ( (browser=="Firefox") && ($(window).width() >= 1263) ) {
               $(".custom-navbar").css("width","105%");
           }
+
+          $(window).resize(function() {
+              if ( (browser=="Firefox") && ($(window).width() >= 1263) ) {
+                  $(".custom-navbar").css("width","105%");
+              }
+          });
       });
 
 
