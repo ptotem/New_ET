@@ -241,7 +241,7 @@ class QuizController < ApplicationController
     @profile.save
     @version=Version.last
     @version.event="profile_update"
-    @version.whodunnit=current_user.id
+    @version.whodunnit=1
     @version.save
     sign_in(@profile, :bypass => true)
     redirect_to "/daily_winner"
@@ -332,8 +332,8 @@ class QuizController < ApplicationController
 
   def daily_winner
     if admin_user_signed_in?
-      if !Question.find_by_insertion_date(Date.yesterday).nil?
-        @question=Question.find_by_insertion_date(Date.yesterday)
+      if !Question.find_by_insertion_date(Date.today).nil?
+        @question=Question.find_by_insertion_date(Date.today)
         @daily_winners=DailyWinner.where(:question_id => @question.id)
       end
     else
