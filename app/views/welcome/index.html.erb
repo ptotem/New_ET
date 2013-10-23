@@ -84,7 +84,7 @@
 
 
 
-  <% @daily_winners=DailyWinner.where('DATE(created_at) = ? and is_display = ?', Date.yesterday, true)%>
+  <% @daily_winners=DailyWinner.where('DATE(created_at) = ? and is_display = ?', (Time.zone.now-1.day).to_date, true)%>
   <% if @daily_winners.blank? %>
 
 

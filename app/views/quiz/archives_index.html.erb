@@ -46,7 +46,7 @@
                 <span class="pull-right">
                 <button class="btn btn-success" onclick="view_score()">View Answer</button>
                 <!--<button class="btn btn-warning" onclick="view_stat()">View Statistics</button>-->
-                <a href="#" target="_blank" id="archives_view_article"><button class="btn btn-info" >View news story</button></a>
+                <a href=<%=@yesterday_question.view_article.url%> target="_blank" id="archives_view_article"><button class="btn btn-info" >View news story</button></a>
                 </span>
                 <span id="tag_list">
                   <h5><%= @yesterday_question.insertion_date.strftime("%d %B %Y, %A") %></h5>

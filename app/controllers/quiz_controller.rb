@@ -1,5 +1,5 @@
 class QuizController < ApplicationController
-  before_filter :authenticate_user!, :only => [:profile,:decide_daily_winner,:daily_winner,:dis_value_change]
+  before_filter :authenticate_user!, :only => [:profile,:decide_daily_winner,:dis_value_change]
   #before_filter :set_var
   #before_filter :set_var,:only =>[:profile]
 
@@ -68,10 +68,12 @@ class QuizController < ApplicationController
   def archives_index
     @date = DateTime.now.to_date-1
     @previous_date = @date.strftime('%d %B %Y')
-    @yesterday_question =Question.find_all_by_insertion_date(Date.yesterday).first
+    @yesterday_question =Question.find_all_by_insertion_date((Time.zone.now-1.day).to_date).first
+    # render :text =>@yesterday_question
+    # return
     #@yesterday_question=Question.all.sort_by(&:insertion_date)
     if !@yesterday_question.blank?
-    @yesterday_question=@yesterday_question[@yesterday_question.count-2]
+    #@yesterday_question=@yesterday_question[@yesterday_question.count-1]
     @question = @yesterday_question.name
     @date=@yesterday_question.insertion_date
     @option = Option.find_all_by_question_id(@yesterday_question.id)
@@ -98,39 +100,39 @@ class QuizController < ApplicationController
   def leaderboard
     @usrs=Array.new
     @week_leaderboard=Array.new
-    @week_questions=Question.show_for_current_week
-    @week_questions.all.each do |q|
+    @week_questions=Question.show_for_current_week - Question.find_all_by_insertion_date((Time.zone.now).to_date)
+    @week_questions.each do |q|
       @usrs<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
     end
     @usrs=@usrs.flatten.uniq
     @usrs.each do |u|
       @user_res=Array.new
-      @week_questions.all.each do |q|
+      @week_questions.each do |q|
         @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
       end
       @user_res=@user_res.delete_if { |x| x==nil }
       @week_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
     end
 
-    @week_leaderboard= []
+    #@week_leaderboard= []
 
     @month_users=Array.new
     @month_leaderboard=Array.new
-    @month_questions=Question.show_sales_for_current_month(Date.today.year, Date.today.month)
-    @month_questions.all.each do |q|
+    @month_questions=Question.show_sales_for_current_month(Date.today.year, Date.today.month) - Question.find_all_by_insertion_date((Time.zone.now).to_date)
+    @month_questions.each do |q|
       @month_users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
     end
     @month_users=@month_users.flatten.uniq
     @month_users.each do |u|
       @user_res=Array.new
-      @month_questions.all.each do |q|
+      @month_questions.each do |q|
         @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
       end
       @user_res=@user_res.delete_if { |x| x==nil }
       @month_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.delete_if{|x| x==nil}.sum}
     end
     #
-    @month_leaderboard=[]
+    #@month_leaderboard=[]
     #
     @daily_users=Array.new
     @daily_leaderboard=Array.new
@@ -329,10 +331,14 @@ class QuizController < ApplicationController
   end
 
   def daily_winner
-      if !Question.find_by_insertion_date(Date.today).nil?
-        @question=Question.find_by_insertion_date(Date.today)
+    if admin_user_signed_in?
+      if !Question.find_by_insertion_date(Date.yesterday).nil?
+        @question=Question.find_by_insertion_date(Date.yesterday)
         @daily_winners=DailyWinner.where(:question_id => @question.id)
       end
+    else
+      render :text=>"You are not authorized to see this page."
+    end
   end
 
   def dis_value_change

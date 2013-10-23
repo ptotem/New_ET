@@ -58,7 +58,8 @@ class ResponseController < ApplicationController
   end
 
   def load_question
-    if Date.strptime(params[:question][0], "%Y-%m-%d")!=Date.today
+    #if Date.strptime(params[:question][0], "%Y-%m-%d")!=Date.today
+    if Date.strptime(params[:question][0], "%Y-%m-%d")<(Time.zone.now).to_date
       @question = Question.where('insertion_date BETWEEN ? AND ?', Date.strptime(params[:question][0], "%Y-%m-%d").beginning_of_day, Date.strptime(params[:question][0], "%Y-%m-%d").end_of_day).first
       #@question=Question.find_all_by_insertion_date(Date.strptime(params[:question][0],"%Y-%m-%d")).first
       if @question.nil?
