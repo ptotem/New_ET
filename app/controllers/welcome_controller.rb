@@ -225,7 +225,7 @@ class WelcomeController < ApplicationController
       @ruser.refer_points=@ruser.refer_points+5
       @ruser.save
     end
-    sign_in(:user, @user)
+    #sign_in(:user, @user)
     redirect_to "/?=first_time"
   end
 
