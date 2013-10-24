@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   attr_accessor :user_picture_file_name,:user_picture,:user_picture_content_type,:user_picture_file_size,:user_picture_updated_at
 
 
+  validates_uniqueness_of :username
+
   has_attached_file :user_photo
   # attr_accessible :title, :body
 
