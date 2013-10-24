@@ -1,5 +1,5 @@
 class QuizController < ApplicationController
-  before_filter :authenticate_user!, :only => [:profile,:decide_daily_winner,:dis_value_change]
+  before_filter :authenticate_user!, :only => [:profile,:dis_value_change]
   #before_filter :set_var
   #before_filter :set_var,:only =>[:profile]
 
@@ -321,7 +321,9 @@ class QuizController < ApplicationController
   def decide_daily_winner
     if !Question.find_by_insertion_date(Date.today).nil?
     @question=Question.find_by_insertion_date(Date.today)
-    @daily_winners=Response.find_all_by_question_id_and_is_correct(@question.id,true).map{|i| i.user_id}.uniq
+    
+    @daily_winners=Response.find_all_by_question_id(@question.id).map{|i| i.user_id}.uniq
+    
     @daily_winners.shuffle[0..9].each do |dw|
       DailyWinner.create(:question_id=>@question.id,:user_id=>dw,:is_display=>false)
     end

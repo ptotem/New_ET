@@ -661,42 +661,49 @@ class ResponseController < ApplicationController
   require 'open-uri'
 
   def send_response
-    @responses=Response.find_all_by_question_id(Question.find_by_insertion_date(Date.today)).map { |i| i.user_id }.uniq
-    #render :text=>@responses
-    #return
-    @r=Array.new
-    @responses.each_with_index do |u|
-      @valid_responses=Response.find_all_by_question_id_and_user_id(Question.find_by_insertion_date(Date.today), u).last
-      if @valid_responses.points>0
-        #str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Congratulations, your answer today was correct. Check your score and rank on kyet.ptotem.com. Come back tomorrow to win daily and weekly prizes.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
-        #@r << open(str)
-        if !User.find(u).nil?
-          @user=User.find(u)
-          @user.refer_points=@user.refer_points+@valid_responses.points
-          @user.save
-          @version=Version.last
-          @version.event="correct"
-          @version.whodunnit=u
-          @version.save
-          #@r<<@user.refer_points
-        end
+    User.update_all(:refer_points=>0)
+    @insertion_date =Question.all.map{|i| i.insertion_date}
+    # render :text => @insertion_date
+    # return
+    @insertion_date.each do |cd|
+      @responses=Response.find_all_by_question_id(Question.find_by_insertion_date(cd)).map { |i| i.user_id }.uniq.delete_if{|i| i==nil}
+      #render :text=>@responses
+      #return
+      # @r=Array.new
+      @responses.each_with_index do |u|
+        @valid_responses=Response.find_all_by_question_id_and_user_id(Question.find_by_insertion_date(cd), u).last
+        if @valid_responses.points>0
+          #str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Congratulations, your answer today was correct. Check your score and rank on kyet.ptotem.com. Come back tomorrow to win daily and weekly prizes.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
+          #@r << open(str)
 
-      else
-        #str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Sorry, your answer today was incorrect. Play again tomorrow to win daily and weekly prizes. Refer a friend to maximise your scores for the grand prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
-        #@r << open(str)
-        if !User.find(u).nil?
-          @user=User.find(u)
-          @user.refer_points=@user.refer_points+@valid_responses.points
-          @user.save
-          @version=Version.last
-          @version.event="incorrect"
-          @version.whodunnit=u
-          @version.save
-          #@r<<@user.refer_points
+            if !User.find(u).nil?
+              @user=User.find(u)
+              @user.refer_points=@user.refer_points+@valid_responses.points
+              @user.save
+              @version=Version.last
+              @version.event="correct"
+              @version.whodunnit=u
+              @version.save
+              #@r<<@user.refer_points
+            end
+
+        else
+          #str=URI::encode('http://entp.indiatimes.com/PUSHURL18/SendSms.aspx?aggregatorname=TIL&clientname=ETQUIZ&username=etquiz&password=etquiz@8888&messagetext=Sorry, your answer today was incorrect. Play again tomorrow to win daily and weekly prizes. Refer a friend to maximise your scores for the grand prize.&msgtype=text&masking=ETQUIZ&delivery=true&clientuniqueid=1&dllurl=dlrurl&mobilenumber='+User.find(u).username)
+          #@r << open(str)
+          if !User.find(u).nil?
+            @user=User.find(u)
+            @user.refer_points=@user.refer_points+@valid_responses.points
+            @user.save
+            @version=Version.last
+            @version.event="incorrect"
+            @version.whodunnit=u
+            @version.save
+            #@r<<@user.refer_points
+          end
         end
       end
     end
-    render :text => @r
+    render :text => "Done Successfully"
     return
   end
 
