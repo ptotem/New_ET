@@ -532,7 +532,7 @@
                         $('#week_win_tbody').append('<tr id=' + this_id + '></tr>')
                         $('#' + this_id).append('<td>' + (i + 1) + '</td>')
 
-                        if (v.user_id == "" || v.user_id == " ") {
+                        if (v.user_id == "" || v.user_id == " " || v.user_id == null) {
                             $('#' + this_id).append('<td>' + v.usrname.replace(v.usrname.substring(2, 7), "XXXXXXX") + '</td>')
                         }
                         else {

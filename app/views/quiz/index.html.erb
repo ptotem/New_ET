@@ -92,6 +92,7 @@
                 <% elsif @question.question_type=="type3" %>
                     <%= render :partial => "type3" %>
                 <% elsif @question.question_type=="type4" %>
+                    <h1>There is no question Today.</h1>
                     <%= render :partial => "type4" %>
                 <% else %>
                     <%= render :partial => "type1" %>

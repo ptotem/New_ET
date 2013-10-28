@@ -747,7 +747,7 @@ def load_weekly_winner
         return
       else
         @week_questions.all.each do |q|
-          @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
+          @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }.delete_if{|i| i==nil}
         end
         @users=@users.flatten.uniq
         @users.each do |u|

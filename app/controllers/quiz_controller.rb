@@ -332,8 +332,8 @@ class QuizController < ApplicationController
 
   def daily_winner
     if admin_user_signed_in?
-      if !Question.find_by_insertion_date(Date.today).nil?
-        @question=Question.find_by_insertion_date(Date.today)
+      if !Question.find_by_insertion_date(Date.yesterday).nil?
+        @question=Question.find_by_insertion_date(Date.yesterday)
         @daily_winners=DailyWinner.where(:question_id => @question.id)
       end
     else
