@@ -14,8 +14,8 @@
     <th></th>
     <th></th>
   </tr>
-  <% if !@daily_winners.nil? %>
-  <% @daily_winners.each do |dw| %>
+  <% if !@daily_wins.nil? %>
+  <% @daily_wins[0..9].each do |dw| %>
       <tr>
         <td><%= User.find(dw.user_id).username rescue"" %></td>
         <td><input type="hidden" value="<%= dw.user_id %>">

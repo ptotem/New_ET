@@ -334,9 +334,11 @@ class QuizController < ApplicationController
 
   def daily_winner
     if admin_user_signed_in?
-      if !Question.find_by_insertion_date(Date.yesterday).nil?
-        @question=Question.find_by_insertion_date(Date.yesterday)
-        @daily_winners=DailyWinner.where(:question_id => @question.id)
+
+      if !Question.find_by_insertion_date(Date.today).nil?
+        @question=Question.find_by_insertion_date(Date.today)
+        @daily_wins=DailyWinner.where(:question_id => @question.id)
+
       end
     else
       render :text=>"You are not authorized to see this page."
