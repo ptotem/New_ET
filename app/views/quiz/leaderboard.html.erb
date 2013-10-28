@@ -480,7 +480,12 @@
 
                 if (data == "Not Found") {
                     $('#not_found_modal').modal('show');
-                } else {
+                }
+                else if (data == "[]" ) {
+                    $('#not_found_modal').modal('show');
+                }
+
+                else {
                     data = data.split(",");
                     $.each(data, function (key, value) {
                         value = this.replace("[", "").replace("]", "").replace('"', '').replace('"', '');
