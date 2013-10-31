@@ -17,6 +17,8 @@
   <% if !@daily_wins.nil? %>
   <% @daily_wins[0..9].each do |dw| %>
       <tr>
+        <td><%= User.find(dw.user_id).name rescue"" %></td>
+        <td><%= User.find(dw.user_id).refer_points rescue"" %></td>
         <td><%= User.find(dw.user_id).username rescue"" %></td>
         <td><input type="hidden" value="<%= dw.user_id %>">
           <button class="btn btn-success" onclick="update_this_user($(this))">Edit</button>
