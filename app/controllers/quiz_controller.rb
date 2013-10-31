@@ -322,7 +322,7 @@ class QuizController < ApplicationController
     if !Question.find_by_insertion_date(Date.today).nil?
     @question=Question.find_by_insertion_date(Date.today)
     
-    @daily_winners=Response.find_all_by_question_id(@question.id).map{|i| i.user_id}.uniq
+    @daily_winners=Response.where('question_id =? and points > ?', @question.id, 0).map{|i| i.user_id}.uniq
     
     @daily_winners.shuffle[0..9].each do |dw|
       DailyWinner.create(:question_id=>@question.id,:user_id=>dw,:is_display=>false)
