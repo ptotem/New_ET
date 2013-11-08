@@ -118,7 +118,7 @@ class QuizController < ApplicationController
 
     @month_users=Array.new
     @month_leaderboard=Array.new
-    @month_questions=Question.show_sales_for_current_month(Date.today.year, Date.today.month) - Question.find_all_by_insertion_date((Time.zone.now).to_date)
+    @month_questions=Question.all? { ||  } - Question.find_all_by_insertion_date((Time.zone.now).to_date)
     @month_questions.each do |q|
       @month_users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
     end
@@ -338,7 +338,7 @@ class QuizController < ApplicationController
       if !Question.find_by_insertion_date(Date.today).nil?
         @question=Question.find_by_insertion_date(Date.today)
         @daily_wins=DailyWinner.where(:question_id => @question.id)
-
+        #@dawin=User.all.map{ |i| i.id} - DailyWinner.all.map{|i| i.user_id}
       end
     else
       render :text=>"You are not authorized to see this page."

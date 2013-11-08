@@ -7,12 +7,12 @@
 
 <div style="padding: 15px;">
 <h5>Daily Winners</h5>
-<table>
+<table border="1" cellpadding="10">
   <tbody>
   <tr>
+    <th>Name</th>
+    <th>Points</th>
     <th>Mobile Number</th>
-    <th></th>
-    <th></th>
   </tr>
   <% if !@daily_wins.nil? %>
   <% @daily_wins[0..9].each do |dw| %>
