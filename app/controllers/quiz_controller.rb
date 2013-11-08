@@ -118,7 +118,7 @@ class QuizController < ApplicationController
 
     @month_users=Array.new
     @month_leaderboard=Array.new
-    @month_questions=Question.all? { ||  } - Question.find_all_by_insertion_date((Time.zone.now).to_date)
+    @month_questions=Question.all - Question.find_all_by_insertion_date((Time.zone.now).to_date)
     @month_questions.each do |q|
       @month_users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
     end
