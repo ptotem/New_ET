@@ -14,23 +14,23 @@
   <%= csrf_meta_tags %>
   <%= feedback_includes %>
   <style>
-    .btn-custom-danger{
-        /*background: linear-gradient(to bottom, #EA362C 0%, #DD5C00 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);*/
-        background: #f13f20;
-        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-        color: #FFFFFF;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    }
-    @media all and (min-width: 801px) and (max-width: 1024px) {
-        .custom-top{
-          padding-right:18px;
-        }
-     }
-     @media (min-width: 1025px) {
-      .custom-top{
-          padding-right:180px;
-        }
-    }
+      .btn-custom-danger{
+          /*background: linear-gradient(to bottom, #EA362C 0%, #DD5C00 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);*/
+          background: #f13f20;
+          border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+          color: #FFFFFF;
+          text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+      }
+      @media all and (min-width: 801px) and (max-width: 1024px) {
+          .custom-top{
+              padding-right:18px;
+          }
+      }
+      @media (min-width: 1025px) {
+          .custom-top{
+              padding-right:180px;
+          }
+      }
   </style>
 
   <script type="text/javascript">
@@ -72,24 +72,24 @@
 <header id='header'>
   <div class='navbar' style="position:absolute;top:0px;left:0;width:100%;">
     <div class='navbar-inner'>
-        <% if user_signed_in? %>
+      <% if user_signed_in? %>
           <%#= params %>
           <% if params[:controller]=="welcome" && params[:action]=="index" %>
 
           <% else %>
-            <a class="brand" href="/" style="margin-left: 10px">
-              <%= image_tag "300px-Tokyoship_Home_icon.svg.png", style:"width:50px;" %>
-            </a>
+              <a class="brand" href="/" style="margin-left: 10px">
+                <%= image_tag "300px-Tokyoship_Home_icon.svg.png", style:"width:50px;" %>
+              </a>
           <% end %>
-          
-        <% end %>  
-        <div class="pull-right custom-top">
-          <a class="btn btn-custom-danger" href="#" id="contact_us">Contact Us</a>
-          <a class="btn btn-info" href="#" id="faqcall">FAQs</a>
-          <% if user_signed_in? %>
-              <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account btn btn success" %>
-          <% end %>
-        </div>
+
+      <% end %>
+      <div class="pull-right custom-top">
+        <a class="btn btn-custom-danger" href="#" id="contact_us">Contact Us</a>
+        <a class="btn btn-info" href="#" id="faqcall">FAQs</a>
+        <% if user_signed_in? %>
+            <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "top-create-account btn btn success" %>
+        <% end %>
+      </div>
     </div>
   </div>
 </header>
@@ -156,7 +156,7 @@
       <li>You will receive a password via SMS</li>
       <li>Log in with your mobile number and the password received</li>
     </ol>
-      Please be sure to use the same mobile number to play the quiz every day. This number will act as your unique identity to which all points in the scoring system are linked.
+    Please be sure to use the same mobile number to play the quiz every day. This number will act as your unique identity to which all points in the scoring system are linked.
     </p>
     <a href="#first_q" style="float: right;">Back to Top</a>
     <br>
@@ -204,10 +204,10 @@
     <br>
 
     <h4 id="q_07">7. How are winners arrived at, and informed?</h4>
-        <p>Daily Winners - Every day 5 winners will be decided through a lucky draw from all the correct entries received for the day. Winners will be informed via telephone and email.</p>
-        <p>Weekly Winners – 3 players with the highest score at the end of the week will be declared weekly winners. In case of a tie, a lucky draw will decide the winners. After winners have been declared for a particular week, scores are reset for all players for next week’s game play. The total points collected however, will continue to accumulate towards the grand prize.</p>
-        <p>Grand Prize - A player with the highest score for the entire playing season will be the grand prize winner. In the event of a tie, a lucky draw will decide the winner.</p>
-        <p>Winners will be informed via telephone and e-mail.  Winners will have to submit a valid ID proof via email within 24 hours after intimation. This is a part of the verification process. In case we do not receive the required proof, the winner will not be able to claim the prize.</p>
+    <p>Daily Winners - Every day 5 winners will be decided through a lucky draw from all the correct entries received for the day. Winners will be informed via telephone and email.</p>
+    <p>Weekly Winners – 3 players with the highest score at the end of the week will be declared weekly winners. In case of a tie, a lucky draw will decide the winners. After winners have been declared for a particular week, scores are reset for all players for next week’s game play. The total points collected however, will continue to accumulate towards the grand prize.</p>
+    <p>Grand Prize - A player with the highest score for the entire playing season will be the grand prize winner. In the event of a tie, a lucky draw will decide the winner.</p>
+    <p>Winners will be informed via telephone and e-mail.  Winners will have to submit a valid ID proof via email within 24 hours after intimation. This is a part of the verification process. In case we do not receive the required proof, the winner will not be able to claim the prize.</p>
     <a href="#first_q" style="float: right;">Back to Top</a>
     <br>
 
@@ -220,12 +220,12 @@
     <h4 id="q_09">9. What can I see on the Leaderboard?</h4>
 
     <p>The Leaderboard page displays </p>
-        <ol style="list-style: decimal;">
-          <li>Daily winners – 5 winners of the day</li>
-          <li>Weekly winners – 3 winners of the week</li>
-          <li>Weekly Leaders – top 10 scorers of the week</li>
-          <li>Grand Prize Leaders – top 10 scorers of the game</li>
-        </ol>
+    <ol style="list-style: decimal;">
+      <li>Daily winners – 5 winners of the day</li>
+      <li>Weekly winners – 3 winners of the week</li>
+      <li>Weekly Leaders – top 10 scorers of the week</li>
+      <li>Grand Prize Leaders – top 10 scorers of the game</li>
+    </ol>
     <a href="#first_q" style="float: right;">Back to Top</a>
     <br>
 
@@ -266,9 +266,9 @@
   <div class="modal-body">
     <!--<p><h5>Contest Details:</h5></p>-->
     <!--<ul style="list-style: disc;">-->
-      <!--<li><strong>Win With ET</strong> is an initiative of and the sole property of Bennett, Coleman & Co. Ltd (BCCL), the publishers of <strong>The Economic Times</strong> newspaper. Win with ET is supported by partners as published on <a href="www.win.economictimes.com">www.win.economictimes.com</a></li>-->
-      <!--<li>Period of contest: The quiz is open for a period of 4 weeks from  21st October, 2013 to  15th November, 2013 - Every day from Monday to Friday except holidays when the newspaper is not published</li>-->
-      <!--<li>Win With ET is open to people currently residing in Bangalore only</li>-->
+    <!--<li><strong>Win With ET</strong> is an initiative of and the sole property of Bennett, Coleman & Co. Ltd (BCCL), the publishers of <strong>The Economic Times</strong> newspaper. Win with ET is supported by partners as published on <a href="www.win.economictimes.com">www.win.economictimes.com</a></li>-->
+    <!--<li>Period of contest: The quiz is open for a period of 4 weeks from  21st October, 2013 to  15th November, 2013 - Every day from Monday to Friday except holidays when the newspaper is not published</li>-->
+    <!--<li>Win With ET is open to people currently residing in Bangalore only</li>-->
     <!--</ul>-->
 
     <h5>Contest Details:</h5>
@@ -305,19 +305,19 @@
     <h5>Winners: </h5>
     <ul style="list-style: disc;">
       <li>There are 3 categories of winners </li>
-        <ul>
-          <li>Daily Winners - Indiatimes Gift Vouchers worth Rs. 2500 </li>
-          <li>Weekly Winner - Indiatimes Gift Vouchers worth Rs. 5000</li>
-          <li>Grand Prize - One iPad Mini, 64 GB</li>
-          <li>The Indiatimes vouchers can be clubbed and are valid till April 7, 2014</li>
-        </ul>
+      <ul>
+        <li>Daily Winners - Indiatimes Gift Vouchers worth Rs. 2500 </li>
+        <li>Weekly Winner - Indiatimes Gift Vouchers worth Rs. 5000</li>
+        <li>Grand Prize - One iPad Mini, 64 GB</li>
+        <li>The Indiatimes vouchers can be clubbed and are valid till April 7, 2014</li>
+      </ul>
 
       <li>Process of selection of winners</li>
-        <ul>
-            <li>Daily - Among the participants who have correctly answered, 5 winners will be selected every day on a random basis (lucky draw), by a computer system</li>
-            <li>Weekly - Participants with top 3 cumulative scores for the week will be declared the week’s winners. If there are more than 3 participants with the top score, winners will be selected on a random basis (lucky draw), by a computer system</li>
-            <li>Grand Prize - Participant with the top cumulative score for the month will be declared the grand prize winner</li>
-        </ul>
+      <ul>
+        <li>Daily - Among the participants who have correctly answered, 5 winners will be selected every day on a random basis (lucky draw), by a computer system</li>
+        <li>Weekly - Participants with top 3 cumulative scores for the week will be declared the week’s winners. If there are more than 3 participants with the top score, winners will be selected on a random basis (lucky draw), by a computer system</li>
+        <li>Grand Prize - Participant with the top cumulative score for the month will be declared the grand prize winner</li>
+      </ul>
 
       <li>Daily winners will be announced by 8:00 am the following morning on the website <a href="http://www.winwithet.com" target="_blank">www.winwithet.com</a> </li>
       <li>Weekly winners will be announced latest by 8:00 am the following Monday </li>
@@ -338,19 +338,19 @@
 
     <ol>
       <li>Happy Hours – </li>
-        <ul>
-          <li>Players who answer before 11:00 am get double the points for the day</li>
-        </ul>
+      <ul>
+        <li>Players who answer before 11:00 am get double the points for the day</li>
+      </ul>
       <li>Double Delight</li>
-        <ul>
-          <li>If the question is attempted with Double Delight, player wins 20 points if correct and loses 20 points if wrong</li>
-          <li>If Double Delight is not selected, points for the question will remain at 10 points</li>
-        </ul>
+      <ul>
+        <li>If the question is attempted with Double Delight, player wins 20 points if correct and loses 20 points if wrong</li>
+        <li>If Double Delight is not selected, points for the question will remain at 10 points</li>
+      </ul>
       <li>Triple Treat – </li>
-        <ul>
-          <li>If the question is attempted with Triple Treat, player wins 30 points if correct and loses 30 points if wrong</li>
-          <li>If this promotion is not selected, points for the question will remain at 10 points</li>
-        </ul>
+      <ul>
+        <li>If the question is attempted with Triple Treat, player wins 30 points if correct and loses 30 points if wrong</li>
+        <li>If this promotion is not selected, points for the question will remain at 10 points</li>
+      </ul>
     </ol>
 
     <h5>Website:</h5>
@@ -378,31 +378,31 @@
       <li>Participant hereby agrees that BCCL may, in their sole discretion, terminate or suspend his/her access to all or part of quiz for any reason, including without limitation breach of these Terms and Conditions (or any subsequent modifications hereof)</li>
       <li>Participant hereby agrees that BCCL, its affiliates, and any independent contractor and quiz partners engaged by The Economic Times/BCCL to assist in moderating quiz, shall not be liable in any way, and the participant hereby also agrees to indemnify and hold harmless The Economic Times/BCCL, its affiliates, and any independent contractor and quiz partners to assist in moderating the quiz, from any claim, demand, proceeding, damages, injuries, liabilities, losses, costs or expenses (including reasonable attorneys' fees) made by any third party relating to or arising out of</li>
       <ol style="list-style: decimal;">
-          <li>your use of this site or any information, products, services or software available on or through this site;</li>
-          <li>your breach of these Terms and Conditions or other improper act or omission by you;</li>
-          <li>any inaccuracy, error or delay in, or omissions of </li>
-            <ol style="list-style: lower-alpha;">
-              <li>any such data or information on the quiz or </li>
-              <li>the transmission or delivery of any such data or information;</li>
-            </ol>
-          <li>unauthorized access;</li>
-          <li>theft; or</li>
-          <li>any loss or damage arising from or occasioned by</li>
-          <ol style="list-style: lower-alpha;">
-              <li>any such inaccuracy, error, delay or omission; or</li>
-              <li>non-performance</li>
-          </ol>
+        <li>your use of this site or any information, products, services or software available on or through this site;</li>
+        <li>your breach of these Terms and Conditions or other improper act or omission by you;</li>
+        <li>any inaccuracy, error or delay in, or omissions of </li>
+        <ol style="list-style: lower-alpha;">
+          <li>any such data or information on the quiz or </li>
+          <li>the transmission or delivery of any such data or information;</li>
+        </ol>
+        <li>unauthorized access;</li>
+        <li>theft; or</li>
+        <li>any loss or damage arising from or occasioned by</li>
+        <ol style="list-style: lower-alpha;">
+          <li>any such inaccuracy, error, delay or omission; or</li>
+          <li>non-performance</li>
+        </ol>
       </ol>
     </ul>
 
     <h5>Disclaimer</h5>
     <ul>
-        <li>The Economic Times/BCCL and its affiliates and quiz partners shall not be liable to you or any third party for any claims related to your termination from the quiz.</li>
-        <li>The Economic Times /BCCL is providing this quiz website and its contents on an "as is" basis and makes no representations or warranties of any kind, express or implied, as to the operation of this website or the content, information and materials contained within or accessible through this site, including without limitation, that they are accurate, complete or current.</li>
-        <li>BCCL's decision will be final and no correspondence in this regard will be entertained. The entries shall be the sole property of BCCL, who shall be free to use the same for any promotional or other activities in future.</li>
-        <li>The Economic Times/BCCL holds no warranty and makes no representation regarding the quality of the prizes, if any. All the prizes will fall under the standard terms and conditions for warranty as defined by the concerned Company by whom the Prizes/Grand Prize is sponsored/ manufactured. Winners of the Prizes shall be bound by the terms and conditions as communicated to them by the respective sponsors. Prizes cannot be exchanged for their value in cash or for other prizes.</li>
-        <li>Participants are solely responsible for any expenses incurred in participating in the quiz or in the acceptance and use of the prizes. BCCL and sponsors shall not be responsible for any loss or damages suffered by the winners while availing the offer</li>
-    <ul>
+      <li>The Economic Times/BCCL and its affiliates and quiz partners shall not be liable to you or any third party for any claims related to your termination from the quiz.</li>
+      <li>The Economic Times /BCCL is providing this quiz website and its contents on an "as is" basis and makes no representations or warranties of any kind, express or implied, as to the operation of this website or the content, information and materials contained within or accessible through this site, including without limitation, that they are accurate, complete or current.</li>
+      <li>BCCL's decision will be final and no correspondence in this regard will be entertained. The entries shall be the sole property of BCCL, who shall be free to use the same for any promotional or other activities in future.</li>
+      <li>The Economic Times/BCCL holds no warranty and makes no representation regarding the quality of the prizes, if any. All the prizes will fall under the standard terms and conditions for warranty as defined by the concerned Company by whom the Prizes/Grand Prize is sponsored/ manufactured. Winners of the Prizes shall be bound by the terms and conditions as communicated to them by the respective sponsors. Prizes cannot be exchanged for their value in cash or for other prizes.</li>
+      <li>Participants are solely responsible for any expenses incurred in participating in the quiz or in the acceptance and use of the prizes. BCCL and sponsors shall not be responsible for any loss or damages suffered by the winners while availing the offer</li>
+      <ul>
 
 
   </div>
@@ -411,19 +411,50 @@
 </div>
 
 
+<div id="tickermodal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      ×
+    </button>
+    <h3>&nbsp;&nbsp;</h3>
+  </div>
+  <div class="modal-body">
+    <p>The question that appeared last Friday (on 8 Nov 2013) contained an error.
+      It is unfortunate, but to ensure fair play, points towards this question will not be considered for the Grand Prize. However, we will reward all those who played.
+      We are declaring 10 winners for Friday's game, instead of the usual five – comprising a draw of lots for five winners from those who answered correctly, and another five from the others.
+      We regret the inconvenience caused.</p>
+    <p>Here are the winners for 8th Nov 2013-</p>
+    <ul>
+      <li>Narasimhan</li>
+      <li>Jyothi Pai</li>
+      <li>Sudindra R</li>
+      <li>Nayak Kashinath</li>
+      <li>M.L.Roy</li>
+      <li>Krishnamurthy R</li>
+      <li>Sri Krishna</li>
+      <li>Shekar</li>
+      <li>Harish Raghava Bhat</li>
+      <li>Moses Emanuel</li>
+    </ul>
+
+  </div>
+  <div class="modal-footer">
+  </div>
+</div>
 
 
 <footer>
+  <marquee direction="right" style="position: absolute;margin-top: -30px;" width=960><a href="#tickermodal" data-toggle="modal" data-target="#tickermodal" style="font-weight: bold;">Please click here to see the daily winners for Friday, 8th November 2013</a></marquee>
   <div class="deep-footer" style="margin-top: 120px;">
     <div class="container" style="padding-bottom: 10px;margin-top: 10px;">
       <div class="row-fluid">
         <div class="span10">
-          <div class="copyright"><a id="tnc" style="cursor: pointer; color: #000000;">&copy; &nbsp; 2013 Terms and Conditions</a><span style="float: right; padding-right: 18px;"><a style="color:#000000;" href="http://economictimes.indiatimes.com" target="_blank">THE ECONOMIC TIMES</a></span></div>
+          <div class="copyright"><a id="tnc" style="cursor: pointer; color: #000000;">&copy; 2013 Terms and Conditions</a><span style="float: right; padding-right: 18px;"><a style="color:#000000;" href="http://economictimes.indiatimes.com" target="_blank">THE ECONOMIC TIMES</a></span></div>
         </div>
 
         <!--<div class="span2">-->
-          <!--<ul class="footer-links">-->
-          <!--</ul>-->
+        <!--<ul class="footer-links">-->
+        <!--</ul>-->
         <!--</div>-->
       </div>
     </div>
