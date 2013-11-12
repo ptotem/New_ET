@@ -766,8 +766,14 @@ def load_weekly_winner
           @week_winner_leaderboard<<{:user_id => User.find(u).name, :usrname => User.find(u).username, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
         end
       end
-        render :json => @week_winner_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..2]
-        return
+      if (Date.strptime(params[:question][0]).at_beginning_of_week.to_s=="2013-11-04")
+        @week_winner_leaderboard=[]
+        @week_winner_leaderboard<<{:user_id => "SenthilNathan S", :usrname => "919243543144", :score => 40,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
+        @week_winner_leaderboard<<{:user_id => "Mahendar Bansal", :usrname => "919448047436", :score => 40,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
+        @week_winner_leaderboard<<{:user_id => "Gangubai RB", :usrname => "919538207877", :score => 40,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
+      end
+      render :json => @week_winner_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..2]
+      return
     else
       render :text=>"Current Week"
     end
