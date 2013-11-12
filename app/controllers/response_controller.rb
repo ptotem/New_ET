@@ -744,8 +744,10 @@ class ResponseController < ApplicationController
 
 
 def load_weekly_winner
-    @week_winner_leaderboard=Array.new
+    @week_winners=Array.new
     @users=Array.new
+
+
 
     if Date.strptime(params[:question][0]).at_beginning_of_week != Date.today.at_beginning_of_week
       @week_questions=Question.show_for_selected_week(Date.strptime(params[:question][0]))
@@ -753,30 +755,20 @@ def load_weekly_winner
         render :text => "Not Found"
         return
       else
-        @week_questions.all.each do |q|
-          @users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }.delete_if{|i| i==nil}
-        end
-        @users=@users.flatten.uniq
-        @users.each do |u|
-          @user_res=Array.new
-          @week_questions.all.each do |q|
-            @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
-          end
-          @user_res=@user_res.delete_if { |x| x==nil }
-          @week_winner_leaderboard<<{:user_id => User.find(u).name, :usrname => User.find(u).username, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
+        @week_no=Date.strptime(params[:question][0]).strftime("%U").to_i
+        @week_year=Date.strptime(params[:question][0]).year.to_i
+        @winner_list=WeekWinner.find_all_by_week_no_and_year(@week_no,@week_year)
+        @winner_list.each do |winner|
+          @user = User.find(winner.user_id)
+          @week_winners<<{:user_id => @user.name, :usrname =>@user.username, :score => winner.points,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
         end
       end
-      if (Date.strptime(params[:question][0]).at_beginning_of_week.to_s=="2013-11-04")
-        @week_winner_leaderboard=[]
-        @week_winner_leaderboard<<{:user_id => "SenthilNathan S", :usrname => "919243543144", :score => 40,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
-        @week_winner_leaderboard<<{:user_id => "Mahendar Bansal", :usrname => "919448047436", :score => 40,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
-        @week_winner_leaderboard<<{:user_id => "Gangubai RB", :usrname => "919538207877", :score => 40,:week_info =>"#{Date.strptime(params[:question][0]).at_beginning_of_week.strftime("%d %B %Y, %A")} to #{(Date.strptime(params[:question][0]).at_end_of_week-2).strftime("%d %B %Y, %A")}"}
-      end
-      render :json => @week_winner_leaderboard.sort_by { |hsh| hsh[:score] }.reverse![0..2]
-      return
-    else
-      render :text=>"Current Week"
-    end
+    render :json => @week_winners.sort_by { |hsh| hsh[:score] }.reverse![0..2]
+    return
+  else
+    render :text=>"Current Week"
+  end
+
 end
 
 

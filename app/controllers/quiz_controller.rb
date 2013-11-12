@@ -97,7 +97,53 @@ class QuizController < ApplicationController
   end
 
 
-  def leaderboard
+  def add_weekly_leader
+    @usrs=Array.new
+    WeeklyLeader.delete_all
+    @week_leader=Array.new
+    @user_res=Array.new
+    @week_questions=Question.show_for_current_week #- Question.find_all_by_insertion_date((Time.zone.now).to_date)
+    @week_questions.each do |q|
+      @usrs<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
+    end
+    @usrs=@usrs.flatten.uniq
+    @usrs.each do |u|
+      @week_questions.each do |q|
+        @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
+      end
+      @user_res=@user_res.delete_if { |x| x==nil }
+      #@week_leader<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
+    end
+    current_user = 0
+    previous_user = 0
+    user_score = 0
+    @user_res.sort_by {|hash| hash[:user_id]}.each do |response|
+      current_user = response.user_id
+      if current_user == previous_user
+        user_score += response.points
+        @week_leader.select {|h| h[:user_id] == response.user_id}[0][:score] = user_score
+        #puts '======================= >>> ' + .to_s
+      else
+        user_score = response.points
+        @week_leader << {:user_id => response.user_id, :score => response.points}
+        #puts 'ELSE=====================>>>    ' + @week_leader.select {|h| h[:user_id] == response.user_id}.to_s
+      end
+      previous_user = current_user
+    end
+
+    @week_leader.sort_by {|hash| hash[:score]}.reverse[0..2].each do |winner|
+      WeeklyLeader.create(:year => Time.now.year,:week_no => Time.now.strftime("%U").to_i,:user_id => winner[:user_id].to_i, :points => winner[:score].to_i)
+    end
+
+    render text: @week_leader.sort_by {|hash| hash[:score]}.reverse[0..2]
+    return
+
+  end
+
+
+
+
+  def add_weekly_winners
     @usrs=Array.new
     @week_leaderboard=Array.new
     @week_questions=Question.show_for_current_week - Question.find_all_by_insertion_date((Time.zone.now).to_date)
@@ -114,40 +160,19 @@ class QuizController < ApplicationController
       @week_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
     end
 
-    #@week_leaderboard= []
+    @week_leaderboard.sort_by {|hash| hash[:score]}.reverse[0..2].each do |winner|
+      WeekWinner.create(:year => Time.now.year,:week_no => Time.now.strftime("%U").to_i,:user_id => winner[:user_id].to_i, :points => winner[:score].to_i)
+    end
 
-    @month_users=Array.new
-    @month_leaderboard=Array.new
-    @month_questions=Question.all - Question.find_all_by_insertion_date((Time.zone.now).to_date)
-    @month_questions.each do |q|
-      @month_users<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
-    end
-    @month_users=@month_users.flatten.uniq
-    @month_users.each do |u|
-      @user_res=Array.new
-      @month_questions.each do |q|
-        @user_res<<Response.find_all_by_question_id_and_user_id(q.id, u).last
-      end
-      @user_res=@user_res.delete_if { |x| x==nil }
-      @month_leaderboard<<{:user_id => u, :score => @user_res.map { |i| i.points }.delete_if{|x| x==nil}.sum}
-    end
-    #
-    #@month_leaderboard=[]
-    #
-    @daily_users=Array.new
-    @daily_leaderboard=Array.new
-    if !Question.find_by_insertion_date(Date.today).nil?
-    @daily_questions=Question.find_by_insertion_date(Date.today)
-    @daily_users=Response.find_all_by_question_id(@daily_questions.id).map { |i| i.user_id }
-    @daily_users=@daily_users.flatten.uniq
-    @daily_users.each do |d|
-      @user_res=Array.new
-      @user_res<<Response.find_all_by_question_id_and_user_id_and_is_correct(@daily_questions.id, d, true).last
-      @user_res=@user_res.delete_if { |x| x==nil }
-      @daily_leaderboard<<{:user_id => d, :score => @user_res.map { |i| i.points }.sum}
-    end
-      render :layout => "application"
-    end
+    render text: @week_leaderboard.sort_by {|hash| hash[:score]}.reverse[0..2]
+    return
+
+  end
+
+
+  def leaderboard
+    @month_leaderboard = User.all(:order => 'refer_points desc', :limit => 10)
+    @week_leader=WeeklyLeader.all
   end
 
   def calculate_correct_score_for_all_user
@@ -285,11 +310,11 @@ class QuizController < ApplicationController
   def get_score
     @score=Array.new
     @leaderboard=Array.new
-    User.all.each do |u|
+    #User.all.each do |u|
+      u=current_user
       @questions=Array.new
       Question.all.each do |q|
-        #@questions<<(Response.find_all_by_question_id(q.id) & Response.find_all_by_user_id(u.id))
-        @questions<<((Response.find_all_by_question_id(q.id) & Response.find_all_by_user_id(u.id))-Response.find_all_by_question_id(Question.find_by_insertion_date(Date.today)))
+        @questions<<((Response.find_all_by_question_id(q.id) & Response.find_all_by_user_id(u.id))-Response.find_all_by_question_id(Question.find_by_insertion_date(Date.today))  )
       end
       @questions=@questions.uniq.flatten!
       @score<<@questions.map { |i| (i.points) }.delete_if { |x| x == nil }.sum
@@ -308,7 +333,7 @@ class QuizController < ApplicationController
           @answer_correct_rate=(@answer_rate*100/@user_score.count)
         end
       end
-    end
+    #end
     @rank= @score.sort().reverse.index(@points)+1 rescue ''
     render :text => "#{@points}|#{@rank}|#{@answer_correct_rate}"
   end

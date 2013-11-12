@@ -58,6 +58,9 @@ ETNew::Application.routes.draw do
   match '/send_response'=>"response#send_response", :as=>"send_response"
   match '/send_message_to_frnd/:frnd_id' => "welcome#send_message_to_frnd", :as => "send_message_to_frnd"
 
+  match '/add_weekly_winners' => 'quiz#add_weekly_winners', :as => 'add_weekly_winners'
+  match '/add_weekly_leader' => 'quiz#add_weekly_leader', :as => 'add_weekly_leader'
+
 
   #match '/users/auth/facebook' => 'welcome#facebook'
   get '/users/auth/:provider/callback' => 'welcome#facebook'

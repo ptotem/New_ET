@@ -9,6 +9,13 @@ scheduler.cron '55 12 * * *' do
   puts 'Cron Started'
   Response.decide_daily_winner
   User.send_response
+  WeeklyLeader.add_weekly_leader
+  puts 'Cron ended'
+end
+
+scheduler.cron '55 13 * * fri' do
+  puts 'Cron Started======'
+  WeekWinner.add_weekly_winners
   puts 'Cron ended'
 end
 
