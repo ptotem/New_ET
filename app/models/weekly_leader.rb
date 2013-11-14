@@ -20,7 +20,7 @@ class WeeklyLeader < ActiveRecord::Base
       @week_leader<<{:user_id => u, :score => @user_res.map { |i| i.points rescue 0 }.delete_if{|x| x==nil}.sum}
     end
 
-    @week_leader.sort_by {|hash| hash[:score]}.reverse[0..2].each do |winner|
+    @week_leader.sort_by {|hash| hash[:score]}.reverse[0..9].each do |winner|
       WeeklyLeader.create(:year => Time.now.year,:week_no => Time.now.strftime("%U").to_i,:user_id => winner[:user_id].to_i, :points => winner[:score].to_i)
     end
 
