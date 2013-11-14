@@ -19,3 +19,9 @@ scheduler.cron '55 13 * * fri' do
   puts 'Cron ended'
 end
 
+scheduler.cron '00 20 * * *' do
+  puts 'Cron Started'
+  WeeklyLeader.add_weekly_leader
+  puts 'Cron ended'
+end
+
