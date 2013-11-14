@@ -6,7 +6,7 @@ class WeeklyLeader < ActiveRecord::Base
     @usrs=Array.new
     WeeklyLeader.delete_all
     @week_leader=Array.new
-    @week_questions=Question.show_for_current_week #- Question.find_all_by_insertion_date((Time.zone.now).to_date)
+    @week_questions=Question.show_for_current_week - Question.find_all_by_insertion_date((Time.zone.now).to_date)
     @week_questions.each do |q|
       @usrs<<Response.find_all_by_question_id(q.id).map { |i| i.user_id }
     end
