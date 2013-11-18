@@ -9,7 +9,6 @@ scheduler.cron '55 12 * * *' do
   puts 'Cron Started'
   Response.decide_daily_winner
   User.send_response
-  WeeklyLeader.add_weekly_leader
   puts 'Cron ended'
 end
 
