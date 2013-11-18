@@ -138,6 +138,9 @@
     <div class="span12">
       <button class="btn btn-custom-info btn-small" onclick="window.location='/leaderboards'">View Leaderboard</button>
     </div>
+    <div class="span12">
+      <!--<button class="btn btn-custom-info btn-small">Refer a friend</button>-->
+    </div>
   </div>
 
 </div>
@@ -814,7 +817,7 @@
             console.log(uname_first_char);
             console.log(uname_second_char);
 
-            if ((new_usr_uname.length<=10)&&((uname_first_char != "9") || (uname_second_char != "1"))) {
+            if ( (new_usr_uname.length<=10) || (uname_first_char!="9") && (uname_second_char!="1") ) {
                 console.log("You have entered username " + new_usr_uname);
                 $('#new_user').find('#user_username').val("91" + new_usr_uname);
                 console.log($('#new_user').find('#user_username').val());
@@ -1029,8 +1032,8 @@
         //console.log(uname_second_char);
 
 
-        if (mobile_no.length > 9) {
-            if ((uname_first_char != "9") || (uname_second_char != "1")) {
+        if ( (mobile_no.length<=10) || (uname_first_char!="9") && (uname_second_char!="1") ) {
+//            if ((uname_first_char != "9") || (uname_second_char != "1")) {
                 //$('#forgot_password').find('input[name="username"]').val("91"+mobile_no);
                 var prepended_mob_no = "91" + $('#forgot_password').find('input[name="username"]').val();
 
@@ -1084,7 +1087,7 @@
 
                     }
                 });
-            }
+//            }
         }
     });
 </script>
@@ -1346,12 +1349,11 @@
             $('#after_register').show();
             var uname_first_char = mobile_no.charAt(0);
             var uname_second_char = mobile_no.charAt(1);
-            //console.log(uname_first_char);
-            //console.log(uname_second_char);
 
 
-            if (mobile_no.length > 9) {
-                if ((uname_first_char != "9") || (uname_second_char != "1")) {
+
+            if (mobile_no.length <= 10) {
+//                if ((uname_first_char != "9") || (uname_second_char != "1")) {
                     var prepended_mob_no = "91" + ($("#register_form").find('input[name="users[username]"]').val());
                     var data = {username: []}
                     data["username"].push(prepended_mob_no);
@@ -1395,7 +1397,7 @@
                         }
                     });
 
-                }
+//                }
             }
 
 

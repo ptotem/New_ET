@@ -94,27 +94,39 @@ class ResponseController < ApplicationController
   end
 
 
-  def send_ref_mail
-    @eaddresses=Array.new
-    @eaddresses<< params[:email_and_location][0]
-    @eaddresses<< params[:email_1_and_location_1][0]
-    @eaddresses<< params[:email_2_and_location_2][0]
-    @eaddresses<< params[:email_3_and_location_3][0]
-    @eaddresses<< params[:email_4_and_location_4][0]
+  #def send_ref_mail
+  #  @eaddresses=Array.new
+  #  @eaddresses<< params[:email_and_location][0]
+  #  @eaddresses<< params[:email_1_and_location_1][0]
+  #  @eaddresses<< params[:email_2_and_location_2][0]
+  #  @eaddresses<< params[:email_3_and_location_3][0]
+  #  @eaddresses<< params[:email_4_and_location_4][0]
+  #
+  #  @eaddresses.each_with_index do |eaddr, index|
+  #    unless eaddr.split('||')[0].nil? && eaddr.split('||')[1].nil?
+  #      @loc= eaddr.split('||')[1]
+  #      @email=eaddr.split('||')[0]
+  #      unless @loc.nil? && @email.nil?
+  #        @referral=Referral.create(:user_id => current_user.id, :referred_mail => @email, :location => @loc)
+  #      end
+  #      if @referral.location =="Bangalore,Karnataka"
+  #        NotificationMailer.welcome_email(@email, current_user).deliver
+  #      end
+  #    end
+  #  end
+  #  render :text => "OK"
+  #  return
+  #end
 
-    @eaddresses.each_with_index do |eaddr, index|
-      unless eaddr.split('||')[0].nil? && eaddr.split('||')[1].nil?
-        @loc= eaddr.split('||')[1]
-        @email=eaddr.split('||')[0]
-        unless @loc.nil? && @email.nil?
-          @referral=Referral.create(:user_id => current_user.id, :referred_mail => @email, :location => @loc)
-        end
-        if @referral.location =="Bangalore,Karnataka"
-          NotificationMailer.welcome_email(@email, current_user).deliver
-        end
-      end
+
+  def send_ref_mail
+    @emails=params[:email][0]
+    @eaddresses=@emails.split(',')
+    @eaddresses.each do |eaddr|
+      @referral=Referral.create(:user_id => current_user.id, :referred_mail => eaddr)
+      NotificationMailer.welcome_email(@email, current_user).deliver
     end
-    render :text => "OK"
+    render :text => "Ok"
     return
   end
 
@@ -746,8 +758,6 @@ class ResponseController < ApplicationController
 def load_weekly_winner
     @week_winners=Array.new
     @users=Array.new
-
-
 
     if Date.strptime(params[:question][0]).at_beginning_of_week != Date.today.at_beginning_of_week
       @week_questions=Question.show_for_selected_week(Date.strptime(params[:question][0]))

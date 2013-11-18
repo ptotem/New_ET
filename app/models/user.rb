@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
     @username = @user.username
     @first_two_char = @username[0..1]
 
-    if @first_two_char != "91"
+    if @first_two_char != "91" or @username.size()<=10
       @user.username = "91#{@username}"
       @user.save!
    end
