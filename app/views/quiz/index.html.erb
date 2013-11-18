@@ -573,14 +573,14 @@
               var new_usr_uname = $('#new_user').find('#user_username').val();
               var uname_first_char = new_usr_uname.charAt(0);
               var uname_second_char = new_usr_uname.charAt(1);
-              console.log(new_usr_uname);
-              console.log(uname_first_char);
-              console.log(uname_second_char);
+//              console.log(new_usr_uname);
+//              console.log(uname_first_char);
+//              console.log(uname_second_char);
 
               if ( (uname_first_char!="9") || (uname_second_char!="1") ) {
-                  console.log("You have entered username " + new_usr_uname);
+//                  console.log("You have entered username " + new_usr_uname);
                   $('#new_user').find('#user_username').val("91"+new_usr_uname);
-                  console.log($('#new_user').find('#user_username').val());
+//                  console.log($('#new_user').find('#user_username').val());
                   $('#new_user').attr({
                       action: '/users/sign_in',
                       method: 'post'
@@ -961,11 +961,11 @@ var _gaq=[['_setAccount','UA-34697555-1'],['_trackPageview']];
                 //$('#forgot_password').find('input[name="username"]').val("91"+mobile_no);
                 var prepended_mob_no = "91"+$('#forgot_password').find('input[name="username"]').val();
 
-                console.log(prepended_mob_no);
+//                console.log(prepended_mob_no);
                 var data = {username: []}
                 //data["username"].push(mobile_no);
                 data["username"].push(prepended_mob_no);
-                console.log(data["username"]);
+//                console.log(data["username"]);
                 $.ajax({
                     url: "<%= mobile_no_checking_path %>",
                     type: "POST",
@@ -974,7 +974,7 @@ var _gaq=[['_setAccount','UA-34697555-1'],['_trackPageview']];
                     success: function (data) {
                         $('#not_register_message').hide();
                         if (data=="Nothing"){
-                            console.log(data);
+//                            console.log(data);
                             $('#not_register_message').show();
                             $('#forgot_submit').hide();
                             $("#forgot_pwd_wait_img").hide();
