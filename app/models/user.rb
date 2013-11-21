@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture, :dob, :successful_reference,:user_picture,:user_pic
+  attr_accessible :email, :password, :password_confirmation, :remember_me,:admin, :role, :provider, :uid, :profile,:age, :workx, :name, :location, :industry, :username,:score,:refer_points, :display_modal, :state, :city, :user_fb_access_token,:nickname,:user_photo,:picture, :dob, :successful_reference,:user_picture,:user_pic,:refer_score
   attr_accessor :avatar
   attr_accessor :user_pic
   attr_accessor :user_picture_file_name,:user_picture,:user_picture_content_type,:user_picture_file_size,:user_picture_updated_at
@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
 
   has_paper_trail
   after_create  :check_country_code_in_username
+  after_create  :refer_email
 
   def superadmin?
     role=="Superadmin"
@@ -50,10 +51,17 @@ class User < ActiveRecord::Base
     if !Referral.find_by_referred_mail(@user.email).nil?
       @refer=Referral.find_by_referred_mail(@user.email).user_id
       @user_id=User.find(@refer)
-      @refer_points=@user_id.refer_points
-      @user_id.update_attributes(:refer_points=>@refer_points+5)
+
+      @user_id_refer_score= @user_id.refer_score
+      @user_id_successful_refer= @user_id.successful_reference
+      @user_id_refer_points= @user_id.refer_points
+
+      @score=@user_id.update_attributes(:refer_score=>@user_id_refer_score+5)
+      #@reference= @user_id.update_attributes(:successful_reference=>@user_id_successful_refer+1)
+
+      @user_id.update_attributes(:refer_points=> @user_id_refer_points+5)
       @user_id.save
-    end
+  end
 
   end
 

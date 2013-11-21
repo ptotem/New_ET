@@ -124,7 +124,19 @@ class ResponseController < ApplicationController
     @eaddresses=@emails.split(',')
     @eaddresses.each do |eaddr|
       @referral=Referral.create(:user_id => current_user.id, :referred_mail => eaddr)
-      NotificationMailer.welcome_email(@email, current_user).deliver
+      if User.find(current_user.id).name.blank?
+        NotificationMailer.welcome2_email(eaddr, current_user).deliver
+        @user=User.find(current_user.id)
+        @user_successful_refer= @user.successful_reference
+        @user.update_attributes(:successful_reference=>@user_successful_refer+1)
+        @user.save
+      else
+        NotificationMailer.welcome_email(eaddr, current_user).deliver
+        @user=User.find(current_user.id)
+        @user_successful_refer= @user.successful_reference
+        @user.update_attributes(:successful_reference=>@user_successful_refer+1)
+        @user.save
+      end
     end
     render :text => "Ok"
     return

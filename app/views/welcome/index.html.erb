@@ -138,10 +138,9 @@
     <div class="span12">
       <button class="btn btn-custom-info btn-small" onclick="window.location='/leaderboards'">View Leaderboard</button>
     </div>
-    <div class="span12">
-      <!--<button class="btn btn-custom-info btn-small">Refer a friend</button>-->
-    </div>
   </div>
+
+
 
 </div>
 
@@ -192,6 +191,8 @@
               <a onclick="forgot_password();" id="forgot_password_btn" href="#">Forgot Password?</a>
             </div>
           </div>
+
+
         </form>
       </div>
 
@@ -268,6 +269,31 @@
                       Password
                     </button>
                   </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+              <strong>Refer a Friend</strong>
+            </a>
+          </div>
+          <div id="collapseFour" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <div class="blog-categories widget-tp">
+                <ul>
+                  <div class="row-fluid">
+                    <div class="span12" style="text-align: center; font-size:17px;">
+                      <% if current_user.successful_reference>=50 or current_user.refer_score>=100 %>
+                          <h5>You reached your limit of reference</h5>
+                      <% else %>
+                          <button class="btn btn-custom-info btn-small" id="refer_friend">Refer a friend</button>
+                      <% end %>
+
+                    </div>
+                  </div>
                 </ul>
               </div>
             </div>
@@ -436,7 +462,7 @@
                   <label>Industry</label>
                   <%#= text_field_tag :industry, @user.industry %>
                   <%#= text_field_tag :industry, current_user.industry %>
-                  <%= select_tag "industry", options_for_select(["Graphic Design", "Architecture & Planning", "Engineering",
+                  <%= select_tag "industry", options_for_select(["Graphic Design", "Architecture & Planning", "Student-Engineering","Student-MBA","Student-Others",
                                                                  "Cosmetics", "Apparel & Fashion",
                                                                  "Consumer Electronics",
                                                                  "Furniture",
@@ -509,14 +535,8 @@
             <input type="text" name="ref_email" id="referance_friend">
           </div>
         </div>
-
-        <!--<hr>-->
-        <!--<h5>OR</h5>-->
-
-        <!--<a href="/get_connections/<#%= @usr_at %>">Get Connections</a>-->
       </div>
       <div class="modal-footer">
-        <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
         <a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>
       </div>
     </div>
@@ -557,13 +577,10 @@
     <div class="row-fluid">
       <div class="span3"></div>
       <div class="span9">
-        <!--<input type="text" name="ref_email" id="referance_friend">-->
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
-    <!--<a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>-->
   </div>
 </div>
 
@@ -748,13 +765,10 @@
         <div class="row-fluid">
           <div class="span3"></div>
           <div class="span9">
-            <!--<input type="text" name="ref_email" id="referance_friend">-->
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <!--<a href="#" class="btn medium" data-dismiss="modal">Cancel</a>-->
-        <!--<a href="javascript:void(0);" class="btn medium btn-danger" data-dismiss="modal" id="submit_email">Submit</a>-->
       </div>
     </div>
 <% end %>
@@ -984,6 +998,13 @@
             window.location = "/archives";
         });
 
+
+        $('#refer_friend').click(function(){
+            $("#referance_friend").val('');
+            $('#refer_box').modal('show');
+        })
+
+
         $("#submit_email").click(function () {
             var email = $("#referance_friend").val();
             var data = {email: []}
@@ -994,7 +1015,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (data) {
-                    alert(data)
+                    console.log(data);
                 }
             });
 
@@ -1073,6 +1094,7 @@
                                 contentType: "application/json",
                                 data: JSON.stringify(data),
                                 success: function (data) {
+                                    console.log(data);
                                     $('#forgot_pwd_text').html("");
                                     $('#forgot_password').modal('hide');
                                     $('#forgot_pwd_mssg').modal('show');
@@ -1099,7 +1121,6 @@
         width: 100px;
     }
 </style>
-
 
 
 
@@ -1236,7 +1257,7 @@
         <div class="row-fluid">
           <div class="span12">
             <div>
-              <%= f.select "industry", options_for_select(["Graphic Design", "Architecture & Planning", "Engineering",
+              <%= f.select "industry", options_for_select(["Graphic Design", "Architecture & Planning", "Student-Engineering","Student-MBA","Student-Others",
                                                            "Cosmetics", "Apparel & Fashion",
                                                            "Consumer Electronics",
                                                            "Furniture",
@@ -1312,6 +1333,25 @@
 </div>
 
 <script type="text/javascript">
+
+    <% if params[:referred_by] %>
+        $('#register').modal('show');
+        $('#register_form').find('.dependent').dependentSelects();
+        $("#register_form").find('input[name="users[username]"]').val("");
+        $("#register_form").find('input[name="users[email]"]').val("");
+        $("#register_form").find('input[name="users[name]"]').val("");
+        $("#register_form").find('input[name="users[nickname]"]').val("");
+        $("#register_form").find('input[name="users[age]"]').val("");
+        $("#register_form").find('input[name="register_location"]').val("");
+        $("#register_form").find('input[name="users[industry]"]').val("");
+        $('#after_register').show();
+        $('#password_submit').hide();
+        $('#register_submit').show();
+        $('#password_submit_text').hide();
+    <% end %>
+
+
+
 
     function view_register() {
         $('#register').modal('show');

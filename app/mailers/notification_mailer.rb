@@ -6,4 +6,10 @@ class NotificationMailer < ActionMailer::Base
     @current_user=cu
     mail(to: @user, subject: 'Welcome to Win With ET')
   end
+
+  def welcome2_email(user,cu)
+    @user = user
+    @current_user=cu
+    mail(to: @user, subject: 'Welcome to Win With ET')
+  end
 end
