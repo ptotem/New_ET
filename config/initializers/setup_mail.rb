@@ -1,5 +1,5 @@
 ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.qlc.co.in",
+    :address              => "smtp.timesgroup.in",
     :port                 => 25,
     :domain               => "timesgroup.in",
     :user_name            => "winwithet@timesgroup.in",
