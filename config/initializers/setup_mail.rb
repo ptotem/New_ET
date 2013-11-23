@@ -1,7 +1,7 @@
 ActionMailer::Base.smtp_settings = {
     :address              => "smtp.qlc.co.in",
     :port                 => 25,
-    :domain               => "ptotem.com",
+    :domain               => "timesgroup.in",
     :user_name            => "winwithet@timesgroup.in",
     :password             => "times@123",
     :authentication       => "plain",
