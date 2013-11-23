@@ -1,9 +1,9 @@
 ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.gmail.com",
+    :address              => "smtp.qlc.co.in",
     :port                 => 587,
-    :domain               => "ptotem.com",
-    :user_name            => "winwithet@gmail.com",
-    :password             => "p20o20e13",
+    :domain               => "winwithet.com",
+    :user_name            => "winwithet@timesgroup.in",
+    :password             => "times@123",
     :authentication       => "plain",
     :enable_starttls_auto => true
 }
