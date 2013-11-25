@@ -84,7 +84,7 @@
 
 
 
-  <% @daily_winners=DailyWinner.where('DATE(created_at) = ? and is_display = ?', (Time.zone.now-1.day).to_date, true)%>
+  <% @daily_winners=DailyWinner.where('DATE(created_at) = ? and is_display = ?', (Time.zone.now-3.day).to_date, true)%>
   <% if @daily_winners.blank? %>
 
 
@@ -274,31 +274,31 @@
             </div>
           </div>
         </div>
-        <!--<div class="accordion-group">-->
-          <!--<div class="accordion-heading">-->
-            <!--<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">-->
-              <!--<strong>Refer a Friend</strong>-->
-            <!--</a>-->
-          <!--</div>-->
-          <!--<div id="collapseFour" class="accordion-body collapse">-->
-            <!--<div class="accordion-inner">-->
-              <!--<div class="blog-categories widget-tp">-->
-                <!--<ul>-->
-                  <!--<div class="row-fluid">-->
-                    <!--<div class="span12" style="text-align: center; font-size:17px;">-->
-                      <!--<%# if current_user.successful_reference>=50 or current_user.refer_score>=100 %>-->
-                          <!--<h5>You reached your limit of reference</h5>-->
-                      <!--<%# else %>-->
-                          <!--<button class="btn btn-custom-info btn-small" id="refer_friend">Refer a friend</button>-->
-                      <!--<%# end %>-->
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+              <strong>Refer a Friend</strong>
+            </a>
+          </div>
+          <div id="collapseFour" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <div class="blog-categories widget-tp">
+                <ul>
+                  <div class="row-fluid">
+                    <div class="span12" style="text-align: center; font-size:17px;">
+                      <% if current_user.successful_reference>=50 or current_user.refer_score>=100 %>
+                          <h5>You reached your limit of reference</h5>
+                      <% else %>
+                          <button class="btn btn-custom-info btn-small" id="refer_friend">Refer a friend</button>
+                      <% end %>
 
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</ul>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
+                    </div>
+                  </div>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 <% end %>
