@@ -1,23 +1,18 @@
+
 <p>
   Hi,<br>
-  Greetings from The Economic Times and welcome to Win With ET.
-  Your friend
+Greetings from The Economic Times!
+Your friend
   <b>
-  <% @refer_id=Referral.find_by_referred_mail(@user).user_id rescue nil %>
-  <%= User.find(@refer_id).name rescue "" %>
+    <% @refer_id=Referral.find_by_referred_mail(@user).user_id rescue nil %>
+    <%= User.find(@refer_id).name rescue "" %>
   </b>
-  has started playing the game and has the chance to win exciting daily, weekly and a monthly Grand Prize. You have been recommended by your friend to play the game and earn a shot at winning. Click on the link below to go to the website and register. By clicking the link, you also earn X points for your friend and will help him get closer to maximizing his points to win.
-  <br><br>
 
+  has started playing the game, Win with ET and has a chance to win exciting daily, weekly and a monthly Grand Prize. You have been recommended by your friend to play and earn a shot at winning the prizes. Click on the link below to register and help your friend get 5 points. Please ensure to use the same id to fill the registration form.
   <a href="http://www.winwithet.com/?=referred&referred_by=<%= @current_user.id %>">Check out the quiz through this link.</a>
-
-  Win With ET is a quiz hosted in The Economic Times newspaper. Look out for the column in the newspaper every weekday to see what today’s question is. The answer to the question can be found in the same edition. All you need to do is find the correct answer after reading the right article and send us a simple SMS.
-  With every correct answer, you increase your chances of winning exciting cash vouchers to redeem on any product of your choice on Indiatimes.com
-  Visit now to start playing.<br>
-  "Please do not reply to this mail. For any queries mail is on
-  winwithet@timesgroup.com"                                        <br>
-  Wishing you all the best.
+Win with ET is a game hosted in The Economic Times newspaper. Look out for the column in the paper every weekday and start playing the game. With every correct answer, you stand a chance to win exciting cash vouchers to redeem on any product of your choice on Indiatimes.com
+Pick up today's ET, look for 'Win with ET' and start playing.
+Wishing you all the best.
   <br><br>
-  <h4>Regards,<br>The Economic Times</h4>
-
-</p>
+<h4>Regards,<br>The Economic Times</h4>
+Please do not reply to this mail. For any queries mail is on winwithet@timesgroup.com
