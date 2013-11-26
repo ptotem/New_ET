@@ -286,7 +286,7 @@
                 <ul>
                   <div class="row-fluid">
                     <div class="span12" style="text-align: center; font-size:17px;">
-                      <% if current_user.successful_reference>=50 or current_user.refer_score>=100 %>
+                      <% if  current_user.refer_score >= 100 %>
                           <h5>You reached your limit of reference</h5>
                       <% else %>
                           <button class="btn btn-custom-info btn-small" id="refer_friend">Refer a friend</button>
