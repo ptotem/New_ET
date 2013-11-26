@@ -1,5 +1,5 @@
 class NotificationMailer < ActionMailer::Base
-  default :from => '"winwithet@timesgroup.in"'
+  default :from => '"winwithet@timesgroup.in" <ashwin@ptotem.com>'
 
   def welcome_email(user,cu)
     @user = user
