@@ -84,7 +84,7 @@
 
 
 
-  <% @daily_winners=DailyWinner.where('DATE(created_at) = ? and is_display = ?', (Time.zone.now-3.day).to_date, true)%>
+  <% @daily_winners=DailyWinner.where('DATE(created_at) = ? and is_display = ?', (Time.zone.now-1.day).to_date, true)%>
   <% if @daily_winners.blank? %>
 
 
@@ -108,7 +108,7 @@
 
       <div class="row-fluid">
         <div class="span12">
-          <h5 class="h4_style"><%= (Date.yesterday-2).strftime("%d %B %Y") %></h5>
+          <h5 class="h4_style"><%= (Date.yesterday).strftime("%d %B %Y") %></h5>
         </div>
       </div>
 
