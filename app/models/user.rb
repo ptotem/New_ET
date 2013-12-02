@@ -55,11 +55,14 @@ class User < ActiveRecord::Base
       @user_id_refer_score= @user_id.refer_score
       @user_id_successful_refer= @user_id.successful_reference
       @user_id_refer_points= @user_id.refer_points
+      if @user_id.refer_score < 100
 
       @score=@user_id.update_attributes(:refer_score=>@user_id_refer_score+5)
       #@reference= @user_id.update_attributes(:successful_reference=>@user_id_successful_refer+1)
 
+      
       @user_id.update_attributes(:refer_points=> @user_id_refer_points+5)
+    end
       @user_id.save
   end
 
